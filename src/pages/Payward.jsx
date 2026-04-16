@@ -1,5 +1,3 @@
-import { Helmet } from 'react-helmet-async';
-import './Payward.css';
 
 export default function Payward() {
   return (
