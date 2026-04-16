@@ -24,10 +24,10 @@ export default function App() {
 
   return (
     <HelmetProvider>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--background)' }}>
         <Nav activeTab={activeTab} onTabChange={setActiveTab} />
         {renderTab()}
-        <Footer />
+        <Footer activeTab={activeTab} />
       </div>
     </HelmetProvider>
   );
