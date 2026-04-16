@@ -1,5 +1,10 @@
-export default function Footer({ activeTab }) {
-  if (activeTab === 'home') return null;
+import { useLocation } from 'react-router-dom';
+
+export default function Footer() {
+  const location = useLocation();
+
+  if (location.pathname === '/') return null;
+
   return (
     <footer style={{ backgroundColor: 'var(--nav-bg)', borderTop: '1px solid var(--nav-border)' }}
       className="text-center py-5 px-4 text-xs shrink-0"
