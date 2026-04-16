@@ -1,0 +1,8 @@
+name = "krakenwatch"
+compatibility_date = "2024-01-01"
+
+[site]
+bucket = "./dist"
+
+# Cloudflare Pages handles SPA routing automatically.
+# For Cloudflare Workers Sites, we need the _redirects file.
