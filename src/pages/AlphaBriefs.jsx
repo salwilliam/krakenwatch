@@ -1,3 +1,5 @@
+import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 
 const briefs = [
   {
@@ -64,12 +66,12 @@ export default function AlphaBriefs() {
                   <h2 className="brief-title">{brief.title}</h2>
                   <p className="brief-date">{brief.date}</p>
                   <p className="brief-desc">{brief.description}</p>
-                  <a
-                    href={`/alpha-briefs/${brief.slug}`}
+                  <Link
+                    to={`/alpha-briefs/${brief.slug}`}
                     className="brief-cta"
                   >
                     Read Brief →
-                  </a>
+                  </Link>
                 </div>
               </article>
             ))}

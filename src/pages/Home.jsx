@@ -1,4 +1,5 @@
 import { useSiteData } from '../hooks/useSiteData';
+import { useNavigate } from 'react-router-dom';
 
 // Exact color constants from the live bundle
 const qp = 'hsl(28 40% 14%)';   // foreground dark brown
@@ -22,7 +23,8 @@ function Footer({ extra }) {
   );
 }
 
-export default function Home({ onNav }) {
+export default function Home() {
+  const navigate = useNavigate();
   const { data } = useSiteData();
   const sm = data?.secondary_market;
   const ipo = data?.ipo;
@@ -87,7 +89,7 @@ export default function Home({ onNav }) {
       {/* Explore cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <button
-          onClick={() => onNav && onNav('ink')}
+          onClick={() => navigate('/ink')}
           className="rounded-xl overflow-hidden text-left transition-opacity hover:opacity-80 cursor-pointer"
           style={cardStyle}
         >
@@ -101,7 +103,7 @@ export default function Home({ onNav }) {
           </div>
         </button>
         <button
-          onClick={() => onNav && onNav('corporate')}
+          onClick={() => navigate('/payward')}
           className="rounded-xl overflow-hidden text-left transition-opacity hover:opacity-80 cursor-pointer"
           style={cardStyle}
         >
