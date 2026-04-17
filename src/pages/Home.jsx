@@ -43,7 +43,7 @@ export default function Home({ onNav }) {
       {/* Title */}
       <div className="text-center flex flex-col items-center gap-2">
         <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
-          Starboard ho!
+          Starboard <span className="fancy-accent">ho!</span>
         </h1>
         <p className="text-sm" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.7 }}>
           Live data · updated daily
@@ -93,7 +93,7 @@ export default function Home({ onNav }) {
         >
           <div className="p-4">
             <p className="text-lg font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
-              Ink Starboard
+              Ink <span className="fancy-accent">Starboard</span>
             </p>
             <p className="text-sm mt-1" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.75 }}>
               TVL, protocol count, ecosystem metrics & INK token data — updated daily.
@@ -107,7 +107,7 @@ export default function Home({ onNav }) {
         >
           <div className="p-4">
             <p className="text-lg font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
-              Kraken Map
+              Kraken <span className="fancy-accent">Map</span>
             </p>
             <p className="text-sm mt-1" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.75 }}>
               Secondary market pricing, IPO forecast, corporate entities, acquisitions & board data.

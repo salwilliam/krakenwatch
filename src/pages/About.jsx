@@ -9,7 +9,7 @@ export default function About() {
       </div>
       <div className="w-full flex flex-col gap-5 text-center">
         <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
-          Ahoy, matey! Welcome t' the Watch!
+          Ahoy, matey! Welcome t' the <span className="fancy-accent">Watch</span>!
         </h1>
         <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
           Kraken Watch first set sail on{' '}
