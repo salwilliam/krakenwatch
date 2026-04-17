@@ -5,7 +5,7 @@ export default function About() {
   return (
     <div className="max-w-[900px] mx-auto px-4 py-10 flex flex-col items-center gap-8">
       <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-        <img src="/home-hero-CIbTNdG0.jpg" alt="Kraken Watch crew at the docks" className="w-full object-cover" />
+        <img src="/stamp-binnacle.png" alt="Kraken Watch crew at the docks" className="w-full object-cover" />
       </div>
       <div className="w-full flex flex-col gap-5 text-center">
         <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
