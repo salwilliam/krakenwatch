@@ -1,8 +1,6 @@
 export default {
-  async fetch(request) {
-    // Emergency pin: proxy to known-good deployment while source parity is resolved.
-    const url = new URL(request.url);
-    url.hostname = '1d2a3088.krakenwatch.pages.dev';
-    return fetch(new Request(url.toString(), request));
+  async fetch(request, env) {
+    // Serve the pinned known-good static artifact bundle directly from Workers assets.
+    return env.ASSETS.fetch(request);
   },
 };
