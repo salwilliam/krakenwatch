@@ -41,15 +41,12 @@ If the site looks wrong:
 
 ## PR live preview workflow
 
-PR preview now uses **two checks together**:
-
-1) **Canonical safety check** (required guardrail)\
-2) **Feature preview URL** (isolated per PR for visual diffs)
+PR preview is intentionally canonical-only.
 
 Preview workflow:
 
 - `.github/workflows/pr-preview.yml`
-- GitHub Actions name: `PR Live Preview (Safe Dual Mode)`
+- GitHub Actions name: `PR Live Preview (Canonical Proxy)`
 
 How it works:
 
@@ -59,17 +56,12 @@ How it works:
 2. CI smoke-checks canonical routes on:
    - `https://wispy-sun-811e.krakenwatch.workers.dev`
    - routes: `/`, `/ink`, `/payward`, `/alpha-briefs`, `/about`
-3. CI builds and deploys an isolated feature-preview Worker per PR:
-   - worker name: `krakenwatch-pr-<PR_NUMBER>`
-   - preview URL is posted back to the PR
-4. CI smoke-checks feature preview routes:
-   - `/`, `/ink`, `/payward`, `/alpha-briefs`, `/about`
-5. On PR close, feature preview Worker is deleted automatically.
+3. CI comments one deterministic canonical preview URL on the PR.
 
 Notes:
 
+- No separate feature preview URL is published.
 - Production deploy remains `main` -> `Deploy to Cloudflare Workers`.
-- Canonical invariants remain required even when feature previews are enabled.
 
 ## Local development
 
