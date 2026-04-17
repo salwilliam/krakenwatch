@@ -46,14 +46,28 @@ The deploy workflow now hard-fails if either condition regresses:
 After deployment, CI also compares production + worker route signatures to the
 known-good baseline route-by-route (`/`, `/ink`, `/payward`, `/alpha-briefs`, `/about`).
 
-## Preview policy: single canonical codepath only
+## Preview policy: safe dual-preview mode
 
-- PR preview URLs must use the same canonical proxy codepath as production.
-- No preview workflow may deploy alternate built bundles as standalone app previews.
-- `.github/workflows/pr-preview.yml` must:
-  - validate canonical proxy invariants (`run_worker_first = true` and pinned proxy hostname)
-  - publish the deterministic canonical preview URL: `https://wispy-sun-811e.krakenwatch.workers.dev`
-- Any preview implementation that serves source-built assets directly is disallowed.
+PR previews now provide two links:
+
+1. **Canonical preview (required)**
+   - Same codepath as production proxy behavior.
+   - URL: `https://wispy-sun-811e.krakenwatch.workers.dev`
+   - CI enforces canonical invariants:
+     - `run_worker_first = true`
+     - pinned proxy hostname in `src/worker.js`
+
+2. **Feature preview (isolated)**
+   - Per-PR Worker serving branch-built assets with SPA fallback.
+   - Worker name: `krakenwatch-pr-<PR_NUMBER>`
+   - URL discovered from Wrangler deploy output.
+   - Used for visual diff review (fonts/UI/content) before merge.
+
+Guardrails:
+
+- Canonical checks are required and must pass on every PR.
+- Feature preview is isolated from production and never bound to custom domains.
+- Cleanup job removes feature preview Worker on PR close.
 
 ## Cloudflare cleanup target
 

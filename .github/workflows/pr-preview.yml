@@ -1,4 +1,4 @@
-name: PR Live Preview (Canonical Proxy)
+name: PR Live Preview (Canonical + Feature)
 
 on:
   pull_request:
@@ -9,14 +9,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy-preview:
+  canonical-preview:
     if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    name: Publish PR Canonical Preview Link
-    permissions:
-      pull-requests: write
-      contents: read
-    timeout-minutes: 20
+    name: Validate Canonical Preview Path
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -28,18 +25,10 @@ jobs:
           grep -Fx "run_worker_first = true" wrangler.workers.toml
           grep -F "url.hostname = '1d2a3088.krakenwatch.pages.dev';" src/worker.js
 
-      - name: Set canonical preview URL
-        run: |
-          set -euo pipefail
-          PREVIEW_URL="https://wispy-sun-811e.krakenwatch.workers.dev"
-          PREVIEW_NAME="wispy-sun-811e (canonical)"
-          printf 'PREVIEW_URL=%s\n' "$PREVIEW_URL" >> "$GITHUB_ENV"
-          printf 'PREVIEW_NAME=%s\n' "$PREVIEW_NAME" >> "$GITHUB_ENV"
-
       - name: Smoke-check canonical preview routes
         run: |
           set -euo pipefail
-          test -n "${PREVIEW_URL:-}"
+          PREVIEW_URL="https://wispy-sun-811e.krakenwatch.workers.dev"
           for route in / /ink /payward /alpha-briefs /about; do
             ok=0
             for attempt in 1 2 3 4 5 6; do
@@ -54,25 +43,116 @@ jobs:
             done
 
             if [ "$ok" -ne 1 ]; then
-              echo "Preview route did not become ready: ${route}"
+              echo "Canonical preview route did not become ready: ${route}"
               echo "Last status code: ${code}"
               exit 1
             fi
           done
 
-      - name: Comment preview URL on PR
+  feature-preview:
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    name: Deploy Isolated Feature Preview
+    permissions:
+      contents: read
+    timeout-minutes: 20
+    outputs:
+      preview_url: ${{ steps.preview.outputs.preview_url }}
+      preview_name: ${{ steps.preview.outputs.preview_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Remove Pages-only redirect rules from preview assets
+        run: rm -f dist/_redirects
+
+      - name: Deploy feature preview Worker
+        id: preview
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          PREVIEW_NAME="krakenwatch-pr-${PR_NUMBER}"
+          DEPLOY_LOG="$(mktemp)"
+
+          npx wrangler@latest deploy ./src/preview-worker.js \
+            --config wrangler.workers.toml \
+            --name "$PREVIEW_NAME" \
+            --compatibility-date "$(date +%Y-%m-%d)" \
+            --assets ./dist | tee "$DEPLOY_LOG"
+
+          PREVIEW_URL="$(grep -Eo 'https://[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+\.workers\.dev' "$DEPLOY_LOG" | head -n1 || true)"
+          if [ -z "$PREVIEW_URL" ]; then
+            PREVIEW_URL="https://${PREVIEW_NAME}.krakenwatch.workers.dev"
+          fi
+
+          echo "preview_url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+          echo "preview_name=$PREVIEW_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke-check feature preview routes
+        run: |
+          set -euo pipefail
+          PREVIEW_URL="${{ steps.preview.outputs.preview_url }}"
+          test -n "$PREVIEW_URL"
+          for route in / /ink /payward /alpha-briefs /about; do
+            ok=0
+            for attempt in 1 2 3 4 5 6; do
+              code="$(curl -sSL -o /dev/null -w '%{http_code}' "${PREVIEW_URL}${route}")"
+              if [ "$code" = "200" ]; then
+                ok=1
+                break
+              fi
+              if [ "$attempt" -lt 6 ]; then
+                sleep 5
+              fi
+            done
+
+            if [ "$ok" -ne 1 ]; then
+              echo "Feature preview route did not become ready: ${route}"
+              echo "Last status code: ${code}"
+              exit 1
+            fi
+          done
+
+  comment-preview:
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    needs: [canonical-preview, feature-preview]
+    runs-on: ubuntu-latest
+    name: Comment Preview URLs on PR
+    permissions:
+      pull-requests: write
+    timeout-minutes: 10
+
+    steps:
+      - name: Comment preview URLs on PR
         uses: actions/github-script@v7
         with:
           script: |
             const marker = '<!-- krakenwatch-pr-preview -->';
             const body = `${marker}
-            🔎 **PR Preview (Canonical Codepath)**
+            🔎 **PR Preview Links**
 
-            - URL: ${process.env.PREVIEW_URL}
-            - Codepath: \`${process.env.PREVIEW_NAME}\`
+            - **Canonical (must stay good):** https://wispy-sun-811e.krakenwatch.workers.dev
+            - **Feature preview (this PR):** ${{ needs.feature-preview.outputs.preview_url }}
+            - Feature worker: \`${{ needs.feature-preview.outputs.preview_name }}\`
             - Smoke checks: passed (\`/\`, \`/ink\`, \`/payward\`, \`/alpha-briefs\`, \`/about\`)
 
-            This project is locked to one good codepath. PR previews intentionally point to the canonical production path so alternate/broken paths are never used.`;
+            Canonical preview protects production parity. Feature preview is isolated and safe for reviewing visual/code changes before merge.`;
 
             const { owner, repo } = context.repo;
             const issue_number = context.issue.number;
@@ -104,10 +184,21 @@ jobs:
   cleanup-preview:
     if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    name: Cleanup PR Preview
+    name: Cleanup Feature Preview Worker
     timeout-minutes: 10
 
     steps:
-      - name: No-op cleanup (single canonical path)
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Delete feature preview Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          echo "No ephemeral preview Worker exists to clean up."
+          set -euo pipefail
+          PREVIEW_NAME="krakenwatch-pr-${PR_NUMBER}"
+          npx wrangler@latest delete "$PREVIEW_NAME" --config wrangler.workers.toml --force || true
