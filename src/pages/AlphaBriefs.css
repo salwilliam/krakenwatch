@@ -1,0 +1,157 @@
+.alpha-briefs {
+  min-height: calc(100vh - 56px);
+}
+
+/* Hero */
+.ab-hero {
+  background: linear-gradient(160deg, hsl(30 30% 22%) 0%, hsl(28 35% 18%) 100%);
+  color: hsl(38 35% 88%);
+  padding: 4rem 1.5rem 3.5rem;
+  text-align: center;
+}
+
+.ab-hero-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ab-hero-img {
+  max-height: 120px;
+  width: auto;
+  margin: 0 auto 1.5rem;
+  opacity: 0.9;
+}
+
+.ab-eyebrow {
+  font-family: var(--font-pirata);
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  color: hsl(38 30% 60%);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.ab-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: 0.06em;
+  color: hsl(38 40% 92%);
+  margin-bottom: 0.5rem;
+}
+
+.ab-sub {
+  font-size: 0.9rem;
+  color: hsl(38 20% 60%);
+  letter-spacing: 0.04em;
+}
+
+/* Brief list */
+.ab-list {
+  padding: 3.5rem 1.5rem;
+  background: var(--background);
+}
+
+.ab-list-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Brief card */
+.brief-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.brief-img-wrap {
+  overflow: hidden;
+  height: 200px;
+}
+
+.brief-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.brief-card:hover .brief-img {
+  transform: scale(1.03);
+}
+
+.brief-body {
+  padding: 1.5rem 1.5rem 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.brief-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: hsl(350 55% 32% / 0.1);
+  border: 1px solid hsl(350 55% 32% / 0.2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.brief-title {
+  font-family: var(--font-almendra);
+  font-size: 1.3rem;
+  color: var(--foreground);
+  line-height: 1.3;
+}
+
+.brief-date {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  letter-spacing: 0.05em;
+}
+
+.brief-desc {
+  font-size: 0.875rem;
+  color: hsl(28 30% 28%);
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.brief-cta {
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid hsl(350 55% 32% / 0.3);
+  padding-bottom: 0.1rem;
+  width: fit-content;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.brief-cta:hover {
+  border-color: var(--primary);
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .brief-card {
+    grid-template-columns: 1fr;
+  }
+  .brief-img-wrap {
+    height: 160px;
+  }
+  .brief-body {
+    padding: 1.25rem;
+  }
+}

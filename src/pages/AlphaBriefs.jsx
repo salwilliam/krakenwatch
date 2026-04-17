@@ -1,4 +1,7 @@
 
+import { Helmet } from 'react-helmet-async';
+import './AlphaBriefs.css';
+
 const briefs = [
   {
     id: 'ipo',

@@ -1,0 +1,85 @@
+.ink-page { min-height: calc(100vh - 56px); }
+
+.ink-hero {
+  background: linear-gradient(160deg, hsl(200 40% 18%) 0%, hsl(210 35% 14%) 100%);
+  color: hsl(200 30% 88%);
+  padding: 4rem 1.5rem 3rem;
+  text-align: center;
+}
+
+.ink-hero-inner { max-width: 600px; margin: 0 auto; }
+
+.ink-seal {
+  height: 80px;
+  width: auto;
+  margin: 0 auto 1.25rem;
+  opacity: 0.85;
+}
+
+.ink-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: 0.06em;
+  color: hsl(200 40% 92%);
+  margin-bottom: 0.5rem;
+}
+
+.ink-sub {
+  font-size: 0.875rem;
+  color: hsl(200 20% 60%);
+}
+
+.ink-metrics {
+  padding: 3.5rem 1.5rem;
+  background: var(--background);
+}
+
+.ink-metrics-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ink-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.ink-stat {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.ink-stat-value {
+  font-family: var(--font-pirata);
+  font-size: 2.5rem;
+  color: var(--foreground);
+  margin-bottom: 0.4rem;
+}
+
+.ink-stat-label {
+  font-size: 0.85rem;
+  color: var(--foreground);
+  margin-bottom: 0.25rem;
+}
+
+.ink-stat-src {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  letter-spacing: 0.04em;
+}
+
+.ink-updated {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .ink-stat-grid { grid-template-columns: 1fr; }
+}

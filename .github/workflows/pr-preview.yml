@@ -1,4 +1,4 @@
-name: PR Live Preview (Canonical Only)
+name: PR Live Preview (Canonical + Feature)
 
 on:
   pull_request:
@@ -49,9 +49,89 @@ jobs:
             fi
           done
 
+  feature-preview:
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    name: Deploy Isolated Feature Preview
+    permissions:
+      contents: read
+    timeout-minutes: 20
+    outputs:
+      preview_url: ${{ steps.preview.outputs.preview_url }}
+      preview_name: ${{ steps.preview.outputs.preview_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Remove Pages-only redirect rules from preview assets
+        run: rm -f dist/_redirects
+
+      - name: Deploy feature preview Worker
+        id: preview
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          PREVIEW_NAME="krakenwatch-pr-${PR_NUMBER}"
+          DEPLOY_LOG="$(mktemp)"
+
+          npx wrangler@latest deploy ./src/preview-worker.js \
+            --config wrangler.workers.toml \
+            --name "$PREVIEW_NAME" \
+            --compatibility-date "$(date +%Y-%m-%d)" \
+            --assets ./dist | tee "$DEPLOY_LOG"
+
+          PREVIEW_URL="$(grep -Eo 'https://[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+\.workers\.dev' "$DEPLOY_LOG" | head -n1 || true)"
+          if [ -z "$PREVIEW_URL" ]; then
+            PREVIEW_URL="https://${PREVIEW_NAME}.krakenwatch.workers.dev"
+          fi
+
+          echo "preview_url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+          echo "preview_name=$PREVIEW_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke-check feature preview routes
+        run: |
+          set -euo pipefail
+          PREVIEW_URL="${{ steps.preview.outputs.preview_url }}"
+          test -n "$PREVIEW_URL"
+          for route in / /ink /payward /alpha-briefs /about; do
+            ok=0
+            for attempt in 1 2 3 4 5 6; do
+              code="$(curl -sSL -o /dev/null -w '%{http_code}' "${PREVIEW_URL}${route}")"
+              if [ "$code" = "200" ]; then
+                ok=1
+                break
+              fi
+              if [ "$attempt" -lt 6 ]; then
+                sleep 5
+              fi
+            done
+
+            if [ "$ok" -ne 1 ]; then
+              echo "Feature preview route did not become ready: ${route}"
+              echo "Last status code: ${code}"
+              exit 1
+            fi
+          done
+
   comment-preview:
     if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
-    needs: [canonical-preview]
+    needs: [canonical-preview, feature-preview]
     runs-on: ubuntu-latest
     name: Comment Preview URLs on PR
     permissions:
@@ -65,13 +145,14 @@ jobs:
           script: |
             const marker = '<!-- krakenwatch-pr-preview -->';
             const body = `${marker}
-            🔎 **PR Preview (Canonical Only)**
+            🔎 **PR Preview Links**
 
-            - URL: https://wispy-sun-811e.krakenwatch.workers.dev
-            - Codepath: \`wispy-sun-811e (canonical)\`
+            - **Canonical (must stay good):** https://wispy-sun-811e.krakenwatch.workers.dev
+            - **Feature preview (this PR):** ${{ needs.feature-preview.outputs.preview_url }}
+            - Feature worker: \`${{ needs.feature-preview.outputs.preview_name }}\`
             - Smoke checks: passed (\`/\`, \`/ink\`, \`/payward\`, \`/alpha-briefs\`, \`/about\`)
 
-            Feature preview links are disabled until source parity is restored.`;
+            Canonical preview protects production parity. Feature preview is isolated and safe for reviewing visual/code changes before merge.`;
 
             const { owner, repo } = context.repo;
             const issue_number = context.issue.number;
@@ -103,10 +184,21 @@ jobs:
   cleanup-preview:
     if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    name: Cleanup Preview
+    name: Cleanup Feature Preview Worker
     timeout-minutes: 10
 
     steps:
-      - name: No-op cleanup
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Delete feature preview Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          echo "No ephemeral preview worker to clean up."
+          set -euo pipefail
+          PREVIEW_NAME="krakenwatch-pr-${PR_NUMBER}"
+          npx wrangler@latest delete "$PREVIEW_NAME" --config wrangler.workers.toml --force || true
