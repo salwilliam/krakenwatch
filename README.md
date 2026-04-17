@@ -1,16 +1,56 @@
-# React + Vite
+# Kraken Watch
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Kraken Watch is a Vite + React site deployed to Cloudflare.
 
-Currently, two official plugins are available:
+## Production deployment source of truth
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Canonical production target:** Cloudflare Workers service `wispy-sun-811e`
+- **Deploy trigger:** push/merge to `main` (GitHub Actions workflow: `Deploy to Cloudflare Workers`)
+- **Custom domain:** `krakenwatch.com` should resolve to the canonical Workers deployment
 
-## React Compiler
+## Deploy workflow summary
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. `npm ci`
+2. `npm run build`
+3. strip Pages-only redirect artifact (`dist/_redirects`) before Workers upload
+4. deploy with:
+   - `npx wrangler@latest deploy --config wrangler.workers.toml`
 
-## Expanding the ESLint configuration
+### Why `dist/_redirects` is removed
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+`_redirects` is a Cloudflare Pages file and can cause Workers deploy failures
+(`Invalid _redirects configuration`, code `10021`) if uploaded as an asset.
+
+## Operational guardrails
+
+- Do not switch deploy target between Pages and Workers without a dedicated migration PR.
+- Do not keep multiple production-capable domain bindings active for the same hostname.
+- Always verify post-deploy asset hashes on:
+  - `https://krakenwatch.com/`
+  - `https://wispy-sun-811e.krakenwatch.workers.dev/`
+  They should match when production is healthy.
+
+## Incident quick checks
+
+If the site looks wrong:
+
+1. Check latest workflow run status in GitHub Actions.
+2. Compare asset hashes between production and canonical worker domain.
+3. Confirm route responses (`/`, `/ink`, `/payward`, `/alpha-briefs`) are HTTP `200`.
+4. Purge Cloudflare cache only **after** confirming deploy target/domain routing are correct.
+
+## Local development
+
+Install deps and run the app:
+
+```bash
+npm install
+npm run dev
+```
+
+Build and lint:
+
+```bash
+npm run build
+npm run lint
+```
