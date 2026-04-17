@@ -1,15 +1,13 @@
-import { NavLink } from 'react-router-dom';
-
 const tabs = [
-  { id: 'home', label: 'Home', to: '/' },
-  { id: 'ink', label: 'Ink', to: '/ink' },
-  { id: 'payward', label: 'Payward', to: '/payward' },
-  { id: 'alpha', label: 'Briefs', to: '/alpha-briefs' },
-  { id: 'about', label: 'About', to: '/about' },
-  { id: 'contact', label: '✉ Contact', href: 'https://x.com/KrakWatch' },
+  { id: 'home',      label: 'Home' },
+  { id: 'ink',       label: 'Ink' },
+  { id: 'corporate', label: 'Payward' },
+  { id: 'alpha',     label: 'Briefs' },
+  { id: 'about',     label: 'About' },
+  { id: 'contact',   label: '✉ Contact', href: 'https://x.com/KrakWatch' },
 ];
 
-export default function Nav() {
+export default function Nav({ activeTab, onTabChange }) {
   return (
     <header className="sticky top-0 z-50 shrink-0" style={{ backgroundColor: 'var(--nav-bg)', borderBottom: '1px solid var(--nav-border)' }} data-testid="top-nav">
       {/* Top row */}
@@ -81,40 +79,31 @@ export default function Nav() {
       {/* Tab row */}
       <nav className="flex items-center gap-0 px-4 sm:px-6 pb-0 overflow-x-auto" data-testid="tab-nav">
         {tabs.map((tab) => {
+          const active = activeTab === tab.id;
           const cls = "flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium whitespace-nowrap transition-all duration-150 select-none border-b-2";
+          const style = {
+            fontFamily: 'var(--font-display)',
+            letterSpacing: '0.04em',
+            color: active ? 'hsl(38 60% 85%)' : 'hsl(38 25% 52%)',
+            borderBottomColor: active ? 'hsl(38 55% 68%)' : 'transparent',
+            background: 'transparent',
+          };
           if (tab.href) {
             return (
               <a key={tab.id} href={tab.href} target="_blank" rel="noopener noreferrer"
                 className={cls}
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  letterSpacing: '0.04em',
-                  color: 'hsl(38 25% 52%)',
-                  borderBottomColor: 'transparent',
-                  background: 'transparent',
-                }}
+                style={{ ...style, color: 'hsl(38 25% 52%)', borderBottomColor: 'transparent' }}
               >
                 {tab.label}
               </a>
             );
           }
           return (
-            <NavLink
-              key={tab.id}
-              to={tab.to}
-              end={tab.to === '/'}
-              className={cls}
-              style={({ isActive }) => ({
-                fontFamily: 'var(--font-display)',
-                letterSpacing: '0.04em',
-                color: isActive ? 'hsl(38 60% 85%)' : 'hsl(38 25% 52%)',
-                borderBottomColor: isActive ? 'hsl(38 55% 68%)' : 'transparent',
-                background: 'transparent',
-              })}
-              data-testid={`tab-${tab.id}`}
+            <button key={tab.id} onClick={() => onTabChange(tab.id)}
+              className={cls} style={style} data-testid={`tab-${tab.id}`}
             >
               {tab.label}
-            </NavLink>
+            </button>
           );
         })}
       </nav>
