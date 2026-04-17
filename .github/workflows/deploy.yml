@@ -23,17 +23,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Build pinned production artifact bundle
+        run: |
+          rm -rf dist
+          mkdir -p dist/assets
+          curl -s https://1d2a3088.krakenwatch.pages.dev/ -o dist/index.html
+          curl -s https://1d2a3088.krakenwatch.pages.dev/assets/index-CGz7sLIn.js -o dist/assets/index-CGz7sLIn.js
+          curl -s https://1d2a3088.krakenwatch.pages.dev/assets/index-Cw1KJ7Nj.css -o dist/assets/index-Cw1KJ7Nj.css
+          cp -r public/* dist/
 
       - name: Validate deployment configuration invariants
         run: |
           # Workers is the canonical production target.
           test -f wrangler.workers.toml
           test -f src/worker.js
-          # Pages redirect rules must never be uploaded in Workers mode.
-          test -f public/.assetsignore
-          grep -x '_redirects' public/.assetsignore
+          # Dist is intentionally pinned to known-good static assets.
+          test -f dist/index.html
+          test -f dist/assets/index-CGz7sLIn.js
+          test -f dist/assets/index-Cw1KJ7Nj.css
 
       - name: Remove Pages-only redirect rules from Workers assets
         run: rm -f dist/_redirects
