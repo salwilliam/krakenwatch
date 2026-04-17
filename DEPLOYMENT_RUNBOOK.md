@@ -7,7 +7,8 @@ This project now uses a **single production deployment path**:
 
 ## Source of truth
 
-- Production assets are served from `dist/` via Workers static assets.
+- Production traffic is served through the Worker proxy in `src/worker.js`.
+- Canonical baseline target is `https://1d2a3088.krakenwatch.pages.dev`.
 - Deploy workflow: `.github/workflows/deploy.yml`.
 
 ## Critical rules
@@ -44,6 +45,15 @@ The deploy workflow now hard-fails if either condition regresses:
 
 After deployment, CI also compares production + worker route signatures to the
 known-good baseline route-by-route (`/`, `/ink`, `/payward`, `/alpha-briefs`, `/about`).
+
+## Preview policy: single canonical codepath only
+
+- PR preview URLs must use the same canonical proxy codepath as production.
+- No preview workflow may deploy alternate built bundles as standalone app previews.
+- `.github/workflows/pr-preview.yml` must:
+  - validate canonical proxy invariants (`run_worker_first = true` and pinned proxy hostname)
+  - publish the deterministic canonical preview URL: `https://wispy-sun-811e.krakenwatch.workers.dev`
+- Any preview implementation that serves source-built assets directly is disallowed.
 
 ## Cloudflare cleanup target
 
