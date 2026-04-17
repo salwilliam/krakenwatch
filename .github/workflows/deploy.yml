@@ -33,7 +33,7 @@ jobs:
           test -f src/worker.js
           # Pages redirect rules must never be uploaded in Workers mode.
           test -f public/.assetsignore
-          rg '^_redirects$' public/.assetsignore
+          grep -x '_redirects' public/.assetsignore
 
       - name: Remove Pages-only redirect rules from Workers assets
         run: rm -f dist/_redirects
