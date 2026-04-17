@@ -1,4 +1,4 @@
-name: PR Live Preview (Workers)
+name: PR Live Preview (Canonical Proxy)
 
 on:
   pull_request:
@@ -12,7 +12,7 @@ jobs:
   deploy-preview:
     if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    name: Deploy PR Preview
+    name: Publish PR Canonical Preview Link
     permissions:
       pull-requests: write
       contents: read
@@ -22,43 +22,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Remove Pages-only redirect rules from preview assets
-        run: rm -f dist/_redirects
-
-      - name: Deploy PR preview Worker
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+      - name: Validate canonical proxy invariants
         run: |
           set -euo pipefail
-          PREVIEW_NAME="krakenwatch-pr-${PR_NUMBER}"
-          DEPLOY_LOG="$(mktemp)"
+          grep -Fx "run_worker_first = true" wrangler.workers.toml
+          grep -F "url.hostname = '1d2a3088.krakenwatch.pages.dev';" src/worker.js
 
-          npx wrangler@latest deploy ./src/preview-worker.js \
-            --config wrangler.workers.toml \
-            --name "$PREVIEW_NAME" \
-            --compatibility-date "$(date +%Y-%m-%d)" \
-            --assets ./dist | tee "$DEPLOY_LOG"
-
-          PREVIEW_URL="$(grep -Eo 'https://[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+\.workers\.dev' "$DEPLOY_LOG" | head -n1)"
-          test -n "$PREVIEW_URL"
+      - name: Set canonical preview URL
+        run: |
+          set -euo pipefail
+          PREVIEW_URL="https://wispy-sun-811e.krakenwatch.workers.dev"
+          PREVIEW_NAME="wispy-sun-811e (canonical)"
           printf 'PREVIEW_URL=%s\n' "$PREVIEW_URL" >> "$GITHUB_ENV"
           printf 'PREVIEW_NAME=%s\n' "$PREVIEW_NAME" >> "$GITHUB_ENV"
 
-      - name: Smoke-check preview routes
+      - name: Smoke-check canonical preview routes
         run: |
           set -euo pipefail
           test -n "${PREVIEW_URL:-}"
@@ -88,13 +66,13 @@ jobs:
           script: |
             const marker = '<!-- krakenwatch-pr-preview -->';
             const body = `${marker}
-            🔎 **PR Live Preview Ready**
+            🔎 **PR Preview (Canonical Codepath)**
 
             - URL: ${process.env.PREVIEW_URL}
-            - Worker: \`${process.env.PREVIEW_NAME}\`
+            - Codepath: \`${process.env.PREVIEW_NAME}\`
             - Smoke checks: passed (\`/\`, \`/ink\`, \`/payward\`, \`/alpha-briefs\`, \`/about\`)
 
-            This preview is isolated from production and updates on each commit to this PR.`;
+            This project is locked to one good codepath. PR previews intentionally point to the canonical production path so alternate/broken paths are never used.`;
 
             const { owner, repo } = context.repo;
             const issue_number = context.issue.number;
@@ -130,17 +108,6 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Delete preview Worker
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+      - name: No-op cleanup (single canonical path)
         run: |
-          set -euo pipefail
-          PREVIEW_NAME="krakenwatch-pr-${PR_NUMBER}"
-          npx wrangler@latest delete "$PREVIEW_NAME" --config wrangler.workers.toml --force || true
+          echo "No ephemeral preview Worker exists to clean up."

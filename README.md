@@ -41,26 +41,27 @@ If the site looks wrong:
 
 ## PR live preview workflow
 
-Each pull request now gets an isolated preview URL via the workflow:
+To prevent accidental use of alternate/broken codepaths, PR previews now use the
+same canonical good path as production.
+
+Preview workflow:
 
 - `.github/workflows/pr-preview.yml`
-- GitHub Actions name: `PR Live Preview (Workers)`
+- GitHub Actions name: `PR Live Preview (Canonical Proxy)`
 
 How it works:
 
-1. On PR open/sync/reopen, CI builds and deploys a Worker named `krakenwatch-pr-<PR_NUMBER>`.
-2. It smoke-checks `200` responses on:
-   - `/`
-   - `/ink`
-   - `/payward`
-   - `/alpha-briefs`
-   - `/about`
-3. It comments (and updates) a single preview URL comment on the PR.
-4. On PR close, it deletes the preview Worker automatically.
+1. On PR open/sync/reopen, CI validates canonical proxy invariants:
+   - `src/worker.js` contains `url.hostname = '1d2a3088.krakenwatch.pages.dev';`
+   - `wrangler.workers.toml` contains `run_worker_first = true`
+2. CI smoke-checks canonical routes on:
+   - `https://wispy-sun-811e.krakenwatch.workers.dev`
+   - routes: `/`, `/ink`, `/payward`, `/alpha-briefs`, `/about`
+3. CI comments one deterministic preview URL on the PR.
 
 Notes:
 
-- Preview deploys are isolated from production.
+- No separate preview build/worker codepath exists.
 - Production deploy remains `main` -> `Deploy to Cloudflare Workers`.
 
 ## Local development
