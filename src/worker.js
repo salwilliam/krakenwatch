@@ -2,10 +2,10 @@ export default {
   async fetch(request) {
     // Emergency pin: proxy to known-good deployment while source parity is resolved.
     const incomingUrl = new URL(request.url);
-    const proxiedUrl = new URL(request.url);
-    proxiedUrl.hostname = '1d2a3088.krakenwatch.pages.dev';
+    const url = new URL(request.url);
+    url.hostname = '1d2a3088.krakenwatch.pages.dev';
 
-    const response = await fetch(new Request(proxiedUrl.toString(), request));
+    const response = await fetch(new Request(url.toString(), request));
 
     // Preview-only tweak: use Blackbeard for About page body text on workers.dev test host.
     if (
