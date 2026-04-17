@@ -39,6 +39,30 @@ If the site looks wrong:
 3. Confirm route responses (`/`, `/ink`, `/payward`, `/alpha-briefs`) are HTTP `200`.
 4. Purge Cloudflare cache only **after** confirming deploy target/domain routing are correct.
 
+## PR live preview workflow
+
+Each pull request now gets an isolated preview URL via the workflow:
+
+- `.github/workflows/pr-preview.yml`
+- GitHub Actions name: `PR Live Preview (Workers)`
+
+How it works:
+
+1. On PR open/sync/reopen, CI builds and deploys a Worker named `krakenwatch-pr-<PR_NUMBER>`.
+2. It smoke-checks `200` responses on:
+   - `/`
+   - `/ink`
+   - `/payward`
+   - `/alpha-briefs`
+   - `/about`
+3. It comments (and updates) a single preview URL comment on the PR.
+4. On PR close, it deletes the preview Worker automatically.
+
+Notes:
+
+- Preview deploys are isolated from production.
+- Production deploy remains `main` -> `Deploy to Cloudflare Workers`.
+
 ## Local development
 
 Install deps and run the app:
