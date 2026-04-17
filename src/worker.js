@@ -16,7 +16,7 @@ export default {
       const html = await response.text();
       const patched = html.replace(
         '</head>',
-        '<style id="about-blackbeard-test-only">main p{font-family:"Blackbeard","Trade Winds",Georgia,serif!important;line-height:1.5;letter-spacing:.01em}</style></head>',
+        '<style id="about-blackbeard-test-only">p.text-base, p.text-base.sm\\:text-lg{font-family:"Blackbeard","Trade Winds",Georgia,serif!important;line-height:1.5;letter-spacing:.01em}</style></head>',
       );
       return new Response(patched, {
         status: response.status,
