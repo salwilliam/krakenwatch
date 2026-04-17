@@ -1,0 +1,7 @@
+name = "wispy-sun-811e"
+main = "./src/worker.js"
+compatibility_date = "2026-04-17"
+
+[assets]
+directory = "./dist"
+not_found_handling = "single-page-application"
