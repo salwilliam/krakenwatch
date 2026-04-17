@@ -63,8 +63,23 @@ jobs:
           set -euo pipefail
           test -n "${PREVIEW_URL:-}"
           for route in / /ink /payward /alpha-briefs /about; do
-            code="$(curl -fsSL -o /dev/null -w '%{http_code}' "${PREVIEW_URL}${route}")"
-            test "$code" = "200"
+            ok=0
+            for attempt in 1 2 3 4 5 6; do
+              code="$(curl -sSL -o /dev/null -w '%{http_code}' "${PREVIEW_URL}${route}")"
+              if [ "$code" = "200" ]; then
+                ok=1
+                break
+              fi
+              if [ "$attempt" -lt 6 ]; then
+                sleep 5
+              fi
+            done
+
+            if [ "$ok" -ne 1 ]; then
+              echo "Preview route did not become ready: ${route}"
+              echo "Last status code: ${code}"
+              exit 1
+            fi
           done
 
       - name: Comment preview URL on PR
