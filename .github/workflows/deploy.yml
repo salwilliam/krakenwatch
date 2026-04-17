@@ -26,6 +26,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Remove Pages-only redirect rules from Workers assets
+        run: rm -f dist/_redirects
+
       - name: Deploy to Cloudflare Workers
         run: npx wrangler@latest deploy --config wrangler.workers.toml
         env:
