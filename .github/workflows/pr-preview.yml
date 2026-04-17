@@ -48,6 +48,7 @@ jobs:
           DEPLOY_LOG="$(mktemp)"
 
           npx wrangler@latest deploy ./src/preview-worker.js \
+            --config wrangler.workers.toml \
             --name "$PREVIEW_NAME" \
             --compatibility-date "$(date +%Y-%m-%d)" \
             --assets ./dist | tee "$DEPLOY_LOG"
@@ -127,4 +128,4 @@ jobs:
         run: |
           set -euo pipefail
           PREVIEW_NAME="krakenwatch-pr-${PR_NUMBER}"
-          npx wrangler@latest delete "$PREVIEW_NAME" --force || true
+          npx wrangler@latest delete "$PREVIEW_NAME" --config wrangler.workers.toml --force || true
