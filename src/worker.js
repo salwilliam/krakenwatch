@@ -10,7 +10,6 @@ export default {
     // Preview-only tweak: use Blackbeard for About page body text on workers.dev test host.
     if (
       incomingUrl.hostname === 'wispy-sun-811e.krakenwatch.workers.dev' &&
-      incomingUrl.pathname === '/about' &&
       (response.headers.get('content-type') || '').includes('text/html')
     ) {
       const html = await response.text();
