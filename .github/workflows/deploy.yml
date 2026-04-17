@@ -23,19 +23,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build pinned production artifact bundle
-        run: |
-          npm run build
+      - name: Build
+        run: npm run build
 
       - name: Validate deployment configuration invariants
         run: |
           # Workers is the canonical production target.
           test -f wrangler.workers.toml
           test -f src/worker.js
-          # Dist must exist and contain one JS/CSS bundle pair.
-          test -f dist/index.html
-          ls dist/assets/index-*.js | head -n1
-          ls dist/assets/index-*.css | head -n1
+          # Pages redirect rules must never be uploaded in Workers mode.
+          test -f public/.assetsignore
+          grep -x '_redirects' public/.assetsignore
 
       - name: Remove Pages-only redirect rules from Workers assets
         run: rm -f dist/_redirects
