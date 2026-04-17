@@ -1,7 +1,4 @@
 
-import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
-
 export default function Payward() {
   return (
     <>
@@ -26,7 +23,7 @@ export default function Payward() {
         <section className="payward-content" id="payward-entities">
           <div className="payward-content-inner">
             <p className="payward-placeholder">
-              Entity map and corporate structure brief coming soon. See <Link to="/alpha-briefs">Alpha Briefs</Link> for the full Payward report.
+              Entity map and corporate structure brief coming soon. See <a href="/alpha-briefs">Alpha Briefs</a> for the full Payward report.
             </p>
           </div>
         </section>
