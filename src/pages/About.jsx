@@ -15,11 +15,10 @@ export default function About() {
           Kraken Watch set sail in April 2026 to plunder signals, scuttlebutt, and actionable insight from across the vast seas of Kraken, Payward, Ink, and the rising frontier of digital assets beyond.
         </p>
         <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
-          Join the crew on{' '}
           <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer"
             className="font-semibold underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
-            style={{ color: b5 }}>@krakwatch</a>{' '}
-          on X 🏴‍☠️
+            style={{ color: b5 }}>Join the crew on X</a>{' '}
+          🏴‍☠️
         </p>
         <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
           Created by{' '}
