@@ -37,10 +37,13 @@ export default {
       const html = await response.text();
       const textPatched = html.replace(
         "Kraken Watch first set sail on X, gathering the signals and scuttlebutt of the Kraken ecosystem into one handy port o' call.",
-        'Kraken Watch launched on April 10, 2026 and lives on our site and on X.',
+        'Kraken Watch set sail in April 2026 to plunder signals, scuttlebutt, and actionable insight from across the vast seas of Kraken, Payward, Ink, and the rising frontier of digital assets beyond.',
       ).replace(
         'On April 10, 2026, we launched our own site — same credo: useful insights and data from across the Kraken, Payward, and Ink universe.',
         '',
+      ).replace(
+        /Created by\s*<a href="https:\/\/x\.com\/salwilliam"[^>]*>@salwilliam<\/a>\./,
+        'Join the crew on <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer" class="font-semibold underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity" style="color: hsl(350 55% 32%)">@krakwatch</a> on X 🏴‍☠️</p><p class="text-base sm:text-lg leading-relaxed" style="font-family: var(--font-serif); color: hsl(28 40% 14%); opacity: 0.85">Created by <a href="https://x.com/salwilliam" target="_blank" rel="noopener noreferrer" class="font-semibold underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity" style="color: hsl(350 55% 32%)">@salwilliam</a>',
       );
       const patched = textPatched.replace(
         '</head>',

@@ -12,17 +12,20 @@ export default function About() {
           Ahoy, matey! Welcome t' the <span className="fancy-accent">Watch</span>!
         </h1>
         <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
-          Kraken Watch launched on April 10, 2026 and lives on our site and on{' '}
+          Kraken Watch set sail in April 2026 to plunder signals, scuttlebutt, and actionable insight from across the vast seas of Kraken, Payward, Ink, and the rising frontier of digital assets beyond.
+        </p>
+        <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
+          Join the crew on{' '}
           <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer"
             className="font-semibold underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
-            style={{ color: b5 }}>X</a>
-          .
+            style={{ color: b5 }}>@krakwatch</a>{' '}
+          on X 🏴‍☠️
         </p>
         <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
           Created by{' '}
           <a href="https://x.com/salwilliam" target="_blank" rel="noopener noreferrer"
             className="font-semibold underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
-            style={{ color: b5 }}>@salwilliam</a>.
+            style={{ color: b5 }}>@salwilliam</a>
         </p>
 
         {/* Anchor divider */}
