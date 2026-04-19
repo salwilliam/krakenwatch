@@ -35,7 +35,14 @@ export default {
       (response.headers.get('content-type') || '').includes('text/html')
     ) {
       const html = await response.text();
-      const patched = html.replace(
+      const textPatched = html.replace(
+        "Kraken Watch first set sail on X, gathering the signals and scuttlebutt of the Kraken ecosystem into one handy port o' call.",
+        'Kraken Watch launched on April 10, 2026 and lives on our site and on X.',
+      ).replace(
+        'On April 10, 2026, we launched our own site — same credo: useful insights and data from across the Kraken, Payward, and Ink universe.',
+        '',
+      );
+      const patched = textPatched.replace(
         '</head>',
         '<style id="about-blackbeard-test-only">@font-face{font-family:"Blackbeard";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/blackbeard.woff") format("woff")}p.text-base, p.text-base.sm\\:text-lg{font-family:"Blackbeard","Trade Winds",Georgia,serif!important;line-height:1.5;letter-spacing:.01em;text-align:left!important}</style></head>',
       );

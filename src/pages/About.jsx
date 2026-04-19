@@ -12,14 +12,11 @@ export default function About() {
           Ahoy, matey! Welcome t' the <span className="fancy-accent">Watch</span>!
         </h1>
         <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
-          Kraken Watch first set sail on{' '}
+          Kraken Watch launched on April 10, 2026 and lives on our site and on{' '}
           <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer"
             className="font-semibold underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
             style={{ color: b5 }}>X</a>
-          , gathering the signals and scuttlebutt of the Kraken ecosystem into one handy port o' call.
-        </p>
-        <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
-          On April 10, 2026, we launched our own site — same credo: useful insights and data from across the Kraken, Payward, and Ink universe.
+          .
         </p>
         <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
           Created by{' '}
