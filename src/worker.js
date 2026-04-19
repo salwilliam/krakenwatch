@@ -10,13 +10,12 @@ export default {
     // Preview-only tweak: use Blackbeard for About page body text on workers.dev test host.
     if (
       incomingUrl.hostname === 'wispy-sun-811e.krakenwatch.workers.dev' &&
-      incomingUrl.pathname === '/about' &&
       (response.headers.get('content-type') || '').includes('text/html')
     ) {
       const html = await response.text();
       const patched = html.replace(
         '</head>',
-        '<style id="about-blackbeard-test-only">main p{font-family:"Blackbeard","Trade Winds",Georgia,serif!important;line-height:1.5;letter-spacing:.01em}</style></head>',
+        '<style id="about-blackbeard-test-only">p.text-base, p.text-base.sm\\:text-lg{font-family:"Blackbeard","Trade Winds",Georgia,serif!important;line-height:1.5;letter-spacing:.01em}</style></head>',
       );
       return new Response(patched, {
         status: response.status,
