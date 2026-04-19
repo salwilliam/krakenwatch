@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-04-17T20:20:20.501Z",
-  "updated_display": "April 17, 2026",
+  "updated_at": "2026-04-19T16:52:08.930Z",
+  "updated_display": "April 19, 2026",
   "ink": {
-    "tvl_millions": 489.2,
+    "tvl_millions": 323.5,
     "protocol_count": 26
   },
   "ipo": {
-    "polymarket_pct": 75,
-    "kalshi_pct": 67.5,
-    "avg_pct": 67.8
+    "polymarket_pct": 72.5,
+    "kalshi_pct": 67,
+    "avg_pct": 69.5
   },
   "secondary_market": {
-    "hiive_pps": 33.29,
-    "forge_pps": 29.7,
+    "hiive_pps": 33.35,
+    "forge_pps": 34.09,
     "npm_pps": 37.69,
     "notice_pps": 31.36,
-    "avg_pps": 31.99,
+    "avg_pps": 33.58,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
-    "updated": "April 17, 2026"
+    "updated": "April 19, 2026"
   }
 }
