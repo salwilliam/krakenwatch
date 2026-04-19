@@ -9,10 +9,14 @@ export default {
     // Emergency pin: proxy to known-good deployment while source parity is resolved.
     const incomingUrl = new URL(request.url);
 
-    // Preview-only asset route: serve Blackbeard from local worker assets so the
-    // test-host About override can load the actual font file instead of HTML fallback.
+    const isAboutTypographyHost =
+      incomingUrl.hostname === 'wispy-sun-811e.krakenwatch.workers.dev' ||
+      incomingUrl.hostname === 'krakenwatch.com';
+
+    // Host-scoped asset route: serve Blackbeard from local worker assets so the
+    // About override can load the actual font file instead of HTML fallback.
     if (
-      incomingUrl.hostname === 'wispy-sun-811e.krakenwatch.workers.dev' &&
+      isAboutTypographyHost &&
       incomingUrl.pathname === '/fonts/blackbeard.woff' &&
       env &&
       env.ASSETS
@@ -25,9 +29,9 @@ export default {
 
     const response = await fetch(new Request(url.toString(), request));
 
-    // Preview-only tweak: use Blackbeard for About page body text on workers.dev test host.
+    // Host-scoped tweak: use Blackbeard for About page body text.
     if (
-      incomingUrl.hostname === 'wispy-sun-811e.krakenwatch.workers.dev' &&
+      isAboutTypographyHost &&
       (response.headers.get('content-type') || '').includes('text/html')
     ) {
       const html = await response.text();
