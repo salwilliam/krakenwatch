@@ -1,0 +1,53 @@
+name: Daily Data Refresh
+
+on:
+  schedule:
+    # Run daily at 14:15 UTC.
+    - cron: '15 14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: krakenwatch-daily-data-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    name: Refresh site-data.json
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh site data
+        run: npm run refresh:data
+
+      - name: Commit and push refreshed data
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- public/site-data.json; then
+            echo "No data changes detected."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add public/site-data.json
+          git commit -m "chore(data): daily refresh site-data"
+          git push origin HEAD:main

@@ -79,3 +79,26 @@ Build and lint:
 npm run build
 npm run lint
 ```
+
+Refresh data snapshot locally:
+
+```bash
+npm run refresh:data
+```
+
+## Daily data refresh automation
+
+The project includes a scheduled GitHub Actions workflow:
+
+- `.github/workflows/daily-data-refresh.yml`
+- Workflow name: `Daily Data Refresh`
+- Schedule: daily at `14:15 UTC`
+
+It refreshes `public/site-data.json` from:
+
+- DeFiLlama (Ink TVL + protocol count)
+- Polymarket (`kraken-ipo-in-2025`)
+- Kalshi (`KXIPO-26-KRAKEN`)
+- Hiive, Forge, Nasdaq Private Market, Notice (best-effort secondary price sources)
+
+The workflow commits updated `public/site-data.json` back to `main` when values change.
