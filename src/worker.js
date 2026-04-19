@@ -1,5 +1,12 @@
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
+    // Keep site-data on the current Worker deployment so daily refresh commits
+    // on main become live without waiting for baseline Pages parity updates.
+    const requestUrl = new URL(request.url);
+    if (requestUrl.pathname === '/site-data.json' && env?.ASSETS) {
+      return env.ASSETS.fetch(request);
+    }
+
     // Emergency pin: proxy to known-good deployment while source parity is resolved.
     const incomingUrl = new URL(request.url);
     const url = new URL(request.url);
