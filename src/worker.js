@@ -1,7 +1,19 @@
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     // Emergency pin: proxy to known-good deployment while source parity is resolved.
     const incomingUrl = new URL(request.url);
+
+    // Preview-only asset route: serve Blackbeard from local worker assets so the
+    // test-host About override can load the actual font file instead of HTML fallback.
+    if (
+      incomingUrl.hostname === 'wispy-sun-811e.krakenwatch.workers.dev' &&
+      incomingUrl.pathname === '/fonts/blackbeard.woff' &&
+      env &&
+      env.ASSETS
+    ) {
+      return env.ASSETS.fetch(request);
+    }
+
     const url = new URL(request.url);
     url.hostname = '1d2a3088.krakenwatch.pages.dev';
 
