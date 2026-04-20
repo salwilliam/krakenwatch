@@ -106,7 +106,7 @@ The workflow commits updated `public/site-data.json` back to `main` when values 
 ## Daily Ink 24h X snapshot
 
 The project can also generate a daily internal snapshot report from a monitored
-set of X accounts.
+X List (with optional account fallback).
 
 - Workflow: `.github/workflows/daily-x-monitor.yml`
 - Name: `Daily Ink X Snapshot`
@@ -119,12 +119,16 @@ set of X accounts.
 
 1. Edit account list + objective in:
    - `config/x-monitor.config.json`
+   - Primary mode: set `list_id` (example: `2046327906943500367`)
+   - Optional fallback: `accounts_fallback` usernames
 2. Add required GitHub repository secrets:
    - `X_BEARER_TOKEN`
    - `OPENAI_API_KEY`
    - optional: `OPENAI_MODEL`
+   - Note: your X API project must have active API credits/plan access for list
+     and timeline endpoints. Without credits, runs fail with `CreditsDepleted`.
 3. (Optional) run locally:
-   - `npm run snapshot:ink:x`
+   - `npm run report:x-daily`
 
 ### Runtime model
 

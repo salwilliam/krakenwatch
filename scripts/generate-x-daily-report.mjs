@@ -55,8 +55,15 @@ function escapeRegExp(value) {
 
 async function loadConfig() {
   const parsed = JSON.parse(await readFile(CONFIG_PATH, 'utf8'));
-  if (!Array.isArray(parsed.accounts) || parsed.accounts.length === 0) {
-    throw new Error('config.accounts must contain at least one X username');
+  parsed.x = parsed.x || {};
+  parsed.x.base_url = parsed.x.base_url || 'https://api.twitter.com/2';
+  parsed.x.lookback_hours = Number(parsed.x.lookback_hours ?? 24);
+  parsed.x.max_posts_per_account = Number(parsed.x.max_posts_per_account ?? 20);
+
+  const hasAccounts = Array.isArray(parsed.accounts) && parsed.accounts.length > 0;
+  const hasFallback = Array.isArray(parsed.accounts_fallback) && parsed.accounts_fallback.length > 0;
+  if (!parsed.list_id && !hasAccounts && !hasFallback) {
+    throw new Error('Provide at least one source via list_id, accounts, or accounts_fallback');
   }
   return parsed;
 }
@@ -82,6 +89,32 @@ async function getUserByUsername(username, bearerToken, baseUrl) {
     throw new Error(`No user id found for @${username}`);
   }
   return payload.data;
+}
+
+async function getListMembers(listId, bearerToken, baseUrl, maxMembers = 100) {
+  const members = [];
+  let nextToken = null;
+
+  while (members.length < maxMembers) {
+    const url = new URL(`${baseUrl}/lists/${encodeURIComponent(listId)}/members`);
+    url.searchParams.set('user.fields', 'id,name,username');
+    url.searchParams.set('max_results', String(Math.min(100, maxMembers - members.length)));
+    if (nextToken) {
+      url.searchParams.set('pagination_token', nextToken);
+    }
+
+    const payload = await fetchX(url, bearerToken);
+    if (Array.isArray(payload?.data)) {
+      members.push(...payload.data);
+    }
+
+    nextToken = payload?.meta?.next_token ?? null;
+    if (!nextToken) {
+      break;
+    }
+  }
+
+  return members;
 }
 
 function buildExcludeParam(config) {
@@ -294,7 +327,44 @@ function markdownReport({ runDate, synthesis, shortlist, config, usedFallback })
 async function collectPosts(config, bearerToken) {
   const errors = [];
   const all = [];
-  for (const username of config.accounts) {
+  const accountSet = new Set();
+
+  if (Array.isArray(config.accounts)) {
+    for (const username of config.accounts) {
+      if (username) {
+        accountSet.add(String(username).toLowerCase());
+      }
+    }
+  }
+
+  if (config.list_id) {
+    try {
+      const maxMembers = Number(config.x?.max_list_members ?? 100);
+      const members = await getListMembers(config.list_id, bearerToken, config.x.base_url, maxMembers);
+      for (const member of members) {
+        if (member?.username) {
+          accountSet.add(String(member.username).toLowerCase());
+        }
+      }
+    } catch (error) {
+      errors.push({ account: `list:${config.list_id}`, message: error.message });
+    }
+  }
+
+  if (Array.isArray(config.accounts_fallback)) {
+    for (const username of config.accounts_fallback) {
+      if (username) {
+        accountSet.add(String(username).toLowerCase());
+      }
+    }
+  }
+
+  const resolvedAccounts = [...accountSet];
+  if (!resolvedAccounts.length) {
+    throw new Error(`No monitor accounts resolved. Errors: ${JSON.stringify(errors)}`);
+  }
+
+  for (const username of resolvedAccounts) {
     try {
       const user = await getUserByUsername(username, bearerToken, config.x.base_url);
       const tweets = await getRecentTweets(user.id, bearerToken, config);
