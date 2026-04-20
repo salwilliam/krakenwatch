@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-04-20T15:42:45.998Z",
+  "updated_at": "2026-04-20T20:53:08.486Z",
   "updated_display": "April 20, 2026",
   "ink": {
-    "tvl_millions": 316.2,
+    "tvl_millions": 318.3,
     "protocol_count": 26
   },
   "ipo": {
-    "polymarket_pct": 63.5,
+    "polymarket_pct": 69,
     "kalshi_pct": 69.5,
-    "avg_pct": 69
+    "avg_pct": 69.5
   },
   "secondary_market": {
     "hiive_pps": 33.33,
