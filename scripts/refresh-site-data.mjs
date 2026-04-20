@@ -324,6 +324,23 @@ async function getForgePriceAndDate() {
 }
 
 async function getNoticePrice() {
+  const extractFromMirror = async () => {
+    const mirrorText = await withRetries(
+      'Notice mirror page',
+      () => fetchText('https://r.jina.ai/http://notice.co/c/kraken'),
+      2,
+    );
+
+    // Mirror tends to expose an explicit headline like:
+    // "Kraken Stock $49.06 | ..."
+    const mirrorMatch = mirrorText.match(/Kraken Stock\s*\$([0-9]+(?:\.[0-9]{1,2})?)/i);
+    if (mirrorMatch) {
+      return parseNumeric(mirrorMatch[1]);
+    }
+
+    return extractFirstCurrency(mirrorText, /Kraken[\s\S]{0,1200}/i);
+  };
+
   try {
     const html = await withRetries(
       'Notice page',
@@ -333,7 +350,16 @@ async function getNoticePrice() {
         }),
       2,
     );
-    return extractFirstCurrency(html, /Kraken[\s\S]{0,1200}/i);
+    const directValue = extractFirstCurrency(html, /Kraken[\s\S]{0,1200}/i);
+    if (directValue != null) {
+      return directValue;
+    }
+  } catch {
+    // Fall through to mirror source when Notice blocks bot traffic.
+  }
+
+  try {
+    return await extractFromMirror();
   } catch {
     return null;
   }

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-20T20:53:08.486Z",
+  "updated_at": "2026-04-20T21:00:00.634Z",
   "updated_display": "April 20, 2026",
   "ink": {
     "tvl_millions": 318.3,
@@ -14,8 +14,8 @@
     "hiive_pps": 33.33,
     "forge_pps": 34.09,
     "npm_pps": 37.69,
-    "notice_pps": 31.36,
-    "avg_pps": 33.57,
+    "notice_pps": 48.87,
+    "avg_pps": 33.87,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
     "updated": "April 20, 2026"
