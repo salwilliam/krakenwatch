@@ -10,7 +10,7 @@ const SECONDARY_BASE_WEIGHTS = {
   notice_pps: 0.1,
 };
 
-const MAX_OUTLIER_DEVIATION = 0.3;
+const MAX_OUTLIER_DEVIATION = 0.5;
 
 function parseNumeric(input) {
   if (input == null) {
