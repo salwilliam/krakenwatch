@@ -102,3 +102,32 @@ It refreshes `public/site-data.json` from:
 - Hiive, Forge, Nasdaq Private Market, Notice (best-effort secondary price sources)
 
 The workflow commits updated `public/site-data.json` back to `main` when values change.
+
+## Daily Ink 24h X snapshot
+
+The project can also generate a daily internal snapshot report from a monitored
+set of X accounts.
+
+- Workflow: `.github/workflows/daily-x-monitor.yml`
+- Name: `Daily Ink X Snapshot`
+- Schedule: daily at `14:45 UTC`
+- Output:
+  - public report: `reports/ink-x-daily/YYYY-MM-DD.md`
+  - internal raw data: `reports/ink-x-daily/raw/YYYY-MM-DD.json`
+
+### Where to enter your inputs
+
+1. Edit account list + objective in:
+   - `config/x-monitor.config.json`
+2. Add required GitHub repository secrets:
+   - `X_BEARER_TOKEN`
+   - `OPENAI_API_KEY`
+   - optional: `OPENAI_MODEL`
+3. (Optional) run locally:
+   - `npm run snapshot:ink:x`
+
+### Runtime model
+
+This runs in GitHub Actions on a daily schedule (not inside the Cloudflare
+Worker runtime). The Worker and app serve the site; the snapshot job is a
+separate automation pipeline that writes reports to the repo.
