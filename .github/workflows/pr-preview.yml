@@ -1,0 +1,113 @@
+name: PR Live Preview (Canonical Proxy)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+concurrency:
+  group: krakenwatch-pr-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    name: Publish PR Canonical Preview Link
+    permissions:
+      pull-requests: write
+      contents: read
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate canonical proxy invariants
+        run: |
+          set -euo pipefail
+          grep -Fx "run_worker_first = true" wrangler.workers.toml
+          grep -F "url.hostname = '1d2a3088.krakenwatch.pages.dev';" src/worker.js
+
+      - name: Set canonical preview URL
+        run: |
+          set -euo pipefail
+          PREVIEW_URL="https://wispy-sun-811e.krakenwatch.workers.dev"
+          PREVIEW_NAME="wispy-sun-811e (canonical)"
+          printf 'PREVIEW_URL=%s\n' "$PREVIEW_URL" >> "$GITHUB_ENV"
+          printf 'PREVIEW_NAME=%s\n' "$PREVIEW_NAME" >> "$GITHUB_ENV"
+
+      - name: Smoke-check canonical preview routes
+        run: |
+          set -euo pipefail
+          test -n "${PREVIEW_URL:-}"
+          for route in / /ink /payward /alpha-briefs /about; do
+            ok=0
+            for attempt in 1 2 3 4 5 6; do
+              code="$(curl -sSL -o /dev/null -w '%{http_code}' "${PREVIEW_URL}${route}")"
+              if [ "$code" = "200" ]; then
+                ok=1
+                break
+              fi
+              if [ "$attempt" -lt 6 ]; then
+                sleep 5
+              fi
+            done
+
+            if [ "$ok" -ne 1 ]; then
+              echo "Preview route did not become ready: ${route}"
+              echo "Last status code: ${code}"
+              exit 1
+            fi
+          done
+
+      - name: Comment preview URL on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- krakenwatch-pr-preview -->';
+            const body = `${marker}
+            🔎 **PR Preview (Canonical Codepath)**
+
+            - URL: ${process.env.PREVIEW_URL}
+            - Codepath: \`${process.env.PREVIEW_NAME}\`
+            - Smoke checks: passed (\`/\`, \`/ink\`, \`/payward\`, \`/alpha-briefs\`, \`/about\`)
+
+            This project is locked to one good codepath. PR previews intentionally point to the canonical production path so alternate/broken paths are never used.`;
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+            }
+
+  cleanup-preview:
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    name: Cleanup PR Preview
+    timeout-minutes: 10
+
+    steps:
+      - name: No-op cleanup (single canonical path)
+        run: |
+          echo "No ephemeral preview Worker exists to clean up."

@@ -1,0 +1,59 @@
+{
+  "project_name": "Kraken Watch",
+  "objective": "Generate a concise 24h snapshot of the most relevant Ink ecosystem developments and what users/builders should watch next.",
+  "list_id": "2046327906943500367",
+  "accounts_fallback": [],
+  "x": {
+    "base_url": "https://api.twitter.com/2",
+    "lookback_hours": 24,
+    "max_posts_per_account": 20,
+    "exclude_replies": true,
+    "exclude_retweets": true
+  },
+  "report": {
+    "top_items": 5,
+    "shortlist_size": 20,
+    "max_snippet_chars": 220
+  },
+  "llm": {
+    "enabled": true,
+    "model": "gpt-4.1-mini",
+    "temperature": 0.2
+  },
+  "keyword_weights": {
+    "ink": 12,
+    "ink chain": 12,
+    "kraken": 8,
+    "mainnet": 7,
+    "protocol": 6,
+    "launch": 6,
+    "integration": 6,
+    "bridge": 5,
+    "defi": 5,
+    "tvl": 5,
+    "liquidity": 5,
+    "incentive": 4,
+    "airdrop": 4,
+    "governance": 4,
+    "security": 8,
+    "incident": 8
+  },
+  "relevance_keywords": [
+    "ink",
+    "ink chain",
+    "kraken",
+    "mainnet",
+    "protocol",
+    "launch",
+    "integration",
+    "bridge",
+    "defi",
+    "tvl",
+    "liquidity",
+    "incentive",
+    "airdrop",
+    "governance",
+    "security",
+    "incident"
+  ]
+}
