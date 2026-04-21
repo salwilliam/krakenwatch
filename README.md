@@ -109,11 +109,11 @@ The project can also generate a daily internal snapshot report from a monitored
 X List (with optional account fallback).
 
 - Workflow: `.github/workflows/daily-x-monitor.yml`
-- Name: `Daily Ink X Snapshot`
+- Name: `Daily X Monitor Report`
 - Schedule: daily at `14:45 UTC`
 - Output:
-  - public report: `reports/ink-x-daily/YYYY-MM-DD.md`
-  - internal raw data: `reports/ink-x-daily/raw/YYYY-MM-DD.json`
+  - report: `reports/x-daily/YYYY-MM-DD.md`
+  - internal raw data: `reports/x-daily/raw/YYYY-MM-DD.json`
 
 ### Where to enter your inputs
 
@@ -124,7 +124,7 @@ X List (with optional account fallback).
 2. Add required GitHub repository secrets:
    - `X_BEARER_TOKEN`
    - `OPENAI_API_KEY`
-   - optional: `OPENAI_MODEL`
+   - optional: `X_MONITOR_LLM_MODEL`
    - Note: your X API project must have active API credits/plan access for list
      and timeline endpoints. Without credits, runs fail with `CreditsDepleted`.
 3. (Optional) run locally:
