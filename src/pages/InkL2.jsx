@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { useSiteData } from '../hooks/useSiteData';
 
 export default function InkL2() {
