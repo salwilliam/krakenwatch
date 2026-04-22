@@ -128,10 +128,10 @@ h1, h2, h3, h4 {
   letter-spacing: 0.01em;
 }
 
-/* Permanent Blackbeard body text — previously injected via worker; now lives in source */
+/* Permanent Blackbeard body text — !important needed to override inline fontFamily styles */
 p.text-base,
 p.text-base.sm\:text-lg {
-  font-family: "Blackbeard", "Trade Winds", Georgia, serif;
+  font-family: "Blackbeard", "Trade Winds", Georgia, serif !important;
   line-height: 1.5;
   letter-spacing: 0.01em;
   text-align: left;
