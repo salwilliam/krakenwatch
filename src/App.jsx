@@ -7,20 +7,18 @@ import AlphaBriefs from './pages/AlphaBriefs';
 import InkL2 from './pages/InkL2';
 import Payward from './pages/Payward';
 import About from './pages/About';
-import Experimental from './pages/Experimental';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
 
   const renderTab = () => {
     switch (activeTab) {
-      case 'home':         return <Home onNav={setActiveTab} />;
-      case 'ink':          return <InkL2 />;
-      case 'corporate':    return <Payward />;
-      case 'alpha':        return <AlphaBriefs />;
-      case 'about':        return <About />;
-      case 'experimental': return <Experimental />;
-      default:             return <Home onNav={setActiveTab} />;
+      case 'home':      return <Home onNav={setActiveTab} />;
+      case 'ink':       return <InkL2 />;
+      case 'corporate': return <Payward />;
+      case 'alpha':     return <AlphaBriefs />;
+      case 'about':     return <About />;
+      default:          return <Home onNav={setActiveTab} />;
     }
   };
 
