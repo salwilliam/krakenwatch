@@ -50,12 +50,11 @@ jobs:
           test -f public/.assetsignore
           grep -x '_redirects' public/.assetsignore
 
-      - name: Validate emergency proxy mode invariants
+      - name: Validate ASSETS serving mode invariants
         run: |
-          # Prevent the exact outage mode where the Worker proxy exists
-          # but is bypassed due to worker-first handling being disabled.
+          # Worker serves all static content from ASSETS binding — no CF Pages proxy.
           grep -Fx "run_worker_first = true" wrangler.workers.toml
-          grep -F "url.hostname = '1d2a3088.krakenwatch.pages.dev';" src/worker.js
+          grep -F "env.ASSETS.fetch(request)" src/worker.js
 
       - name: Remove Pages-only redirect rules from Workers assets
         run: rm -f dist/_redirects
@@ -66,22 +65,19 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Smoke-check production routes against known-good baseline
+      - name: Smoke-check production routes
         run: |
           set -euo pipefail
-          BASELINE_HOST="https://1d2a3088.krakenwatch.pages.dev"
           PROD_HOST="https://krakenwatch.com"
           WORKER_HOST="https://wispy-sun-811e.krakenwatch.workers.dev"
 
           extract_signature() {
             local url="$1"
-            local html
+            local html title js css
             html="$(curl -fsSL "$url")"
-            local title js css
             title="$(printf '%s' "$html" | grep -oE '<title>[^<]+</title>' | head -n1)"
             js="$(printf '%s' "$html" | grep -oE '/assets/index-[^"]+\.js' | head -n1)"
             css="$(printf '%s' "$html" | grep -oE '/assets/index-[^"]+\.css' | head -n1)"
-
             test -n "$title"
             test -n "$js"
             test -n "$css"
@@ -91,23 +87,19 @@ jobs:
           check_route() {
             local route="$1"
             local prod_url="${PROD_HOST}${route}"
-            local baseline_url="${BASELINE_HOST}${route}"
             local worker_url="${WORKER_HOST}${route}"
-            local prod_status baseline_status worker_status prod_sig baseline_sig worker_sig
+            local prod_status worker_status prod_sig worker_sig
 
             for attempt in 1 2 3 4 5; do
               prod_status="$(curl -fsSL -o /dev/null -w '%{http_code}' "$prod_url")"
-              baseline_status="$(curl -fsSL -o /dev/null -w '%{http_code}' "$baseline_url")"
               worker_status="$(curl -fsSL -o /dev/null -w '%{http_code}' "$worker_url")"
               test "$prod_status" = "200"
-              test "$baseline_status" = "200"
               test "$worker_status" = "200"
 
               prod_sig="$(extract_signature "$prod_url")"
-              baseline_sig="$(extract_signature "$baseline_url")"
               worker_sig="$(extract_signature "$worker_url")"
 
-              if [ "$prod_sig" = "$baseline_sig" ] && [ "$worker_sig" = "$baseline_sig" ]; then
+              if [ "$prod_sig" = "$worker_sig" ]; then
                 return 0
               fi
 
@@ -116,10 +108,9 @@ jobs:
               fi
             done
 
-            echo "Route mismatch on ${route}"
+            echo "Signature mismatch on ${route}"
             echo "  production: ${prod_sig}"
             echo "  worker:     ${worker_sig}"
-            echo "  baseline:   ${baseline_sig}"
             exit 1
           }
 

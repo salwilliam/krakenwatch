@@ -1,0 +1,17 @@
+// EMBEDDED_SITE_DATA is updated automatically by scripts/refresh-site-data.mjs
+const EMBEDDED_SITE_DATA = {"updated_at":"2026-04-22T15:24:19.662Z","updated_display":"April 22, 2026","ink":{"tvl_millions":295.4,"protocol_count":26},"ipo":{"polymarket_pct":60.5,"kalshi_pct":66,"avg_pct":65.5},"secondary_market":{"hiive_pps":31.83,"forge_pps":32.88,"npm_pps":37.69,"notice_pps":49.01,"avg_pps":34.53,"volume_30d_est_m":13.5,"volume_note":"Est. 30D vol. across all venues · based on Hiive H50 activity","updated":"April 22, 2026"},"prediction_markets":{"ipo":{"kalshi_pct":66,"polymarket_pct":66,"mktcap_16b_pct":42,"largest_excl_spacex_pct":4.3,"spacex_note":"Calculated: Kraken 0.45% / (1 - SpaceX 89.5%) — source: Polymarket largest IPO 2026 event"},"underwriters":[{"bank":"Bank of America","ticker":"BOA","pct":71.5},{"bank":"Morgan Stanley","ticker":"MS","pct":63.5},{"bank":"Citigroup","ticker":"CITI","pct":59.5},{"bank":"JPMorgan Chase","ticker":"JPM","pct":59},{"bank":"Goldman Sachs","ticker":"GS","pct":57.5}],"regulatory":{"clarity_act_pct":40,"crypto_structure_aug_pct":42.5},"ink_fdv":{"above_500m_pct":66,"above_1b_pct":51,"above_2b_pct":11.5}}};
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+
+    if (url.pathname === '/site-data.json') {
+      return new Response(JSON.stringify(EMBEDDED_SITE_DATA), {
+        status: 200,
+        headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=3600' },
+      });
+    }
+
+    return env.ASSETS.fetch(request);
+  },
+};

@@ -323,6 +323,141 @@ async function getForgePriceAndDate() {
   };
 }
 
+// ── Prediction Markets ──────────────────────────────────────────────────────
+
+async function getPolymarketSingleEvent(slug, questionFilter) {
+  const events = await withRetries(`Polymarket ${slug}`, () =>
+    fetchJson(`https://gamma-api.polymarket.com/events?slug=${slug}`),
+  );
+  if (!Array.isArray(events) || !events.length) throw new Error('No events');
+  const markets = events[0]?.markets ?? [];
+  const market = questionFilter
+    ? (markets.find(m => m.active && !m.closed && m.question?.includes(questionFilter)) ??
+       markets.find(m => m.question?.includes(questionFilter)) ??
+       markets[0])
+    : (markets.find(m => m.active && !m.closed) ?? markets[0]);
+  if (!market) throw new Error('Market not found');
+  const prices = safeJsonParse(market.outcomePrices, ['0']);
+  const yes = parseNumeric(Array.isArray(prices) ? prices[0] : null);
+  if (yes == null) throw new Error('No price');
+  return round(yes * 100, 1);
+}
+
+async function getKalshiMarket(ticker) {
+  const payload = await withRetries(`Kalshi ${ticker}`, () =>
+    fetchJson(`https://api.elections.kalshi.com/trade-api/v2/markets/${ticker}`),
+  );
+  const market = payload?.market;
+  if (!market) throw new Error('Missing market');
+  const bid = parseNumeric(market.yes_bid_dollars);
+  const ask = parseNumeric(market.yes_ask_dollars);
+  const last = parseNumeric(market.last_price_dollars);
+  let prob = null;
+  if (bid != null && ask != null) prob = (bid + ask) / 2;
+  else if (last != null) prob = last;
+  if (prob == null) throw new Error('Missing price');
+  return round(prob * 100, 1);
+}
+
+async function getKalshiSeries(seriesTicker, limit = 20) {
+  const payload = await withRetries(`Kalshi series ${seriesTicker}`, () =>
+    fetchJson(`https://api.elections.kalshi.com/trade-api/v2/markets?series_ticker=${seriesTicker}&limit=${limit}`),
+  );
+  return payload?.markets ?? [];
+}
+
+async function getPredictionMarkets(existing) {
+  const ex = existing?.prediction_markets ?? {};
+
+  const [
+    clarityAct,
+    mktcap16b,
+    largestIPO,
+    inkFdv250m,
+    inkFdv500m,
+    inkFdv1b,
+    inkFdv2b,
+    kalshiIPO,
+    kalshiCryptoAug,
+    kalshiUnderwriterMarkets,
+  ] = await Promise.allSettled([
+    getPolymarketSingleEvent('clarity-act-signed-into-law-in-2026'),
+    getPolymarketSingleEvent('kraken-ipo-closing-market-cap-above', '$16B'),
+    getPolymarketSingleEvent('largest-ipo-by-market-cap-in-2026-287', 'Kraken'),
+    getPolymarketSingleEvent('ink-fdv-above-one-day-after-launch', '$250M'),
+    getPolymarketSingleEvent('ink-fdv-above-one-day-after-launch', '$500M'),
+    getPolymarketSingleEvent('ink-fdv-above-one-day-after-launch', '$1B'),
+    getPolymarketSingleEvent('ink-fdv-above-one-day-after-launch', '$2B'),
+    getKalshiMarket('KXIPO-26-KRAKEN'),
+    getKalshiMarket('KXCRYPTOSTRUCTURE-26JAN-AUG'),
+    getKalshiSeries('KXKRAKENBANKPUBLIC'),
+  ]);
+
+  const val = (settled, fallback) =>
+    settled.status === 'fulfilled' ? settled.value : fallback;
+
+  // Underwriters: build array from live series data
+  const BANK_LABELS = { MS: 'Morgan Stanley', JPM: 'JPMorgan Chase', GS: 'Goldman Sachs', CITI: 'Citigroup', BOA: 'Bank of America' };
+  const exUnderwriters = ex.underwriters ?? [];
+
+  let underwriters;
+  if (kalshiUnderwriterMarkets.status === 'fulfilled') {
+    underwriters = kalshiUnderwriterMarkets.value
+      .filter(m => m.ticker?.startsWith('KXKRAKENBANKPUBLIC-'))
+      .map(m => {
+        const suffix = m.ticker.split('-').pop();
+        const label = BANK_LABELS[suffix] ?? suffix;
+        const bid = parseNumeric(m.yes_bid_dollars);
+        const ask = parseNumeric(m.yes_ask_dollars);
+        const last = parseNumeric(m.last_price_dollars);
+        let pct = null;
+        if (bid != null && ask != null) pct = round((bid + ask) / 2 * 100, 1);
+        else if (last != null) pct = round(last * 100, 1);
+        return { bank: label, ticker: suffix, pct };
+      })
+      .filter(u => u.pct != null)
+      .sort((a, b) => b.pct - a.pct);
+  } else {
+    underwriters = exUnderwriters;
+  }
+
+  // Kraken ex-SpaceX: compute conditional from raw Kraken + SpaceX prices
+  let largestExSpaceX = ex.ipo?.largest_excl_spacex_pct ?? 4.3;
+  if (largestIPO.status === 'fulfilled') {
+    // We fetched Kraken's raw %, compute conditional
+    // Also fetch SpaceX price to compute conditional
+    try {
+      const spaceXPct = await getPolymarketSingleEvent('largest-ipo-by-market-cap-in-2026-287', 'SpaceX');
+      const krakenRaw = largestIPO.value / 100;
+      const spaceXRaw = spaceXPct / 100;
+      const pool = Math.max(0.01, 1 - spaceXRaw);
+      largestExSpaceX = round((krakenRaw / pool) * 100, 1);
+    } catch {
+      largestExSpaceX = ex.ipo?.largest_excl_spacex_pct ?? 4.3;
+    }
+  }
+
+  return {
+    ipo: {
+      kalshi_pct: val(kalshiIPO, ex.ipo?.kalshi_pct),
+      polymarket_pct: ex.ipo?.polymarket_pct,
+      mktcap_16b_pct: val(mktcap16b, ex.ipo?.mktcap_16b_pct),
+      largest_excl_spacex_pct: largestExSpaceX,
+    },
+    underwriters,
+    regulatory: {
+      clarity_act_pct: val(clarityAct, ex.regulatory?.clarity_act_pct),
+      crypto_structure_aug_pct: val(kalshiCryptoAug, ex.regulatory?.crypto_structure_aug_pct),
+    },
+    ink_fdv: {
+      above_250m_pct: val(inkFdv250m, ex.ink_fdv?.above_250m_pct),
+      above_500m_pct: val(inkFdv500m, ex.ink_fdv?.above_500m_pct),
+      above_1b_pct: val(inkFdv1b, ex.ink_fdv?.above_1b_pct),
+      above_2b_pct: val(inkFdv2b, ex.ink_fdv?.above_2b_pct),
+    },
+  };
+}
+
 async function getNoticePrice() {
   const extractFromMirror = async () => {
     const mirrorText = await withRetries(
@@ -466,6 +601,21 @@ async function main() {
     now,
   );
 
+  // Fetch extended prediction markets (best-effort)
+  const predMarkets = await runOptional('Prediction markets', () => getPredictionMarkets(existing));
+
+  // Sync the main IPO polymarket_pct into prediction_markets.ipo
+  const finalPredMarkets = predMarkets
+    ? {
+        ...predMarkets,
+        ipo: {
+          ...predMarkets.ipo,
+          polymarket_pct: poly.pct,
+          kalshi_pct: kalshi.pct,
+        },
+      }
+    : existing.prediction_markets ?? null;
+
   const updated = {
     updated_at: now.toISOString(),
     updated_display: now.toLocaleDateString('en-US', {
@@ -481,10 +631,27 @@ async function main() {
       avg_pct: ipoAvg != null ? round(ipoAvg, 1) : existing.ipo?.avg_pct ?? null,
     },
     secondary_market: secondaryMarket,
+    ...(finalPredMarkets != null ? { prediction_markets: finalPredMarkets } : {}),
   };
 
   await writeFile(SITE_DATA_PATH, `${JSON.stringify(updated, null, 2)}\n`);
   console.log('Updated public/site-data.json successfully.');
+
+  // Also embed the updated data into src/worker.js so the CF Worker serves live data
+  const WORKER_PATH = new URL('../src/worker.js', import.meta.url);
+  try {
+    const workerSrc = await readFile(WORKER_PATH, 'utf8');
+    const newWorkerSrc = workerSrc.replace(
+      /^const EMBEDDED_SITE_DATA = \{[\s\S]*?\};/m,
+      `const EMBEDDED_SITE_DATA = ${JSON.stringify(updated)};`,
+    );
+    if (newWorkerSrc !== workerSrc) {
+      await writeFile(WORKER_PATH, newWorkerSrc);
+      console.log('Updated EMBEDDED_SITE_DATA in src/worker.js');
+    }
+  } catch (err) {
+    console.warn('Could not update src/worker.js:', err.message);
+  }
 }
 
 main().catch((error) => {

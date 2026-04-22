@@ -19,5 +19,50 @@
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
     "updated": "April 22, 2026"
+  },
+  "prediction_markets": {
+    "ipo": {
+      "kalshi_pct": 66,
+      "polymarket_pct": 66,
+      "mktcap_16b_pct": 42,
+      "largest_excl_spacex_pct": 4.3,
+      "spacex_note": "Calculated: Kraken 0.45% / (1 - SpaceX 89.5%) — source: Polymarket largest IPO 2026 event"
+    },
+    "underwriters": [
+      {
+        "bank": "Bank of America",
+        "ticker": "BOA",
+        "pct": 71.5
+      },
+      {
+        "bank": "Morgan Stanley",
+        "ticker": "MS",
+        "pct": 63.5
+      },
+      {
+        "bank": "Citigroup",
+        "ticker": "CITI",
+        "pct": 59.5
+      },
+      {
+        "bank": "JPMorgan Chase",
+        "ticker": "JPM",
+        "pct": 59
+      },
+      {
+        "bank": "Goldman Sachs",
+        "ticker": "GS",
+        "pct": 57.5
+      }
+    ],
+    "regulatory": {
+      "clarity_act_pct": 40,
+      "crypto_structure_aug_pct": 42.5
+    },
+    "ink_fdv": {
+      "above_500m_pct": 66,
+      "above_1b_pct": 51,
+      "above_2b_pct": 11.5
+    }
   }
 }
