@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import EcosystemMap from '../components/EcosystemMap';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -270,6 +271,12 @@ export default function InkL2() {
             ))}
           </div>
         </div>
+
+        <SectionCard title="Ecosystem Map" subtitle="Key projects and relationships on Ink">
+          <div style={{ height: 700, margin: '-1rem' }}>
+            <EcosystemMap embedded={true} />
+          </div>
+        </SectionCard>
 
         <SectionCard title="Growth Milestones" subtitle="Key events in Ink's development">
           <div className="relative pl-6">
