@@ -128,10 +128,10 @@ h1, h2, h3, h4 {
   letter-spacing: 0.01em;
 }
 
-/* Permanent Blackbeard body text — !important needed to override inline fontFamily styles */
+/* Permanent Blackbeard body text — previously injected via worker; now lives in source */
 p.text-base,
 p.text-base.sm\:text-lg {
-  font-family: "Blackbeard", "Trade Winds", Georgia, serif !important;
+  font-family: "Blackbeard", "Trade Winds", Georgia, serif;
   line-height: 1.5;
   letter-spacing: 0.01em;
   text-align: left;
@@ -162,135 +162,25 @@ p.text-base.sm\:text-lg {
 .payward-content-inner { max-width: 900px; margin: 0 auto; }
 .payward-placeholder { font-family: var(--font-serif); color: hsl(28 40% 14%); }
 
-/* ── Alpha Briefs ── */
-.alpha-briefs { display: flex; flex-direction: column; }
-
-.ab-hero {
-  position: relative;
-  width: 100%;
-  max-height: 360px;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-}
-.ab-hero-inner {
-  position: relative;
-  width: 100%;
-}
-.ab-hero-img {
-  width: 100%;
-  max-height: 340px;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-}
-.ab-eyebrow {
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: hsl(30 20% 38%);
-  margin: 0.75rem 1.25rem 0.15rem;
-  padding: 0;
-}
-.ab-title {
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: hsl(28 40% 14%);
-  letter-spacing: 0.02em;
-  margin: 0 1.25rem 0.15rem;
-  padding: 0;
-}
-.ab-sub {
-  font-family: var(--font-serif);
-  font-size: 0.8rem;
-  color: hsl(28 40% 14%);
-  opacity: 0.7;
-  margin: 0 1.25rem 1rem;
-  padding: 0;
-}
-
-.ab-list { padding: 1.5rem 1rem 3rem; }
-.ab-list-inner { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.25rem; }
-
-.brief-card {
-  display: flex;
-  flex-direction: row;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  border: 2px solid hsl(33 35% 60%);
-  background: hsl(38 40% 90%);
-  gap: 0;
-}
-.brief-img-wrap {
-  width: 160px;
-  min-width: 160px;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-.brief-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.brief-body {
-  padding: 1rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  min-width: 0;
-}
-.brief-tag {
-  display: inline-block;
-  font-family: var(--font-display);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  background: hsl(350 40% 88%);
-  color: hsl(350 55% 32%);
-  padding: 0.2em 0.5em;
-  border-radius: 0.25rem;
-  width: fit-content;
-}
-.brief-title {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: hsl(28 40% 14%);
-  letter-spacing: 0.02em;
-  margin: 0;
-}
-.brief-date {
-  font-family: var(--font-serif);
-  font-size: 0.7rem;
-  color: hsl(30 20% 38%);
-  margin: 0;
-}
-.brief-desc {
-  font-family: var(--font-serif);
-  font-size: 0.8rem;
-  color: hsl(28 40% 14%);
-  opacity: 0.8;
-  margin: 0;
-  line-height: 1.5;
-}
-.brief-cta {
-  display: inline-block;
-  margin-top: 0.4rem;
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: hsl(350 55% 32%);
-  letter-spacing: 0.04em;
-  text-decoration: none;
-}
+/* Alpha Briefs */
+.alpha-briefs { background: hsl(38 38% 92%); min-height: 100vh; }
+.ab-hero { padding: 2rem 1.5rem 1.5rem; text-align: center; }
+.ab-hero-inner { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; max-width: 900px; margin: 0 auto; }
+.ab-hero-img { width: 100%; max-width: 860px; height: 260px; object-fit: cover; object-position: center top; border-radius: 0.75rem; border: 2px solid hsl(30 30% 60%); box-shadow: 0 4px 20px rgba(0,0,0,0.18); margin-bottom: 0.5rem; }
+.ab-eyebrow { font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: hsl(30 20% 38%); margin: 0; }
+.ab-title { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: hsl(28 40% 14%); letter-spacing: 0.02em; margin: 0; }
+.ab-sub { font-family: var(--font-serif); font-size: 0.9rem; color: hsl(28 40% 14%); opacity: 0.75; margin: 0; }
+.ab-list { padding: 0 1.5rem 2.5rem; }
+.ab-list-inner { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
+.brief-card { background: hsl(38 35% 96%); border: 2px solid hsl(33 35% 66%); border-radius: 0.875rem; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+@media (min-width: 600px) { .brief-card { flex-direction: row; } }
+.brief-img-wrap { flex: 0 0 auto; }
+.brief-img-wrap img, .brief-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+@media (min-width: 600px) { .brief-img-wrap { width: 240px; } .brief-img-wrap img, .brief-img { width: 240px; height: 100%; min-height: 160px; } }
+.brief-body { padding: 1.25rem 1.25rem 1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.brief-tag { font-family: var(--font-display); font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: hsl(350 55% 32%); background: hsl(350 40% 93%); border-radius: 4px; padding: 2px 8px; display: inline-block; align-self: flex-start; }
+.brief-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: hsl(28 40% 14%); margin: 0; line-height: 1.3; }
+.brief-date { font-family: var(--font-serif); font-size: 0.75rem; color: hsl(30 20% 45%); font-style: italic; margin: 0; }
+.brief-desc { font-family: var(--font-serif); font-size: 0.875rem; color: hsl(28 40% 14%); opacity: 0.82; margin: 0; line-height: 1.55; }
+.brief-cta { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.5rem; font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: hsl(350 55% 32%); text-decoration: none; letter-spacing: 0.05em; align-self: flex-start; }
 .brief-cta:hover { text-decoration: underline; }
-
-@media (max-width: 520px) {
-  .brief-card { flex-direction: column; }
-  .brief-img-wrap { width: 100%; min-width: unset; height: 140px; }
-  .ab-hero-img { max-height: 220px; }
-}
