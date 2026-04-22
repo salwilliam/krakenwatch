@@ -5,14 +5,14 @@ export default function About() {
   return (
     <div className="max-w-[900px] mx-auto px-4 py-10 flex flex-col items-center gap-8">
       <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-        <img src="/home-hero.jpg" alt="Kraken Watch crew at the docks" className="w-full object-cover" style={{ maxHeight: '380px' }} />
+        <img src="/stamp-binnacle.png" alt="Kraken Watch crew at the docks" className="w-full object-cover" />
       </div>
       <div className="w-full flex flex-col gap-5 text-center">
         <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
-          Ahoy, matey! Welcome t\' the <span className="fancy-accent">Watch</span>!
+          Ahoy, matey! Welcome t' the <span className="fancy-accent">Watch</span>!
         </h1>
         <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
-          Kraken Watch set sail in April 2026 to plunder signals, scuttlebutt, and actionable insight from across the vast seas of Kraken, Payward, Ink, and the digital asset frontier.
+          Kraken Watch set sail in April 2026 to plunder signals, scuttlebutt, and actionable insight from across the vast seas of Kraken, Payward, Ink, and the rising frontier of digital assets beyond.
         </p>
         <p className="text-base sm:text-lg leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.85 }}>
           <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer"

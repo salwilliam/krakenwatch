@@ -1,10 +1,10 @@
 const tabs = [
-  { id: 'kraken',  label: 'Kraken Map',  url: '/' },
-  { id: 'ink',     label: 'Ink Markets', url: '/ink' },
-  { id: 'payward', label: 'Payward',     url: '/payward' },
-  { id: 'alpha',   label: 'Briefs',      url: '/alpha-briefs' },
-  { id: 'about',   label: 'About',       url: '/about' },
-  { id: 'contact', label: '✉ Contact',   href: 'https://x.com/KrakWatch' },
+  { id: 'home',      label: 'Home' },
+  { id: 'ink',       label: 'Ink' },
+  { id: 'corporate', label: 'Payward' },
+  { id: 'alpha',     label: 'Briefs' },
+  { id: 'about',     label: 'About' },
+  { id: 'contact',   label: '✉ Contact', href: 'https://x.com/KrakWatch' },
 ];
 
 export default function Nav({ activeTab, onTabChange }) {
@@ -67,55 +67,43 @@ export default function Nav({ activeTab, onTabChange }) {
             }}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
             </svg>
-            Trade
+            <span className="hidden sm:inline">Spreads Terminal</span>
           </a>
         </div>
       </div>
 
       {/* Tab row */}
-      <nav className="flex items-end px-4 sm:px-6 gap-1 overflow-x-auto" role="tablist">
+      <nav className="flex items-center gap-0 px-4 sm:px-6 pb-0 overflow-x-auto" data-testid="tab-nav">
         {tabs.map((tab) => {
-          const isActive = tab.id === activeTab;
+          const active = activeTab === tab.id;
+          const cls = "flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium whitespace-nowrap transition-all duration-150 select-none border-b-2";
+          const style = {
+            fontFamily: 'var(--font-display)',
+            letterSpacing: '0.04em',
+            color: active ? 'hsl(38 60% 85%)' : 'hsl(38 25% 52%)',
+            borderBottomColor: active ? 'hsl(38 55% 68%)' : 'transparent',
+            background: 'transparent',
+          };
           if (tab.href) {
             return (
-              <a
-                key={tab.id}
-                href={tab.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 px-3 py-1.5 text-xs font-semibold rounded-t transition-colors"
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  color: 'hsl(38 25% 55%)',
-                  letterSpacing: '0.05em',
-                  textDecoration: 'none',
-                }}
+              <a key={tab.id} href={tab.href} target="_blank" rel="noopener noreferrer"
+                className={cls}
+                style={{ ...style, color: 'hsl(38 25% 52%)', borderBottomColor: 'transparent' }}
               >
                 {tab.label}
               </a>
             );
           }
           return (
-            <a
-              key={tab.id}
-              href={tab.url}
-              role="tab"
-              aria-selected={isActive}
-              onClick={(e) => { e.preventDefault(); onTabChange(tab.id); }}
-              className="shrink-0 px-3 py-1.5 text-xs font-semibold rounded-t transition-colors"
-              style={{
-                fontFamily: 'var(--font-display)',
-                letterSpacing: '0.05em',
-                color: isActive ? 'hsl(38 55% 80%)' : 'hsl(38 25% 55%)',
-                background: isActive ? 'hsl(38 35% 88%)' : 'transparent',
-                borderBottom: isActive ? 'none' : undefined,
-                textDecoration: 'none',
-              }}
+            <button key={tab.id} onClick={() => onTabChange(tab.id)}
+              className={cls} style={style} data-testid={`tab-${tab.id}`}
             >
               {tab.label}
-            </a>
+            </button>
           );
         })}
       </nav>

@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet-async';
 
 const briefs = [
   {
