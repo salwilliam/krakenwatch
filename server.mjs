@@ -26,7 +26,7 @@ const MIME = {
   ".xml": "application/xml",
 };
 
-const indexHtml = readFileSync(join(STATIC, "index.html"));
+// Read index.html fresh on every request so restarts aren't needed after rebuilds
 
 function proxyToApi(req, res, path) {
   const opts = {
@@ -68,14 +68,20 @@ const server = createServer((req, res) => {
   if (existsSync(filePath) && statSync(filePath).isFile()) {
     const ext = extname(filePath).toLowerCase();
     const ct = MIME[ext] || "application/octet-stream";
-    res.writeHead(200, { "Content-Type": ct, "Cache-Control": "no-cache" });
+    // Hashed assets (JS/CSS in /assets/) are immutable; HTML must never be cached
+    const isHashedAsset = pathname.startsWith("/assets/");
+    const cc = isHashedAsset
+      ? "public, max-age=31536000, immutable"
+      : "no-store, no-cache, must-revalidate";
+    res.writeHead(200, { "Content-Type": ct, "Cache-Control": cc });
     createReadStream(filePath).pipe(res);
     return;
   }
 
-  // SPA fallback
-  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" });
-  res.end(indexHtml);
+  // SPA fallback — always read index.html fresh (never cached)
+  const html = readFileSync(join(STATIC, "index.html"));
+  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store, no-cache, must-revalidate" });
+  res.end(html);
 });
 
 server.listen(PORT, "0.0.0.0", () => {
