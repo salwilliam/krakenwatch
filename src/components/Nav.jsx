@@ -1,9 +1,10 @@
 const tabs = [
-  { id: 'kraken', label: 'Kraken Map', url: '/' },
-  { id: 'ink',    label: 'Ink Markets', url: '/ink' },
-  { id: 'alpha',  label: 'Briefs',  url: '/alpha-briefs' },
-  { id: 'about',  label: 'About',   url: '/about' },
-  { id: 'contact', label: '✉ Contact', href: 'https://x.com/KrakWatch' },
+  { id: 'kraken',  label: 'Kraken Map',  url: '/' },
+  { id: 'ink',     label: 'Ink Markets', url: '/ink' },
+  { id: 'payward', label: 'Payward',     url: '/payward' },
+  { id: 'alpha',   label: 'Briefs',      url: '/alpha-briefs' },
+  { id: 'about',   label: 'About',       url: '/about' },
+  { id: 'contact', label: '✉ Contact',   href: 'https://x.com/KrakWatch' },
 ];
 
 export default function Nav({ activeTab, onTabChange }) {

@@ -127,3 +127,37 @@ h1, h2, h3, h4 {
   line-height: 1;
   letter-spacing: 0.01em;
 }
+
+/* Permanent Blackbeard body text — previously injected via worker; now lives in source */
+p.text-base,
+p.text-base.sm\:text-lg {
+  font-family: "Blackbeard", "Trade Winds", Georgia, serif;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  text-align: left;
+}
+
+/* Ink L2 CSS classes */
+.ink-hero { padding: 2rem 1.5rem 1rem; text-align: center; }
+.ink-hero-inner { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+.ink-seal { width: 90px; height: 90px; object-fit: contain; }
+.ink-title { font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; color: hsl(28 40% 14%); letter-spacing: 0.02em; margin: 0; }
+.ink-sub { font-family: var(--font-serif); font-size: 0.875rem; color: hsl(28 40% 14%); opacity: 0.7; margin: 0; }
+.ink-metrics { padding: 1rem 1.5rem 2rem; }
+.ink-metrics-inner { max-width: 900px; margin: 0 auto; }
+.ink-stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.ink-stat { background: hsl(38 40% 90%); border: 2px solid hsl(33 35% 60%); border-radius: 0.75rem; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.ink-stat-value { font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; color: hsl(350 55% 32%); }
+.ink-stat-label { font-family: var(--font-display); font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: hsl(30 20% 38%); }
+.ink-stat-src { font-family: var(--font-serif); font-size: 0.625rem; color: hsl(30 20% 38%); font-style: italic; }
+.ink-updated { font-size: 0.625rem; color: hsl(30 20% 38%); text-align: center; margin-top: 0.75rem; }
+
+/* Payward CSS classes */
+.payward-hero { padding: 2rem 1.5rem 1rem; text-align: center; }
+.payward-hero-inner { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+.payward-seal { width: 90px; height: 90px; object-fit: contain; }
+.payward-title { font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; color: hsl(28 40% 14%); letter-spacing: 0.02em; margin: 0; }
+.payward-sub { font-family: var(--font-serif); font-size: 0.875rem; color: hsl(28 40% 14%); opacity: 0.7; margin: 0; }
+.payward-content { padding: 1rem 1.5rem 2rem; }
+.payward-content-inner { max-width: 900px; margin: 0 auto; }
+.payward-placeholder { font-family: var(--font-serif); color: hsl(28 40% 14%); }

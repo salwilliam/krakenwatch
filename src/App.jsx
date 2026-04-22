@@ -4,13 +4,14 @@ import Nav from './components/Nav';
 import Footer from './components/Footer';
 import KrakenMap from './pages/KrakenMap';
 import InkMarkets from './pages/InkMarkets';
+import Payward from './pages/Payward';
 import AlphaBriefs from './pages/AlphaBriefs';
 import About from './pages/About';
 
 function getTabFromPath(path) {
   if (path === '/ink') return 'ink';
-  if (path === '/kraken') return 'kraken';
-  if (path === '/payward') return 'kraken';
+  if (path === '/kraken' || path === '/') return 'kraken';
+  if (path === '/payward') return 'payward';
   if (path === '/alpha-briefs') return 'alpha';
   if (path === '/about') return 'about';
   return 'kraken';
@@ -27,18 +28,19 @@ export default function App() {
 
   const handleNav = (tab) => {
     setActiveTab(tab);
-    const urls = { kraken: '/', ink: '/ink', alpha: '/alpha-briefs', about: '/about' };
+    const urls = { kraken: '/', ink: '/ink', payward: '/payward', alpha: '/alpha-briefs', about: '/about' };
     const url = urls[tab] || '/';
     window.history.pushState({}, '', url);
   };
 
   const renderTab = () => {
     switch (activeTab) {
-      case 'kraken': return <KrakenMap onNav={handleNav} />;
-      case 'ink':    return <InkMarkets onNav={handleNav} />;
-      case 'alpha':  return <AlphaBriefs />;
-      case 'about':  return <About />;
-      default:       return <KrakenMap onNav={handleNav} />;
+      case 'kraken':  return <KrakenMap onNav={handleNav} />;
+      case 'ink':     return <InkMarkets onNav={handleNav} />;
+      case 'payward': return <Payward />;
+      case 'alpha':   return <AlphaBriefs />;
+      case 'about':   return <About />;
+      default:        return <KrakenMap onNav={handleNav} />;
     }
   };
 
