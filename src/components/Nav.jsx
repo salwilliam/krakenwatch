@@ -3,8 +3,9 @@ const tabs = [
   { id: 'ink',       label: 'Ink' },
   { id: 'corporate', label: 'Payward' },
   { id: 'alpha',     label: 'Briefs' },
-  { id: 'about',     label: 'About' },
-  { id: 'contact',   label: '✉ Contact', href: 'https://x.com/KrakWatch' },
+  { id: 'about',        label: 'About' },
+  { id: 'experimental', label: '⚗ Experimental' },
+  { id: 'contact',      label: '✉ Contact', href: 'https://x.com/KrakWatch' },
 ];
 
 export default function Nav({ activeTab, onTabChange }) {
