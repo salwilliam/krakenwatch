@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-04-23T16:36:17.534Z",
+  "updated_at": "2026-04-23T16:40:09.526Z",
   "updated_display": "April 23, 2026",
   "ink": {
     "tvl_millions": 287.1,
     "protocol_count": 26
   },
   "ipo": {
-    "polymarket_pct": 76,
+    "polymarket_pct": 75.5,
     "kalshi_pct": 66,
-    "avg_pct": 69.1
+    "avg_pct": 68.5
   },
   "secondary_market": {
     "hiive_pps": 34.79,
@@ -23,8 +23,8 @@
   "prediction_markets": {
     "ipo": {
       "kalshi_pct": 66,
-      "polymarket_pct": 76,
-      "mktcap_16b_pct": 71.5,
+      "polymarket_pct": 75.5,
+      "mktcap_16b_pct": 71,
       "largest_excl_spacex_pct": 4.8
     },
     "underwriters": [
@@ -59,10 +59,10 @@
       "crypto_structure_aug_pct": 34.5
     },
     "ink_fdv": {
-      "above_250m_pct": 83,
-      "above_500m_pct": 66,
+      "above_250m_pct": 83.5,
+      "above_500m_pct": 66.5,
       "above_1b_pct": 53.5,
-      "above_2b_pct": 17
+      "above_2b_pct": 19.5
     }
   }
 }
