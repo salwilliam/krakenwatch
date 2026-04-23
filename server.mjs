@@ -72,7 +72,7 @@ const server = createServer((req, res) => {
     const isHashedAsset = pathname.startsWith("/assets/");
     const cc = isHashedAsset
       ? "public, max-age=31536000, immutable"
-      : "no-store, no-cache, must-revalidate";
+      : "no-store, no-cache, must-revalidate, max-age=0";
     res.writeHead(200, { "Content-Type": ct, "Cache-Control": cc });
     createReadStream(filePath).pipe(res);
     return;
@@ -80,7 +80,7 @@ const server = createServer((req, res) => {
 
   // SPA fallback — always read index.html fresh (never cached)
   const html = readFileSync(join(STATIC, "index.html"));
-  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store, no-cache, must-revalidate" });
+  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0" });
   res.end(html);
 });
 
