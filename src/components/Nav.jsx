@@ -57,9 +57,8 @@ const tabs = [
   { id: 'ink',          label: 'Ink',           Icon: IconInk },
   { id: 'corporate',    label: 'Payward',       Icon: IconPayward },
   { id: 'alpha',        label: 'Briefs',        Icon: IconBriefs },
-  { id: 'about',        label: 'About',         Icon: IconAbout },
   { id: 'experimental', label: 'Experimental',  Icon: IconExperimental },
-  { id: 'contact',      label: 'Contact',       Icon: IconContact, href: 'https://x.com/KrakWatch' },
+  { id: 'about',        label: 'About',         Icon: IconAbout },
 ];
 
 export default function Nav({ activeTab, onTabChange }) {
@@ -126,7 +125,7 @@ export default function Nav({ activeTab, onTabChange }) {
               <polyline points="15 3 21 3 21 9"/>
               <line x1="10" y1="14" x2="21" y2="3"/>
             </svg>
-            <span className="hidden sm:inline">Spreads Terminal</span>
+            <span className="hidden sm:inline">Trade</span>
           </a>
         </div>
       </div>

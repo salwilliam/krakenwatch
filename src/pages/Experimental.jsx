@@ -88,6 +88,10 @@ export default function Experimental() {
 
       <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">
 
+        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
+          <img src="/experimental-hero.png" alt="Experimental staging area" className="w-full object-cover" />
+        </div>
+
         <div className="text-center flex flex-col items-center gap-2 pt-2">
           <span className="text-[10px] font-semibold uppercase tracking-widest px-3 py-1 rounded-full"
             style={{ background: 'hsl(33 28% 82%)', color: ut, border: '1px solid hsl(33 25% 70%)', fontFamily: 'var(--font-display)' }}>
