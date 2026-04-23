@@ -1,32 +1,31 @@
 {
-  "updated_at": "2026-04-22T15:24:19.662Z",
-  "updated_display": "April 22, 2026",
+  "updated_at": "2026-04-23T16:40:09.526Z",
+  "updated_display": "April 23, 2026",
   "ink": {
-    "tvl_millions": 295.4,
+    "tvl_millions": 287.1,
     "protocol_count": 26
   },
   "ipo": {
-    "polymarket_pct": 60.5,
+    "polymarket_pct": 75.5,
     "kalshi_pct": 66,
-    "avg_pct": 65.5
+    "avg_pct": 68.5
   },
   "secondary_market": {
-    "hiive_pps": 31.83,
-    "forge_pps": 32.88,
+    "hiive_pps": 34.79,
+    "forge_pps": 33.25,
     "npm_pps": 37.69,
-    "notice_pps": 49.01,
-    "avg_pps": 34.53,
+    "notice_pps": 48.49,
+    "avg_pps": 36.01,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
-    "updated": "April 22, 2026"
+    "updated": "April 23, 2026"
   },
   "prediction_markets": {
     "ipo": {
       "kalshi_pct": 66,
-      "polymarket_pct": 66,
-      "mktcap_16b_pct": 42,
-      "largest_excl_spacex_pct": 4.3,
-      "spacex_note": "Calculated: Kraken 0.45% / (1 - SpaceX 89.5%) — source: Polymarket largest IPO 2026 event"
+      "polymarket_pct": 75.5,
+      "mktcap_16b_pct": 71,
+      "largest_excl_spacex_pct": 4.8
     },
     "underwriters": [
       {
@@ -37,16 +36,16 @@
       {
         "bank": "Morgan Stanley",
         "ticker": "MS",
-        "pct": 63.5
-      },
-      {
-        "bank": "Citigroup",
-        "ticker": "CITI",
-        "pct": 59.5
+        "pct": 63
       },
       {
         "bank": "JPMorgan Chase",
         "ticker": "JPM",
+        "pct": 59
+      },
+      {
+        "bank": "Citigroup",
+        "ticker": "CITI",
         "pct": 59
       },
       {
@@ -56,13 +55,14 @@
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 40,
-      "crypto_structure_aug_pct": 42.5
+      "clarity_act_pct": 42.5,
+      "crypto_structure_aug_pct": 34.5
     },
     "ink_fdv": {
-      "above_500m_pct": 66,
-      "above_1b_pct": 51,
-      "above_2b_pct": 11.5
+      "above_250m_pct": 83.5,
+      "above_500m_pct": 66.5,
+      "above_1b_pct": 53.5,
+      "above_2b_pct": 19.5
     }
   }
 }

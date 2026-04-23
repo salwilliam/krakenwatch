@@ -6,7 +6,7 @@ import { request as httpRequest } from "node:http";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const PORT = Number(process.env.PORT) || 19288;
-const STATIC = join(__dirname, "static");
+const STATIC = join(__dirname, "dist");
 const API_PORT = 8080;
 
 const MIME = {

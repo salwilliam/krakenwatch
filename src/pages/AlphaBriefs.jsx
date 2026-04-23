@@ -3,6 +3,27 @@ import { Helmet } from 'react-helmet-async';
 
 const briefs = [
   {
+    id: 8,
+    title: `Ink Alpha: Mantic Is Bringing Prediction Markets Onchain`,
+    date: `Apr 23, 2026`,
+    headerImage: `/brief-mantic-header.png`,
+    summary: `Mantic is a beta stage prediction market project built on Ink. Its site and docs frame it as an open protocol now in testnet, with a roadmap that moves from simulation ➜ token launch ➜ mainnet market launch ➜ broader ecosystem expansion.
+
+What Stands Out
+• This looks bigger than a single app. Mantic's docs say devs can build analytics tools, dashboards, custom interfaces, discovery tools, and integrations on top of its market data.
+• It sits inside the Kraken and Ink orbit. The site says Built on Ink Network and shows Kraken, Ink Blockchain, and Chainlink in its trusted by section.
+• The flashy activity numbers on the landing page should be treated carefully for now, because the same site also says Mantic is in testnet.
+
+Actionable Insight
+The real signal is not beta hype. It is whether Mantic makes it to mainnet and becomes a reusable data and engagement layer for Ink. If that happens, it would help push Ink beyond swaps and xStocks into a broader consumer app stack.
+
+ACTION → Put Mantic on watch for 4 things: mainnet launch, token details, security disclosures, and verifiable live usage after launch. Until then, it's an interesting experiment, not a confirmed ecosystem catalyst.
+
+— @KrakWatch`,
+    url: `https://x.com/KrakWatch/status/2047374321241202937`,
+    tag: `Ink Ecosystem · DeFi`,
+  },
+  {
     id: 7,
     title: `Alpha Brief: Payward Acquires Bitnomial for $550M — Clearing the CFTC Trifecta`,
     date: `Apr 23, 2026`,
@@ -129,6 +150,11 @@ function BriefCard({ brief }) {
   return (
     <div className="parchment-card rounded-lg overflow-hidden" data-testid={`brief-${brief.id}`}>
       <div className="h-[3px]" style={{ background: 'hsl(350 50% 32%)' }} />
+      {brief.headerImage && (
+        <div className="overflow-hidden" style={{ maxHeight: '220px' }}>
+          <img src={brief.headerImage} alt="" className="w-full object-cover object-center" style={{ maxHeight: '220px' }} />
+        </div>
+      )}
       <div className="p-5">
         <div className="flex items-center justify-between gap-3 mb-3">
           <span className="text-[10px] font-semibold px-2 py-0.5 rounded"
