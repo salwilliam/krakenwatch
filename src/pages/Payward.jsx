@@ -356,7 +356,7 @@ export default function Payward() {
 
       <div className="p-4 sm:p-6 space-y-6 w-full max-w-[960px] mx-auto">
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
-          <img src="/payward-kraken-seal.png" alt="Payward" className="w-16 h-16 object-contain" />
+          <img src="/payward-kraken-seal.png" alt="Payward" className="object-contain" style={{ width: '100px', height: '100px' }} />
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
             Payward
           </h1>

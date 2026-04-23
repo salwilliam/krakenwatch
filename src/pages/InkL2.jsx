@@ -140,7 +140,7 @@ export default function InkL2() {
 
       <div className="p-6 space-y-6 max-w-[900px] mx-auto">
         <div className="flex justify-center">
-          <img src="/stamp-binnacle.png" alt="Ink" className="object-contain" style={{ width: 110, height: 110 }} />
+          <img src="/stamp-binnacle.png" alt="Ink" className="object-contain" style={{ width: '100px', height: '100px' }} />
         </div>
 
         <SectionCard
