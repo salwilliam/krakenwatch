@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useSiteData } from '../hooks/useSiteData';
 
 const qp = 'hsl(28 40% 14%)';
 const ut = 'hsl(30 20% 38%)';
@@ -7,6 +8,10 @@ const on = 'hsl(350 55% 32%)';
 const cardBg = 'hsl(38 40% 90%)';
 const cardBorder = 'hsl(33 35% 60%)';
 const sectionBg = 'hsl(33 28% 82%)';
+
+const darkHeaderBg = 'hsl(30 30% 24%)';
+const darkHeaderBorder = 'hsl(30 25% 32%)';
+const darkHeaderText = 'hsl(38 50% 78%)';
 
 const boardMembers = [
   { name: 'Jesse Powell', role: 'Co-Founder & Chairman' },
@@ -94,10 +99,144 @@ const acquisitions = [
   { year: '2026', name: 'Breakout', detail: 'Prop trading platform', value: '', major: false },
 ];
 
+const mktCapBars = [
+  { label: '$16B', pct: 38, note: 'floor' },
+  { label: '$18B', pct: 31, note: '' },
+  { label: '$20B', pct: 29, note: '' },
+  { label: '$22B', pct: 24, note: '' },
+  { label: '$24B+', pct: 25, note: 'bull' },
+];
+
+const priceSourceRows = [
+  { key: 'hiive', label: 'Hiive', href: 'https://www.hiive.com/securities/kraken-stock', field: 'hiive_pps', note: 'weighted avg' },
+  { key: 'forge', label: 'Forge Global', href: 'https://forgeglobal.com/kraken_stock/', field: 'forge_pps', note: 'Forge Price™' },
+  { key: 'npm', label: 'Nasdaq Private Mkt', href: 'https://www.nasdaqprivatemarket.com/company/kraken/', field: 'npm_pps', note: 'Tape D™' },
+  { key: 'notice', label: 'Notice', href: 'https://notice.co/c/kraken', field: 'notice_pps', note: 'algorithmic' },
+];
+
+function DataModuleCard({ title, icon, children }) {
+  return (
+    <div className="rounded-lg overflow-hidden w-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+      <div className="px-5 py-3 flex items-center gap-3" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
+        <span className="shrink-0" style={{ color: 'hsl(38 55% 72%)' }}>{icon}</span>
+        <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>{title}</span>
+      </div>
+      <div className="p-5">{children}</div>
+    </div>
+  );
+}
+
+function IpoForecastModule({ ipo }) {
+  const avg = ipo?.avg_pct;
+  const poly = ipo?.polymarket_pct;
+  const kalshi = ipo?.kalshi_pct;
+  return (
+    <DataModuleCard title="IPO Forecast" icon={
+      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
+      </svg>
+    }>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>IPO by Dec 31 2026</p>
+          <p className="text-5xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
+            {avg == null ? '—' : `${avg}%`}
+          </p>
+          <p className="text-[11px] mt-1.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>avg. implied probability</p>
+          <div className="mt-4 space-y-2">
+            <div className="flex items-center justify-between gap-3">
+              <a href="https://polymarket.com/event/kraken-ipo-in-2025" target="_blank" rel="noopener noreferrer"
+                className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>Polymarket</a>
+              <span className="text-sm font-bold tabular-nums" style={{ color: on }}>{poly == null ? '—' : `${poly}%`}</span>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <a href="https://kalshi.com/markets/kxipo/ipos/kxipo-26" target="_blank" rel="noopener noreferrer"
+                className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>Kalshi</a>
+              <span className="text-sm font-bold tabular-nums" style={{ color: on }}>{kalshi == null ? '—' : `${kalshi}%`}</span>
+            </div>
+          </div>
+          <p className="text-[10px] mt-3" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Mid-market prices · updated daily</p>
+        </div>
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: ut }}>Likely Market Cap at Listing</p>
+          <div className="space-y-1.5">
+            {mktCapBars.map(({ label, pct, note }) => (
+              <div key={label} className="flex items-center gap-3">
+                <span className="text-xs font-mono w-12 shrink-0 text-right" style={{ color: ut }}>{label}</span>
+                <div className="flex-1 rounded-full overflow-hidden h-2" style={{ background: 'hsl(33 25% 76%)' }}>
+                  <div className="h-2 rounded-full" style={{ width: `${pct}%`, background: `hsl(350 ${40 + pct / 3}% ${45 - pct / 5}%)` }} />
+                </div>
+                <span className="text-xs tabular-nums font-semibold w-8 shrink-0" style={{ color: on }}>{pct}%</span>
+                {note && <span className="text-[10px] hidden sm:inline" style={{ color: ut, fontStyle: 'italic' }}>{note}</span>}
+              </div>
+            ))}
+          </div>
+          <p className="text-[10px] mt-2" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Polymarket market cap data · ~$20B current private valuation</p>
+        </div>
+      </div>
+    </DataModuleCard>
+  );
+}
+
+function SecondaryMarketModule({ sm }) {
+  return (
+    <DataModuleCard title="Private Market Share Price" icon={
+      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+    }>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Secondary Market Fair Value</p>
+          <p className="text-5xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
+            {sm?.avg_pps == null ? '—' : `$${sm.avg_pps.toFixed(2)}`}
+          </p>
+          <p className="text-[11px] mt-1.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>avg. across 4 secondary venues</p>
+          <div className="mt-3 space-y-1">
+            <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Est. 30D Volume</p>
+            <p className="text-2xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: on }}>
+              {sm?.volume_30d_est_m == null ? '—' : `~$${sm.volume_30d_est_m}M`}
+            </p>
+            <p className="text-[11px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+              {sm?.volume_note || 'Est. 30D secondary volume'}
+            </p>
+          </div>
+          <p className="text-[10px] mt-3" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Snapshot · updated daily · not financial advice</p>
+        </div>
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: ut }}>Price by Source</p>
+          <div className="space-y-2">
+            {priceSourceRows.map(({ key, label, href, field, note }) => {
+              const val = sm?.[field];
+              return (
+                <div key={key} className="flex items-center justify-between gap-2">
+                  <div className="flex flex-col">
+                    <a href={href} target="_blank" rel="noopener noreferrer"
+                      className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>{label}</a>
+                    <span className="text-[10px]" style={{ color: ut, fontStyle: 'italic' }}>{note}</span>
+                  </div>
+                  <span className="text-sm font-bold tabular-nums" style={{ color: on }}>
+                    {val == null ? '—' : `$${val.toFixed(2)}`}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-3 pt-2" style={{ borderTop: '1px solid hsl(33 30% 72%)' }}>
+            <p className="text-[10px]" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+              Prices are indicative secondary market data, not official valuations. Volume is estimated from platform activity data and public disclosures.
+            </p>
+          </div>
+        </div>
+      </div>
+    </DataModuleCard>
+  );
+}
+
 function RegionBlock({ region }) {
   const [open, setOpen] = useState(true);
   return (
-    <div className="rounded-lg overflow-hidden" style={{ border: `1px solid ${cardBorder}`, background: cardBg }}>
+    <div className="rounded-lg overflow-hidden w-full" style={{ border: `1px solid ${cardBorder}`, background: cardBg }}>
       <button onClick={() => setOpen(!open)}
         className="w-full flex items-center gap-3 p-3 text-left transition-colors"
         data-testid={`region-toggle-${region.region.toLowerCase().replace(/\s/g, '-')}`}>
@@ -149,7 +288,7 @@ function AcquisitionTimeline() {
   const mutedColor = 'hsl(30 20% 40%)';
   return (
     <div className="overflow-x-auto pb-2">
-      <div className="relative min-w-[700px]">
+      <div className="relative" style={{ minWidth: '700px' }}>
         <div className="absolute top-5 left-0 right-0 h-[1.5px]"
           style={{ background: `linear-gradient(to right, transparent, ${accentColor}, hsl(25 55% 38%), transparent)` }} />
         <div className="flex justify-between items-start px-4">
@@ -192,8 +331,8 @@ function AcquisitionTimeline() {
 
 function SectionCard({ title, icon, children }) {
   return (
-    <div className="rounded-xl overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
-      <div className="px-4 py-3 flex items-center gap-2" style={{ background: sectionBg, borderBottom: `1px solid ${cardBorder}` }}>
+    <div className="rounded-xl w-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg, overflow: 'visible' }}>
+      <div className="px-4 py-3 flex items-center gap-2 rounded-t-xl" style={{ background: sectionBg, borderBottom: `1px solid ${cardBorder}` }}>
         <span className="text-sm" style={{ color: ut }}>{icon}</span>
         <span className="text-sm font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>{title}</span>
       </div>
@@ -203,6 +342,10 @@ function SectionCard({ title, icon, children }) {
 }
 
 export default function Payward() {
+  const { data } = useSiteData();
+  const ipo = data?.ipo;
+  const sm = data?.secondary_market;
+
   return (
     <>
       <Helmet>
@@ -211,7 +354,7 @@ export default function Payward() {
         <link rel="canonical" href="https://krakenwatch.com/payward" />
       </Helmet>
 
-      <div className="p-4 sm:p-6 space-y-6 max-w-[960px] mx-auto">
+      <div className="p-4 sm:p-6 space-y-6 w-full max-w-[960px] mx-auto">
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
           <img src="/payward-kraken-seal.png" alt="Payward" className="w-16 h-16 object-contain" />
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
@@ -221,6 +364,9 @@ export default function Payward() {
             Corporate structure, entities & regulatory footprint
           </p>
         </div>
+
+        <IpoForecastModule ipo={ipo} />
+        <SecondaryMarketModule sm={sm} />
 
         <SectionCard title="Board of Directors" icon="⚓">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
