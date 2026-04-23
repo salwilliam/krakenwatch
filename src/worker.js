@@ -8,7 +8,7 @@ export default {
     if (url.pathname === '/site-data.json') {
       return new Response(JSON.stringify(EMBEDDED_SITE_DATA), {
         status: 200,
-        headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=3600' },
+        headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=300, stale-while-revalidate=60' },
       });
     }
 
