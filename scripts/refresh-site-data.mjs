@@ -645,12 +645,13 @@ async function main() {
       /^const EMBEDDED_SITE_DATA = \{[\s\S]*?\};/m,
       `const EMBEDDED_SITE_DATA = ${JSON.stringify(updated)};`,
     );
-    if (newWorkerSrc !== workerSrc) {
-      await writeFile(WORKER_PATH, newWorkerSrc);
-      console.log('Updated EMBEDDED_SITE_DATA in src/worker.js');
+    if (newWorkerSrc === workerSrc) {
+      throw new Error('Could not locate EMBEDDED_SITE_DATA block in src/worker.js');
     }
+    await writeFile(WORKER_PATH, newWorkerSrc);
+    console.log('Updated EMBEDDED_SITE_DATA in src/worker.js');
   } catch (err) {
-    console.warn('Could not update src/worker.js:', err.message);
+    throw err;
   }
 }
 
