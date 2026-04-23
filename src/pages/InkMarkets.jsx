@@ -44,7 +44,7 @@ export default function InkMarkets({ onNav }) {
         </div>
         <div className="text-center flex flex-col items-center gap-1">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
-            Ink <span className="fancy-accent">Markets</span>
+            Ink Markets
           </h1>
           <p className="text-sm" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.7 }}>
             Kraken's OP Stack L2 · live metrics

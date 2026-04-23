@@ -72,7 +72,7 @@ export default function KrakenMap({ onNav }) {
         </div>
         <div className="text-center flex flex-col items-center gap-1">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
-            Starboard <span className="fancy-accent">ho!</span>
+            Starboard ho!
           </h1>
           <p className="text-sm" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.7 }}>
             Live data · updated daily
