@@ -104,6 +104,12 @@ export default function Experimental() {
             <span className="px-2 py-0.5 rounded" style={{ background: 'hsl(220 35% 88%)', color: 'hsl(220 40% 35%)' }}>Kraken Map</span>
             <span className="px-2 py-0.5 rounded" style={{ background: 'hsl(160 30% 85%)', color: 'hsl(160 40% 28%)' }}>Ink Markets</span>
           </div>
+          <p className="text-sm mt-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>
+            Yar!{' '}
+            <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer"
+              className="underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
+              style={{ color: on }}>Request a feature.</a>
+          </p>
         </div>
 
         {/* ── MODULE 1 ── */}
