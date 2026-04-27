@@ -15,11 +15,11 @@ function BriefCard({ brief }) {
       <div className="h-[3px]" style={{ background: 'hsl(350 50% 32%)' }} />
       {brief.image && (
         <div
-          className="overflow-hidden cursor-pointer"
-          style={{ maxHeight: '220px' }}
+          className="overflow-hidden cursor-pointer w-full"
+          style={{ aspectRatio: '1920 / 368' }}
           onClick={() => navigate(`/blog/${brief.slug}`)}
         >
-          <img src={brief.image} alt="" className="w-full object-cover object-center" style={{ maxHeight: '220px' }} />
+          <img src={brief.image} alt="" className="w-full h-full object-cover object-center" />
         </div>
       )}
       <div className="p-5">
