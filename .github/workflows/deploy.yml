@@ -74,6 +74,9 @@ jobs:
           PROD_HOST="https://krakenwatch.com"
           WORKER_HOST="https://wispy-sun-811e.krakenwatch.workers.dev"
 
+          echo "unknown" > /tmp/smoke_current_route
+          trap 'cp /tmp/smoke_current_route /tmp/smoke_failed_route 2>/dev/null || true' ERR
+
           extract_signature() {
             local url="$1"
             local html title js css
@@ -89,6 +92,7 @@ jobs:
 
           check_route() {
             local route="$1"
+            echo "$route" > /tmp/smoke_current_route
             local prod_url="${PROD_HOST}${route}"
             local worker_url="${WORKER_HOST}${route}"
             local prod_status worker_status prod_sig worker_sig
@@ -114,6 +118,7 @@ jobs:
             echo "Signature mismatch on ${route}"
             echo "  production: ${prod_sig}"
             echo "  worker:     ${worker_sig}"
+            echo "${route}" > /tmp/smoke_failed_route
             exit 1
           }
 
@@ -137,3 +142,36 @@ jobs:
             echo "ERROR: No blog post files found in src/content/briefs/ — check the repository layout"
             exit 1
           fi
+
+      - name: Notify Slack on smoke-test failure
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
+            echo "SLACK_WEBHOOK_URL secret is not set — skipping Slack notification"
+            exit 0
+          fi
+
+          if [ -f /tmp/smoke_failed_route ]; then
+            FAILED_ROUTE="$(cat /tmp/smoke_failed_route)"
+            MESSAGE=":rotating_light: *Smoke-test failed* on route \`${FAILED_ROUTE}\`"
+          else
+            MESSAGE=":rotating_light: *Smoke-test failed* (route could not be determined)"
+          fi
+
+          curl -fsSL -X POST "${SLACK_WEBHOOK_URL}" \
+            -H 'Content-Type: application/json' \
+            -d "{
+              \"text\": \"${MESSAGE}\",
+              \"blocks\": [
+                {
+                  \"type\": \"section\",
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"${MESSAGE}\n<${RUN_URL}|View failed run>\"
+                  }
+                }
+              ]
+            }"
