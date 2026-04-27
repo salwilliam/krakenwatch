@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-04-27T16:15:04.624Z",
+  "updated_at": "2026-04-27T19:28:06.154Z",
   "updated_display": "April 27, 2026",
   "ink": {
-    "tvl_millions": 293.7,
+    "tvl_millions": 291.9,
     "protocol_count": 26
   },
   "ipo": {
-    "polymarket_pct": 73,
+    "polymarket_pct": 74,
     "kalshi_pct": 64.5,
-    "avg_pct": 69.8
+    "avg_pct": 70.6
   },
   "secondary_market": {
     "hiive_pps": 34.44,
@@ -23,9 +23,9 @@
   "prediction_markets": {
     "ipo": {
       "kalshi_pct": 64.5,
-      "polymarket_pct": 73,
+      "polymarket_pct": 74,
       "mktcap_16b_pct": 62,
-      "largest_excl_spacex_pct": 4.3
+      "largest_excl_spacex_pct": 5.2
     },
     "underwriters": [
       {
@@ -36,7 +36,7 @@
       {
         "bank": "Morgan Stanley",
         "ticker": "MS",
-        "pct": 62
+        "pct": 62.5
       },
       {
         "bank": "Citigroup",
@@ -56,7 +56,7 @@
     ],
     "regulatory": {
       "clarity_act_pct": 46.5,
-      "crypto_structure_aug_pct": 31
+      "crypto_structure_aug_pct": 37.5
     },
     "ink_fdv": {
       "above_250m_pct": 83,
