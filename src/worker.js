@@ -12,6 +12,13 @@ export default {
       });
     }
 
+    // SPA fallback: serve index.html for all non-file paths so client-side routing works
+    const isFile = /\.[a-zA-Z0-9]+$/.test(url.pathname);
+    if (!isFile) {
+      const indexUrl = new URL('/', url);
+      return env.ASSETS.fetch(new Request(indexUrl, request));
+    }
+
     return env.ASSETS.fetch(request);
   },
 };

@@ -56,7 +56,7 @@ const tabs = [
   { id: 'home',         label: 'Home',         Icon: IconHome },
   { id: 'ink',          label: 'Ink',           Icon: IconInk },
   { id: 'corporate',    label: 'Payward',       Icon: IconPayward },
-  { id: 'alpha',        label: 'Alpha',         Icon: IconBriefs },
+  { id: 'blog',         label: 'Blog',          Icon: IconBriefs },
   { id: 'experimental', label: 'Experimental',  Icon: IconExperimental },
   { id: 'about',        label: 'About',         Icon: IconAbout },
 ];
