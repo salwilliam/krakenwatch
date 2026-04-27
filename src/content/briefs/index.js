@@ -1,3 +1,4 @@
+import artemis from './artemis-kraken-ink-advantage.js';
 import mantic from './ink-alpha-mantic-prediction-markets.js';
 import bitnomial from './kraken-bitnomial-cftc-stack.js';
 import nado from './nadohq-docs-ai-agent-mcp.js';
@@ -8,6 +9,7 @@ import agenticPb from './agentic-prime-brokerage-ink.js';
 import mooreCfo from './payward-appoints-robert-moore-cfo.js';
 
 const briefs = [
+  artemis,
   mantic,
   bitnomial,
   nado,
