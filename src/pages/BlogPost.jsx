@@ -45,7 +45,7 @@ export default function BlogPost() {
           <div className="h-[3px]" style={{ background: 'hsl(350 50% 32%)' }} />
 
           {brief.image && (
-            <div className="overflow-hidden w-full" style={{ aspectRatio: '1200 / 675' }}>
+            <div className="overflow-hidden w-full" style={{ aspectRatio: '2048 / 819' }}>
               <img src={brief.image} alt="" className="w-full h-full object-cover object-center" />
             </div>
           )}
