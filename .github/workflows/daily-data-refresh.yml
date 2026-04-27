@@ -53,6 +53,32 @@ jobs:
           git commit -m "chore(data): daily refresh site-data"
           git push origin HEAD:main
 
+      - name: Close staleness alert on recovery
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          LABEL="data-refresh-failure"
+
+          # Find any open issue with this label.
+          EXISTING="$(gh issue list \
+            --label "$LABEL" \
+            --state open \
+            --limit 1 \
+            --json number \
+            --jq '.[0].number // empty' \
+            --repo "$GITHUB_REPOSITORY")"
+
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" \
+              --body "The **Daily Data Refresh** recovered successfully on $(date -u +'%Y-%m-%d %H:%M UTC'). Closing this issue automatically. [View run]($RUN_URL)" \
+              --repo "$GITHUB_REPOSITORY"
+            gh issue close "$EXISTING" \
+              --repo "$GITHUB_REPOSITORY"
+          fi
+
       - name: Notify on failure
         if: failure()
         env:
