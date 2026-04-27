@@ -4,7 +4,9 @@ const TEXT = 'Derived from multiple market data sources using Kraken Watch\u2019
 
 export default function MethodologyTooltip() {
   const [open, setOpen] = useState(false);
+  const [offset, setOffset] = useState(0);
   const ref = useRef(null);
+  const tipRef = useRef(null);
 
   useEffect(() => {
     if (!open) return;
@@ -17,6 +19,20 @@ export default function MethodologyTooltip() {
       document.removeEventListener('mousedown', handle);
       document.removeEventListener('touchstart', handle);
     };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open || !tipRef.current) return;
+    const rect = tipRef.current.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const margin = 8;
+    if (rect.left < margin) {
+      setOffset(margin - rect.left);
+    } else if (rect.right > vw - margin) {
+      setOffset(vw - margin - rect.right);
+    } else {
+      setOffset(0);
+    }
   }, [open]);
 
   return (
@@ -43,14 +59,15 @@ export default function MethodologyTooltip() {
       </button>
       {open && (
         <span
+          ref={tipRef}
           role="tooltip"
           style={{
             position: 'absolute',
             bottom: '100%',
             left: '50%',
-            transform: 'translateX(-50%)',
+            transform: `translateX(calc(-50% + ${offset}px))`,
             marginBottom: '5px',
-            width: '200px',
+            width: 'min(200px, calc(100vw - 16px))',
             background: 'hsl(28 40% 14%)',
             color: 'hsl(38 50% 82%)',
             fontSize: '0.65rem',
