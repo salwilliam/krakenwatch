@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useSiteData } from '../hooks/useSiteData';
+import MethodologyTooltip from '../components/MethodologyTooltip';
 
 const qp = 'hsl(28 40% 14%)';
 const ut = 'hsl(30 20% 38%)';
@@ -138,7 +139,7 @@ function IpoForecastModule({ ipo }) {
     }>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>IPO by Dec 31 2026</p>
+          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>IPO by Dec 31 2026<MethodologyTooltip /></p>
           <p className="text-5xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
             {avg == null ? '—' : `${avg}%`}
           </p>
@@ -187,13 +188,13 @@ function SecondaryMarketModule({ sm }) {
     }>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Secondary Market Fair Value</p>
+          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Secondary Market Fair Value<MethodologyTooltip /></p>
           <p className="text-5xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
             {sm?.avg_pps == null ? '—' : `$${sm.avg_pps.toFixed(2)}`}
           </p>
           <p className="text-[11px] mt-1.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>avg. across 4 secondary venues</p>
           <div className="mt-3 space-y-1">
-            <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Est. 30D Volume</p>
+            <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Est. 30D Volume<MethodologyTooltip /></p>
             <p className="text-2xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: on }}>
               {sm?.volume_30d_est_m == null ? '—' : `~$${sm.volume_30d_est_m}M`}
             </p>

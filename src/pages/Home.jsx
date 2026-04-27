@@ -1,4 +1,5 @@
 import { useSiteData } from '../hooks/useSiteData';
+import MethodologyTooltip from '../components/MethodologyTooltip';
 
 // Exact color constants from the live bundle
 const qp = 'hsl(28 40% 14%)';   // foreground dark brown
@@ -17,7 +18,7 @@ function Footer({ extra }) {
         ↻ Updated daily · {updated}
       </span>
       {extra && <>{extra} · </>}
-      Kraken Watch is independent research, not affiliated with Kraken or Payward
+      Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from multiple market data sources using Kraken Watch&apos;s proprietary methodology.
     </p>
   );
 }
@@ -53,14 +54,14 @@ export default function Home({ onNav }) {
       {/* 2×2 / 4-col metric grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'IPO Odds',      value: ipo?.avg_pct != null ? `${ipo.avg_pct}%` : '—',              sub: 'avg. implied · 2026' },
-          { label: 'Share Price',   value: sm?.avg_pps  != null ? `$${sm.avg_pps.toFixed(2)}` : '—',   sub: 'secondary avg · 4 venues' },
+          { label: 'IPO Odds',      value: ipo?.avg_pct != null ? `${ipo.avg_pct}%` : '—',              sub: 'avg. implied · 2026',    tooltip: true },
+          { label: 'Share Price',   value: sm?.avg_pps  != null ? `$${sm.avg_pps.toFixed(2)}` : '—',   sub: 'secondary avg · 4 venues', tooltip: true },
           { label: 'Ink TVL',       value: ink?.tvl_millions != null ? `$${ink.tvl_millions}M` : '—',  sub: 'total value locked' },
           { label: 'Ink Protocols', value: ink?.protocol_count != null ? `${ink.protocol_count}` : '—', sub: 'live on chain' },
-        ].map(({ label, value, sub }) => (
+        ].map(({ label, value, sub, tooltip }) => (
           <div key={label} className="rounded-lg p-4 flex flex-col gap-1" style={cardStyle}>
             <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-display)', color: ut }}>
-              {label}
+              {label}{tooltip && <MethodologyTooltip />}
             </p>
             <p className="text-3xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: on }}>
               {value}
