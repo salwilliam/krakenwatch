@@ -123,4 +123,17 @@ jobs:
           check_route /alpha-briefs
           check_route /about
           check_route /blog
-          check_route /blog/artemis-kraken-ink-advantage
+
+          shopt -s nullglob
+          brief_files=( src/content/briefs/*.js )
+          post_count=0
+          for brief_file in "${brief_files[@]}"; do
+            slug="$(basename "$brief_file" .js)"
+            [ "$slug" = "index" ] && continue
+            check_route "/blog/${slug}"
+            post_count=$((post_count + 1))
+          done
+          if [ "$post_count" -eq 0 ]; then
+            echo "ERROR: No blog post files found in src/content/briefs/ — check the repository layout"
+            exit 1
+          fi
