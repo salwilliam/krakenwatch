@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: krakenwatch-daily-data-refresh
@@ -51,3 +52,46 @@ jobs:
           git add public/site-data.json src/worker.js
           git commit -m "chore(data): daily refresh site-data"
           git push origin HEAD:main
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          TITLE="Daily Data Refresh failed — $(date -u +'%Y-%m-%d')"
+          LABEL="data-refresh-failure"
+
+          # Create the label if it doesn't already exist (idempotent).
+          gh label create "$LABEL" \
+            --description "Automated: daily data refresh workflow failure" \
+            --color "d93f0b" \
+            --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
+
+          # If an open issue with this label already exists, add a comment instead
+          # of opening a duplicate.
+          EXISTING="$(gh issue list \
+            --label "$LABEL" \
+            --state open \
+            --limit 1 \
+            --json number \
+            --jq '.[0].number // empty' \
+            --repo "$GITHUB_REPOSITORY")"
+
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" \
+              --body "Workflow failed again on $(date -u +'%Y-%m-%d %H:%M UTC'). [View run]($RUN_URL)" \
+              --repo "$GITHUB_REPOSITORY"
+          else
+            gh issue create \
+              --title "$TITLE" \
+              --label "$LABEL" \
+              --body "The **Daily Data Refresh** workflow failed. The live site may be serving stale data.
+
+**Run:** $RUN_URL
+**Time:** $(date -u +'%Y-%m-%d %H:%M UTC')
+
+Please investigate and re-run the workflow once the issue is resolved. Close this issue when the refresh is confirmed healthy." \
+              --repo "$GITHUB_REPOSITORY"
+          fi
