@@ -26,8 +26,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # For workflow_run triggers, deploy the exact commit produced by Daily Data Refresh.
-          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+          # For workflow_run triggers, always deploy the tip of main so that any
+          # data commit pushed by Daily Data Refresh is included.  Using
+          # head_sha would check out the commit that *triggered* the refresh,
+          # which predates the fresh-data commit the refresh pushes to main.
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
