@@ -119,3 +119,5 @@ jobs:
           check_route /payward
           check_route /alpha-briefs
           check_route /about
+          check_route /blog
+          check_route /blog/artemis-kraken-ink-advantage
