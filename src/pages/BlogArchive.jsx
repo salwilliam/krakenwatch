@@ -16,7 +16,7 @@ function BriefCard({ brief }) {
       {brief.image && (
         <div
           className="overflow-hidden cursor-pointer w-full"
-          style={{ aspectRatio: '1920 / 368' }}
+          style={{ aspectRatio: '1200 / 675' }}
           onClick={() => navigate(`/blog/${brief.slug}`)}
         >
           <img src={brief.image} alt="" className="w-full h-full object-cover object-center" />
