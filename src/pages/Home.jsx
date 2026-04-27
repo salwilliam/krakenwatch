@@ -18,7 +18,7 @@ function Footer({ extra }) {
         ↻ Updated daily · {updated}
       </span>
       {extra && <>{extra} · </>}
-      Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from multiple market data sources using Kraken Watch&apos;s proprietary methodology.
+      Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from market data using Kraken Watch&apos;s proprietary method.
     </p>
   );
 }

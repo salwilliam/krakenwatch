@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-const TEXT = 'Derived from multiple market data sources using Kraken Watch\u2019s proprietary methodology.';
+const TEXT = 'Derived from market data using Kraken Watch\u2019s proprietary method.';
 
 export default function MethodologyTooltip() {
   const [open, setOpen] = useState(false);
@@ -70,7 +70,7 @@ export default function MethodologyTooltip() {
             width: 'min(200px, calc(100vw - 16px))',
             background: 'hsl(28 40% 14%)',
             color: 'hsl(38 50% 82%)',
-            fontSize: '0.65rem',
+            fontSize: '0.58rem',
             lineHeight: 1.4,
             padding: '6px 8px',
             borderRadius: '5px',

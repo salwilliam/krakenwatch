@@ -146,7 +146,7 @@ export default function InkMarkets({ onNav }) {
             style={{ background: 'hsl(33 28% 82%)', border: '1px solid hsl(33 25% 70%)' }}>
             ↻ Updated daily · {updated}
           </span>
-          Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from multiple market data sources using Kraken Watch&apos;s proprietary methodology.
+          Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from market data using Kraken Watch&apos;s proprietary method.
         </p>
       </div>
     </>

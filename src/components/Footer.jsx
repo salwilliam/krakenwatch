@@ -5,7 +5,7 @@ export default function Footer({ activeTab }) {
       className="text-center py-5 px-4 text-xs shrink-0"
     >
       <p style={{ color: 'hsl(38 20% 55%)' }}>
-        Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from multiple market data sources using Kraken Watch&apos;s proprietary methodology. © {new Date().getFullYear()}
+        Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from market data using Kraken Watch&apos;s proprietary method. © {new Date().getFullYear()}
       </p>
       <p className="mt-1" style={{ color: 'hsl(38 15% 45%)', fontSize: '0.7rem' }}>
         Data updated daily ·{' '}
