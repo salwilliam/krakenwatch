@@ -39,6 +39,23 @@ What the script does, step by step:
 |------|--------|
 | `--skip-lockfile` | Skip regenerating `package-lock.json`. Use when you know it is already correct. |
 | `--yes` | Non-interactive mode — auto-confirms all prompts. Safe for scripted use once SSH access is confirmed. |
+| `--dry-run` | Preview mode — runs every step up to and including the subtree split, prints the commits that would be pushed (up to 20, one-line format), then exits without pushing anything to GitHub. The temporary branch is cleaned up automatically. |
+
+#### Previewing a deploy with `--dry-run`
+
+Use this before any real push to inspect the commits on the deploy branch before anything is sent to GitHub:
+
+```bash
+bash scripts/deploy-krakenwatch.sh --dry-run
+```
+
+You can combine it with other flags, for example to skip the lockfile step:
+
+```bash
+bash scripts/deploy-krakenwatch.sh --dry-run --skip-lockfile
+```
+
+The script will print a one-line-per-commit summary of everything on the split branch and then exit. Nothing is pushed; the temporary local branch is deleted.
 
 ### Prerequisites
 
