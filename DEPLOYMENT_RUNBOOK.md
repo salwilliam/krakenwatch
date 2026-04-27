@@ -5,6 +5,63 @@ This project now uses a **single production deployment path**:
 - Cloudflare Workers service: `wispy-sun-811e`
 - Custom domain: `krakenwatch.com`
 
+## Pushing changes from Replit to GitHub
+
+The Replit workspace is a **pnpm monorepo** (`artifacts/krakenwatch/` is one
+package inside it). The GitHub repo `salwilliam/krakenwatch` expects only the
+krakenwatch site files — pushing the whole monorepo there is wrong and will
+break CI.
+
+Use the deploy script at the workspace root instead of raw `git push`:
+
+```bash
+bash scripts/deploy-krakenwatch.sh
+```
+
+What the script does, step by step:
+
+1. **Regenerates `package-lock.json`** inside `artifacts/krakenwatch/` using
+   `npm install --package-lock-only`. This keeps the npm lockfile in sync with
+   `package.json` so GitHub Actions' `npm ci` step never fails due to a stale
+   lockfile. If the lockfile changed it is committed automatically.
+2. **Adds the `krakenwatch-origin` remote** pointing to
+   `git@github.com:salwilliam/krakenwatch.git` (idempotent — skipped if it
+   already exists with the correct URL).
+3. **Runs `git subtree split`** on the `artifacts/krakenwatch/` prefix to
+   produce a temporary local branch containing only the krakenwatch files and
+   their history. No other monorepo content is included.
+4. **Pushes** that temporary branch to `salwilliam/krakenwatch` `main`.
+5. **Deletes** the temporary branch to keep the local repo clean.
+
+### Flags
+
+| Flag | Effect |
+|------|--------|
+| `--skip-lockfile` | Skip regenerating `package-lock.json`. Use when you know it is already correct. |
+| `--yes` | Non-interactive mode — auto-confirms all prompts. Safe for scripted use once SSH access is confirmed. |
+
+### Prerequisites
+
+- An **SSH key** authorised for `salwilliam/krakenwatch` must be available in
+  the shell (e.g. `~/.ssh/id_ed25519` or an SSH agent via `SSH_AUTH_SOCK`).
+  The script uses the SSH remote endpoint; `GITHUB_TOKEN`/HTTPS is not
+  supported. See follow-up task #10 for automating SSH key setup in Replit.
+- `npm` must be available in the shell (needed unless `--skip-lockfile` is
+  passed).
+- Run the script from the workspace root (the directory that contains
+  `artifacts/`).
+
+### Typical workflow
+
+```bash
+# 1. Make your changes inside artifacts/krakenwatch/
+# 2. Commit them to the Replit workspace as normal
+# 3. When ready to publish:
+bash scripts/deploy-krakenwatch.sh
+# 4. Watch the GitHub Actions run at:
+#    https://github.com/salwilliam/krakenwatch/actions
+```
+
 ## Source of truth
 
 - Production traffic is served through the Worker proxy in `src/worker.js`.
