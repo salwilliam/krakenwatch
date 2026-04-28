@@ -45,10 +45,7 @@ function PredRow({ label, pct, src, href, note }) {
   );
 }
 
-function ModuleShell({ number, title, origin, children }) {
-  const originColor = origin === 'Kraken Map'
-    ? { bg: 'hsl(220 35% 88%)', fg: 'hsl(220 40% 35%)' }
-    : { bg: 'hsl(160 30% 85%)', fg: 'hsl(160 40% 28%)' };
+function ModuleShell({ number, title, children }) {
   return (
     <div className="rounded-xl overflow-hidden" style={{ border: '2px solid hsl(33 35% 60%)', background: 'hsl(38 40% 90%)' }}>
       <div className="px-4 py-3 flex items-center gap-2 flex-wrap"
@@ -59,10 +56,6 @@ function ModuleShell({ number, title, origin, children }) {
         </span>
         <span className="text-sm font-bold tracking-wide flex-1"
           style={{ fontFamily: 'var(--font-display)', color: qp }}>{title}</span>
-        <span className="text-[9px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded"
-          style={{ background: originColor.bg, color: originColor.fg, fontFamily: 'var(--font-display)' }}>
-          {origin}
-        </span>
       </div>
       <div className="px-4 py-4">
         {children}
@@ -102,12 +95,9 @@ export default function Experimental() {
             Experimental
           </h1>
           <p className="text-sm max-w-lg" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.7 }}>
-            All proposed modules for review before being ported to Kraken Map or Ink Markets. Each module is numbered, labeled, and tagged with its target page.
+            All proposed modules for review. Each module is numbered and labeled.
           </p>
-          <div className="flex items-center gap-3 text-[10px] mt-1" style={{ color: ut, fontFamily: 'var(--font-display)' }}>
-            <span className="px-2 py-0.5 rounded" style={{ background: 'hsl(220 35% 88%)', color: 'hsl(220 40% 35%)' }}>Kraken Map</span>
-            <span className="px-2 py-0.5 rounded" style={{ background: 'hsl(160 30% 85%)', color: 'hsl(160 40% 28%)' }}>Ink Markets</span>
-          </div>
+
           <p className="text-sm mt-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>
             Yar!{' '}
             <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer"
@@ -117,7 +107,7 @@ export default function Experimental() {
         </div>
 
         {/* ── MODULE 1 ── */}
-        <ModuleShell number="1" title="Key Metrics Overview" origin="Kraken Map">
+        <ModuleShell number="1" title="Key Metrics Overview">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { label: 'IPO Odds',      value: ipo?.avg_pct != null ? `${ipo.avg_pct}%` : '—',            sub: 'avg. implied · 2026' },
@@ -135,7 +125,7 @@ export default function Experimental() {
         </ModuleShell>
 
         {/* ── MODULE 2 ── */}
-        <ModuleShell number="2" title="Prediction Markets — IPO Signal" origin="Kraken Map">
+        <ModuleShell number="2" title="Prediction Markets — IPO Signal">
           <p className="text-[10px] font-semibold uppercase tracking-widest pb-1" style={{ color: ut }}>IPO Signal</p>
           <PredRow label="Kraken IPO before end of 2026"
             pct={pm?.ipo?.kalshi_pct ?? ipo?.kalshi_pct}
@@ -157,7 +147,7 @@ export default function Experimental() {
         </ModuleShell>
 
         {/* ── MODULE 3 ── */}
-        <ModuleShell number="3" title="Prediction Markets — Regulatory" origin="Kraken Map">
+        <ModuleShell number="3" title="Prediction Markets — Regulatory">
           <p className="text-[10px] font-semibold uppercase tracking-widest pb-1" style={{ color: ut }}>Regulatory</p>
           <PredRow label="Clarity Act signed into law in 2026"
             pct={pm?.regulatory?.clarity_act_pct}
@@ -170,7 +160,7 @@ export default function Experimental() {
         </ModuleShell>
 
         {/* ── MODULE 4 ── */}
-        <ModuleShell number="4" title="Underwriter Watch" origin="Kraken Map">
+        <ModuleShell number="4" title="Underwriter Watch">
           <p className="text-[10px] mb-2" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>
             Which bank leads the Kraken IPO? (markets are not mutually exclusive)
           </p>
@@ -194,7 +184,7 @@ export default function Experimental() {
         </ModuleShell>
 
         {/* ── MODULE 5 ── */}
-        <ModuleShell number="5" title="Secondary Market Pricing" origin="Kraken Map">
+        <ModuleShell number="5" title="Secondary Market Pricing">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-3">
             {[
               { label: 'Hiive',     value: sm?.hiive_pps  ? `$${sm.hiive_pps}` : '—' },
@@ -215,7 +205,7 @@ export default function Experimental() {
         </ModuleShell>
 
         {/* ── MODULE 6 ── */}
-        <ModuleShell number="6" title="Ink Chain Metrics" origin="Ink Markets">
+        <ModuleShell number="6" title="Ink Chain Metrics">
           <div className="grid grid-cols-2 gap-3">
             {[
               { label: 'Total Value Locked', value: ink?.tvl_millions != null ? `$${ink.tvl_millions}M` : '—', sub: 'source: DeFiLlama' },
@@ -231,7 +221,7 @@ export default function Experimental() {
         </ModuleShell>
 
         {/* ── MODULE 7 ── */}
-        <ModuleShell number="7" title="INK Token FDV Prediction Markets" origin="Ink Markets">
+        <ModuleShell number="7" title="INK Token FDV Prediction Markets">
           <p className="text-[10px] font-semibold uppercase tracking-widest pb-0.5" style={{ color: ut }}>INK Token FDV at Launch</p>
           <p className="text-[11px] mb-3" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>
             Polymarket — FDV one day after token launch
@@ -259,7 +249,7 @@ export default function Experimental() {
         </ModuleShell>
 
         {/* ── MODULE 8 ── */}
-        <ModuleShell number="8" title="About Ink" origin="Ink Markets">
+        <ModuleShell number="8" title="About Ink">
           <p className="text-sm leading-relaxed mb-3" style={{ fontFamily: 'var(--font-serif)', color: qp }}>
             Ink is Kraken's Ethereum L2 chain, built on the OP Stack. It launched in November 2024 and is designed to bring Kraken's crypto exchange users on-chain, enabling DeFi, NFTs, and native crypto applications.
           </p>
