@@ -11,6 +11,9 @@ on:
       - completed
   workflow_dispatch:
 
+permissions:
+  issues: write
+
 concurrency:
   group: krakenwatch-production-deploy
   cancel-in-progress: false
@@ -150,6 +153,76 @@ jobs:
           if [ "$post_count" -eq 0 ]; then
             echo "ERROR: No blog post files found in src/content/briefs/ — check the repository layout"
             exit 1
+          fi
+
+      - name: Close smoke-test alert on recovery
+        if: steps.smoke_check.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          LABEL="smoke-test-failure"
+          EXISTING_ISSUES="$(gh issue list \
+            --label "$LABEL" \
+            --state open \
+            --limit 100 \
+            --json number \
+            --jq '.[].number' \
+            --repo "$GITHUB_REPOSITORY")"
+          if [ -n "$EXISTING_ISSUES" ]; then
+            while IFS= read -r ISSUE_NUMBER; do
+              gh issue comment "$ISSUE_NUMBER" \
+                --body "Smoke-test recovered on $(date -u +'%Y-%m-%d %H:%M UTC'). The site is serving correctly. Closing automatically. [View run]($RUN_URL)" \
+                --repo "$GITHUB_REPOSITORY"
+              gh issue close "$ISSUE_NUMBER" \
+                --repo "$GITHUB_REPOSITORY"
+            done <<< "$EXISTING_ISSUES"
+          fi
+
+      - name: Notify on smoke-test failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          FAILED_ROUTE=""
+          if [ -f /tmp/smoke_failed_route ]; then
+            FAILED_ROUTE="$(cat /tmp/smoke_failed_route)"
+          fi
+          TITLE="Smoke-test failed — $(date -u +'%Y-%m-%d')"
+          LABEL="smoke-test-failure"
+          gh label create "$LABEL" \
+            --description "Automated: smoke-test workflow failure" \
+            --color "d93f0b" \
+            --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
+          EXISTING_ISSUES="$(gh issue list \
+            --label "$LABEL" \
+            --state open \
+            --limit 100 \
+            --json number \
+            --jq '.[].number' \
+            --repo "$GITHUB_REPOSITORY")"
+          if [ -n "$EXISTING_ISSUES" ]; then
+            while IFS= read -r ISSUE_NUMBER; do
+              gh issue comment "$ISSUE_NUMBER" \
+                --body "Smoke-test failed again on $(date -u +'%Y-%m-%d %H:%M UTC')${FAILED_ROUTE:+ — route: \`$FAILED_ROUTE\`}. [View run]($RUN_URL)" \
+                --repo "$GITHUB_REPOSITORY"
+            done <<< "$EXISTING_ISSUES"
+          else
+            BODY="The smoke-test failed after a deploy. krakenwatch.com may be down or serving stale content.
+
+**Run:** $RUN_URL
+**Time:** $(date -u +'%Y-%m-%d %H:%M UTC')${FAILED_ROUTE:+
+**Failed route:** \`$FAILED_ROUTE\`}
+
+Please investigate and re-deploy once the issue is resolved. Close this issue when the smoke-test is confirmed healthy."
+            gh issue create \
+              --title "$TITLE" \
+              --label "$LABEL" \
+              --body "$BODY" \
+              --repo "$GITHUB_REPOSITORY"
           fi
 
       - name: Record smoke-test status
