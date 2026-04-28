@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useSiteData } from '../hooks/useSiteData';
-import MethodologyTooltip from '../components/MethodologyTooltip';
 
 const qp = 'hsl(28 40% 14%)';
 const ut = 'hsl(30 20% 38%)';
@@ -9,28 +7,17 @@ const on = 'hsl(350 55% 32%)';
 const cardBg = 'hsl(38 40% 90%)';
 const cardBorder = 'hsl(33 35% 60%)';
 const sectionBg = 'hsl(33 28% 82%)';
-
 const darkHeaderBg = 'hsl(30 30% 24%)';
 const darkHeaderBorder = 'hsl(30 25% 32%)';
 const darkHeaderText = 'hsl(38 50% 78%)';
 
 const boardMembers = [
-  { name: 'Jesse Powell', role: 'Co-Founder & Chairman' },
+  { name: 'Jesse Powell', role: 'Co-Founder & Chairman', x: 'https://x.com/jespow' },
   { name: 'Thanh Luu', role: 'Co-Founder & Director' },
-  { name: 'Arjun Sethi', role: 'Co-CEO & Director' },
+  { name: 'Arjun Sethi', role: 'Co-CEO & Director', x: 'https://x.com/arjunsethi' },
   { name: 'Dan Ciporin', role: 'Independent Director' },
   { name: 'Alison Davis', role: 'Independent Director' },
   { name: 'Christopher Calicott', role: 'Independent Director' },
-];
-
-const products = [
-  { name: 'Kraken Exchange', detail: '560+ cryptos, 15M users', url: 'https://kraken.com' },
-  { name: 'NinjaTrader', detail: '2M futures traders', url: 'https://ninjatrader.com' },
-  { name: 'xStocks', detail: '$25B+ volume, 100+ tokenized stocks', url: 'https://xstocks.fi/' },
-  { name: 'Ink L2', detail: 'Optimism Superchain · $536M TVS · Kraken\'s on-chain execution layer', url: 'https://inkonchain.com' },
-  { name: 'CF Benchmarks', detail: 'CME BRR, institutional indices', url: 'https://cfbenchmarks.com' },
-  { name: 'Krak App', detail: 'P2P payments, 160+ countries', url: 'https://x.com/krakapp' },
-  { name: 'Breakout', detail: 'Prop trading, 20K funded accounts', url: 'http://breakoutprop.com/' },
 ];
 
 const regulatoryEntities = [
@@ -71,12 +58,12 @@ const regulatoryEntities = [
     entities: [
       { name: 'Bit Trade Pty Ltd', license: 'AUSTRAC', detail: 'Australia operations' },
       { name: 'Beaufort Fiduciaries', license: 'AFSL', detail: 'Australian derivatives' },
-      { name: 'Payward Canada, Inc.', license: 'FINTRAC + OSC', detail: 'Canadian operations' },
     ],
   },
   {
     region: 'Other',
     entities: [
+      { name: 'Payward Canada, Inc.', license: 'FINTRAC + OSC', detail: 'Canadian operations' },
       { name: 'Payward Digital Solutions Ltd', license: 'BMA', detail: 'Bermuda operations' },
       { name: 'Payward Trading Limited Argentina Branch', license: 'CNV VASP', detail: 'Argentina operations' },
     ],
@@ -100,137 +87,214 @@ const acquisitions = [
   { year: '2026', name: 'Breakout', detail: 'Prop trading platform', value: '', major: false },
 ];
 
-const mktCapBars = [
-  { label: '$16B', pct: 38, note: 'floor' },
-  { label: '$18B', pct: 31, note: '' },
-  { label: '$20B', pct: 29, note: '' },
-  { label: '$22B', pct: 24, note: '' },
-  { label: '$24B+', pct: 25, note: 'bull' },
+const TAGS = ['All', 'Product', 'Acquired', 'Partner', 'Infrastructure', 'Ecosystem', 'Social', 'Sponsorship'];
+
+const TAG_COLORS = {
+  Product:        { bg: 'hsl(210 35% 88%)', color: 'hsl(210 55% 30%)', border: 'hsl(210 30% 72%)' },
+  Acquired:       { bg: 'hsl(30 40% 85%)',  color: 'hsl(28 55% 28%)',  border: 'hsl(30 35% 65%)' },
+  Partner:        { bg: 'hsl(150 25% 86%)', color: 'hsl(150 40% 28%)', border: 'hsl(150 25% 65%)' },
+  Infrastructure: { bg: 'hsl(260 25% 88%)', color: 'hsl(260 40% 32%)', border: 'hsl(260 25% 72%)' },
+  Ecosystem:      { bg: 'hsl(180 25% 86%)', color: 'hsl(180 45% 26%)', border: 'hsl(180 25% 65%)' },
+  Social:         { bg: 'hsl(200 30% 88%)', color: 'hsl(200 45% 28%)', border: 'hsl(200 30% 70%)' },
+  Sponsorship:    { bg: 'hsl(45 40% 86%)',  color: 'hsl(38 55% 28%)',  border: 'hsl(45 35% 65%)' },
+};
+
+const ecosystemSections = [
+  {
+    id: 'consumer',
+    title: 'Consumer Hub',
+    icon: '🏠',
+    entities: [
+      { name: 'Kraken App', desc: 'Flagship mobile app for spot trading, staking, and asset management.', tag: 'Product', url: 'https://kraken.com' },
+      { name: 'Kraken Pro', desc: 'Advanced trading platform with charting, pro order types, and full API access.', tag: 'Product', url: 'https://pro.kraken.com' },
+      { name: 'Kraken Desktop', desc: 'Native desktop application for professional Kraken trading.', tag: 'Product', url: 'https://kraken.com/en-us/desktop' },
+      { name: 'Kraken Launch', desc: "Kraken's token launch and initial exchange offering platform.", tag: 'Product' },
+      { name: 'Krak', desc: 'Peer-to-peer payments app covering 160+ countries with embedded crypto rails.', tag: 'Product', url: 'https://x.com/krakapp' },
+      { name: 'Krak Concierge', desc: "White-glove service tier for Krak's high-value and VIP users.", tag: 'Product' },
+      { name: 'Kraken Wallet', desc: 'Self-custody wallet supporting multi-chain asset management and DeFi access.', tag: 'Product', url: 'https://kraken.com/wallet' },
+      { name: 'Kraken Listings', desc: 'Process and community hub for new asset listing requests on Kraken.', tag: 'Product' },
+      { name: 'Kraken Support', desc: "Global customer support infrastructure for Kraken's user base.", tag: 'Product' },
+      { name: 'Kraken+', desc: 'Subscription tier offering enhanced benefits and reduced fees for active users.', tag: 'Product' },
+      { name: 'Breakout', desc: 'Proprietary trading platform providing funded accounts for skilled traders.', tag: 'Acquired', url: 'http://breakoutprop.com/' },
+      { name: 'Prediction Markets', desc: "Kraken's product for event-based and prediction market trading.", tag: 'Product' },
+    ],
+  },
+  {
+    id: 'institutional',
+    title: 'Institutional Stack',
+    icon: '🏛️',
+    entities: [
+      { name: 'Kraken Prime', desc: 'Prime brokerage offering deep liquidity, credit, and custody for institutions.', tag: 'Product' },
+      { name: 'Payward Services', desc: 'Managed services and operational support entity across the Payward group.', tag: 'Product' },
+      { name: 'Kraken Custody', desc: 'Institutional-grade digital asset custody with full regulatory compliance.', tag: 'Product' },
+      { name: 'Kraken Financial', desc: 'Wyoming SPDI bank offering crypto-native banking services with a Fed master account.', tag: 'Product' },
+      { name: 'Kraken 360', desc: 'End-to-end institutional onboarding and account management service.', tag: 'Product' },
+      { name: 'Magna', desc: 'Internal operations and back-office management platform.', tag: 'Product' },
+      { name: 'Kraken CLI', desc: "Command-line interface for programmatic access to Kraken's trading APIs.", tag: 'Product' },
+      { name: 'Payward Ramp', desc: 'Fiat on/off-ramp infrastructure for converting between crypto and traditional currencies.', tag: 'Product' },
+      { name: 'Kraken OTC', desc: 'Over-the-counter desk providing bespoke block trade liquidity.', tag: 'Product' },
+      { name: 'Kraken Derivatives US', desc: 'US-regulated derivatives exchange built on the NinjaTrader futures infrastructure.', tag: 'Acquired' },
+      { name: 'Kraken Flexline', desc: 'Credit facility allowing institutions to borrow against crypto holdings.', tag: 'Product' },
+      { name: 'Kraken Perps', desc: 'Perpetual futures trading product for leveraged crypto positions.', tag: 'Product' },
+      { name: 'NinjaTrader', desc: 'Futures brokerage platform with 2M active traders, acquired for $1.5B in 2025.', tag: 'Acquired', url: 'https://ninjatrader.com' },
+    ],
+  },
+  {
+    id: 'intelligence',
+    title: 'Institutional Intelligence',
+    icon: '📊',
+    entities: [
+      { name: 'CF Benchmarks', desc: 'Provider of regulated crypto benchmarks including the CME Bitcoin Reference Rate.', tag: 'Acquired', url: 'https://cfbenchmarks.com' },
+      { name: 'Crypto Insights Group', desc: 'Independent research and analytics firm providing institutional market intelligence on digital assets.', tag: 'Partner' },
+    ],
+  },
+  {
+    id: 'ink',
+    title: 'Ink Network',
+    icon: '🔗',
+    entities: [
+      { name: 'Ink', desc: "Kraken's Layer 2 blockchain built on the Optimism Superchain.", tag: 'Product', url: 'https://inkonchain.com' },
+      { name: 'Ink Foundation', desc: 'Non-profit stewarding the Ink L2 ecosystem and public goods funding.', tag: 'Ecosystem' },
+      { name: 'INK Token', desc: 'Native governance and utility token for the Ink ecosystem, pending TGE.', tag: 'Ecosystem' },
+    ],
+  },
+  {
+    id: 'defi',
+    title: 'DeFi & Yield Layer',
+    icon: '⚗️',
+    entities: [
+      { name: 'DeFi Earn', desc: "Kraken's interface for accessing decentralised lending and yield protocols.", tag: 'Product' },
+      { name: 'Tydro', desc: 'Aave v3 white-label lending protocol deployed natively on Ink with ~$380M TVL.', tag: 'Ecosystem', url: 'https://tydro.com' },
+      { name: 'xStocks', desc: 'Tokenized equity platform offering 100+ stocks and ETFs on-chain.', tag: 'Acquired', url: 'https://xstocks.fi/' },
+      { name: 'Spreads', desc: 'Decentralised derivatives and structured product protocol on Ink.', tag: 'Ecosystem', url: 'https://terminal.spreads.fi/?ref=ZSNKR2' },
+      { name: 'USDG', desc: 'Global Dollar Network stablecoin used as a key asset across the Ink ecosystem.', tag: 'Partner' },
+      { name: 'Beholder', desc: 'Onchain analytics and risk monitoring tool for DeFi positions on Ink.', tag: 'Ecosystem' },
+    ],
+  },
+  {
+    id: 'infrastructure',
+    title: 'Market Infrastructure Partners',
+    icon: '🏗️',
+    entities: [
+      { name: 'Nasdaq', desc: 'Exchange technology and data partner; Nasdaq Private Market provides Tape D™ pricing.', tag: 'Partner' },
+      { name: 'Circle', desc: 'Issuer of USDC; key stablecoin infrastructure partner across Kraken and Ink.', tag: 'Partner' },
+      { name: 'Optimism Superchain', desc: 'Layer 2 network stack that Ink is built on; provides shared security and interoperability.', tag: 'Infrastructure' },
+      { name: 'Talos', desc: "Institutional trading infrastructure provider powering Kraken's backend liquidity routing.", tag: 'Partner' },
+      { name: 'Velodrome', desc: 'Automated market maker native to the Optimism Superchain, deployed on Ink.', tag: 'Ecosystem' },
+    ],
+  },
+  {
+    id: 'investment',
+    title: 'Investment & Strategic Finance',
+    icon: '💼',
+    entities: [
+      { name: 'Triton Capital', desc: 'Growth equity investor and major institutional shareholder in Payward.', tag: 'Partner' },
+      { name: 'Citadel Securities', desc: 'Market maker and strategic investor with liquidity partnerships across Kraken.', tag: 'Partner' },
+      { name: 'Tribe Capital', desc: 'Venture capital firm and early institutional investor in Payward.', tag: 'Partner' },
+      { name: 'Jane Street', desc: 'Quantitative trading firm with market-making and investment ties to Kraken.', tag: 'Partner' },
+      { name: 'DRW', desc: 'Proprietary trading and investment firm with strategic ties via Cumberland division.', tag: 'Partner' },
+    ],
+  },
+  {
+    id: 'banking',
+    title: 'Banking & Settlement Partners',
+    icon: '🏦',
+    entities: [
+      { name: 'BNY', desc: "US banking partner providing custody and settlement infrastructure for Kraken's operations.", tag: 'Partner' },
+      { name: 'Deutsche Börse Group / 360T', desc: 'European exchange and FX infrastructure partner via the 360T FX trading platform.', tag: 'Partner' },
+      { name: 'Global Dollar Network', desc: 'Settlement network underpinning the USDG stablecoin used across payment rails.', tag: 'Partner' },
+    ],
+  },
+  {
+    id: 'sponsorships',
+    title: 'Sports & Brand Sponsorships',
+    icon: '🏆',
+    entities: [
+      { name: 'Williams Racing', desc: 'Formula 1 team; Kraken is title sponsor of the Williams Racing F1 entry.', tag: 'Sponsorship' },
+      { name: 'Tottenham Hotspur', desc: 'Premier League football club; Kraken is official crypto exchange partner.', tag: 'Sponsorship' },
+      { name: 'Atlético de Madrid', desc: 'Spanish La Liga club; Kraken is official crypto exchange partner.', tag: 'Sponsorship' },
+      { name: 'RB Leipzig', desc: 'German Bundesliga club; Kraken is official crypto exchange partner.', tag: 'Sponsorship' },
+    ],
+  },
+  {
+    id: 'social',
+    title: 'Social & Brand Accounts',
+    icon: '📣',
+    entities: [
+      { name: 'Kraken Global', desc: 'Main global consumer brand account. X: @krakenfx', tag: 'Social', url: 'https://x.com/krakenfx' },
+      { name: 'Kraken Institutional', desc: 'Institutional audience account. X: @KrakenInsto', tag: 'Social', url: 'https://x.com/KrakenInsto' },
+      { name: 'Kraken Support', desc: 'Global customer support account. X: @krakensupport', tag: 'Social', url: 'https://x.com/krakensupport' },
+      { name: 'Kraken UK', desc: 'UK regional account. Instagram: @krakenfxuk', tag: 'Social', url: 'https://instagram.com/krakenfxuk' },
+      { name: 'Kraken France (X)', desc: 'French market account. X: @krakenfx_FR', tag: 'Social', url: 'https://x.com/krakenfx_FR' },
+      { name: 'Kraken France (Instagram)', desc: 'French market account. Instagram: @krakenfx_fr', tag: 'Social', url: 'https://instagram.com/krakenfx_fr' },
+      { name: 'Kraken Germany', desc: 'German market account. Instagram: @krakenfxde', tag: 'Social', url: 'https://instagram.com/krakenfxde' },
+      { name: 'Kraken Poland', desc: 'Polish market account. X: @krakenfx_pl', tag: 'Social', url: 'https://x.com/krakenfx_pl' },
+      { name: 'Kraken China', desc: 'Chinese market account. X: @KrakenFX_ZH', tag: 'Social', url: 'https://x.com/KrakenFX_ZH' },
+      { name: 'xStocks China', desc: 'xStocks Chinese market account. X: @xStocksFi_zh', tag: 'Social', url: 'https://x.com/xStocksFi_zh' },
+      { name: 'Kraken Argentina (X)', desc: 'Argentine market account. X: @krakenfx_ar', tag: 'Social', url: 'https://x.com/krakenfx_ar' },
+      { name: 'Kraken Argentina (Instagram)', desc: 'Argentine market account. Instagram: @krakenfx_ar', tag: 'Social', url: 'https://instagram.com/krakenfx_ar' },
+      { name: 'Kraken Brazil', desc: 'Brazilian market account. Instagram: @krakenfx_br', tag: 'Social', url: 'https://instagram.com/krakenfx_br' },
+    ],
+  },
 ];
 
-const priceSourceRows = [
-  { key: 'hiive', label: 'Hiive', href: 'https://www.hiive.com/securities/kraken-stock', field: 'hiive_pps', note: 'weighted avg' },
-  { key: 'forge', label: 'Forge Global', href: 'https://forgeglobal.com/kraken_stock/', field: 'forge_pps', note: 'Forge Price™' },
-  { key: 'npm', label: 'Nasdaq Private Mkt', href: 'https://www.nasdaqprivatemarket.com/company/kraken/', field: 'npm_pps', note: 'Tape D™' },
-  { key: 'notice', label: 'Notice', href: 'https://notice.co/c/kraken', field: 'notice_pps', note: 'algorithmic' },
-];
-
-function DataModuleCard({ title, icon, children }) {
+function TagPill({ tag }) {
+  const colors = TAG_COLORS[tag] || { bg: sectionBg, color: ut, border: cardBorder };
   return (
-    <div className="rounded-lg overflow-hidden w-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
-      <div className="px-5 py-3 flex items-center gap-3" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
-        <span className="shrink-0" style={{ color: 'hsl(38 55% 72%)' }}>{icon}</span>
-        <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>{title}</span>
+    <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded shrink-0"
+      style={{ background: colors.bg, color: colors.color, border: `1px solid ${colors.border}`, fontFamily: 'var(--font-display)', letterSpacing: '0.05em' }}>
+      {tag}
+    </span>
+  );
+}
+
+function EntityCard({ entity }) {
+  const content = (
+    <div className="rounded-lg p-3 h-full flex flex-col gap-2 transition-opacity"
+      style={{ border: `1px solid ${cardBorder}`, background: sectionBg }}>
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-xs font-bold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>{entity.name}</p>
+        <TagPill tag={entity.tag} />
       </div>
-      <div className="p-5">{children}</div>
+      <p className="text-[10px] leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{entity.desc}</p>
     </div>
   );
+
+  if (entity.url) {
+    return (
+      <a href={entity.url} target="_blank" rel="noopener noreferrer" className="block hover:opacity-80" style={{ textDecoration: 'none' }}>
+        {content}
+      </a>
+    );
+  }
+  return content;
 }
 
-function IpoForecastModule({ ipo }) {
-  const avg = ipo?.avg_pct;
-  const poly = ipo?.polymarket_pct;
-  const kalshi = ipo?.kalshi_pct;
-  return (
-    <DataModuleCard title="IPO Forecast" icon={
-      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
-      </svg>
-    }>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>IPO by Dec 31 2026<MethodologyTooltip /></p>
-          <p className="text-5xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
-            {avg == null ? '—' : `${avg}%`}
-          </p>
-          <p className="text-[11px] mt-1.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>avg. implied probability</p>
-          <div className="mt-4 space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <a href="https://polymarket.com/event/kraken-ipo-in-2025" target="_blank" rel="noopener noreferrer"
-                className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>Polymarket</a>
-              <span className="text-sm font-bold tabular-nums" style={{ color: on }}>{poly == null ? '—' : `${poly}%`}</span>
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <a href="https://kalshi.com/markets/kxipo/ipos/kxipo-26" target="_blank" rel="noopener noreferrer"
-                className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>Kalshi</a>
-              <span className="text-sm font-bold tabular-nums" style={{ color: on }}>{kalshi == null ? '—' : `${kalshi}%`}</span>
-            </div>
-          </div>
-          <p className="text-[10px] mt-3" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Mid-market prices · updated daily</p>
-        </div>
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: ut }}>Likely Market Cap at Listing</p>
-          <div className="space-y-1.5">
-            {mktCapBars.map(({ label, pct, note }) => (
-              <div key={label} className="flex items-center gap-3">
-                <span className="text-xs font-mono w-12 shrink-0 text-right" style={{ color: ut }}>{label}</span>
-                <div className="flex-1 rounded-full overflow-hidden h-2" style={{ background: 'hsl(33 25% 76%)' }}>
-                  <div className="h-2 rounded-full" style={{ width: `${pct}%`, background: `hsl(350 ${40 + pct / 3}% ${45 - pct / 5}%)` }} />
-                </div>
-                <span className="text-xs tabular-nums font-semibold w-8 shrink-0" style={{ color: on }}>{pct}%</span>
-                {note && <span className="text-[10px] hidden sm:inline" style={{ color: ut, fontStyle: 'italic' }}>{note}</span>}
-              </div>
-            ))}
-          </div>
-          <p className="text-[10px] mt-2" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Polymarket market cap data · ~$20B current private valuation</p>
-        </div>
-      </div>
-    </DataModuleCard>
-  );
-}
+function SectionBlock({ section, activeFilter }) {
+  const visible = activeFilter === 'All'
+    ? section.entities
+    : section.entities.filter(e => e.tag === activeFilter);
 
-function SecondaryMarketModule({ sm }) {
+  if (visible.length === 0) return null;
+
   return (
-    <DataModuleCard title="Private Market Share Price" icon={
-      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-      </svg>
-    }>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Secondary Market Fair Value<MethodologyTooltip /></p>
-          <p className="text-5xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
-            {sm?.avg_pps == null ? '—' : `$${sm.avg_pps.toFixed(2)}`}
-          </p>
-          <p className="text-[11px] mt-1.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>avg. across 4 secondary venues</p>
-          <div className="mt-3 space-y-1">
-            <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Est. 30D Volume<MethodologyTooltip /></p>
-            <p className="text-2xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: on }}>
-              {sm?.volume_30d_est_m == null ? '—' : `~$${sm.volume_30d_est_m}M`}
-            </p>
-            <p className="text-[11px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
-              {sm?.volume_note || 'Est. 30D secondary volume'}
-            </p>
-          </div>
-          <p className="text-[10px] mt-3" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Snapshot · updated daily · not financial advice</p>
-        </div>
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: ut }}>Price by Source</p>
-          <div className="space-y-2">
-            {priceSourceRows.map(({ key, label, href, field, note }) => {
-              const val = sm?.[field];
-              return (
-                <div key={key} className="flex items-center justify-between gap-2">
-                  <div className="flex flex-col">
-                    <a href={href} target="_blank" rel="noopener noreferrer"
-                      className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>{label}</a>
-                    <span className="text-[10px]" style={{ color: ut, fontStyle: 'italic' }}>{note}</span>
-                  </div>
-                  <span className="text-sm font-bold tabular-nums" style={{ color: on }}>
-                    {val == null ? '—' : `$${val.toFixed(2)}`}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-          <div className="mt-3 pt-2" style={{ borderTop: '1px solid hsl(33 30% 72%)' }}>
-            <p className="text-[10px]" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
-              Prices are indicative secondary market data, not official valuations. Volume is estimated from platform activity data and public disclosures.
-            </p>
-          </div>
+    <div className="rounded-xl w-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg, overflow: 'visible' }}>
+      <div className="px-4 py-3 flex items-center gap-2 rounded-t-xl" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
+        <span className="text-sm" style={{ color: 'hsl(38 55% 72%)' }}>{section.icon}</span>
+        <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>{section.title}</span>
+        <span className="ml-auto text-[10px] px-2 py-0.5 rounded"
+          style={{ background: 'hsl(30 25% 32%)', color: 'hsl(38 40% 65%)', border: `1px solid hsl(30 20% 38%)`, fontFamily: 'var(--font-display)' }}>
+          {visible.length}
+        </span>
+      </div>
+      <div className="p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {visible.map((entity, i) => (
+            <EntityCard key={i} entity={entity} />
+          ))}
         </div>
       </div>
-    </DataModuleCard>
+    </div>
   );
 }
 
@@ -290,7 +354,7 @@ function AcquisitionTimeline() {
   return (
     <div className="overflow-x-auto pb-2">
       <div className="relative" style={{ minWidth: '700px' }}>
-        <div className="absolute top-5 left-0 right-0 h-[1.5px]"
+        <div className="absolute top-[5px] left-0 right-0 h-[1.5px]"
           style={{ background: `linear-gradient(to right, transparent, ${accentColor}, hsl(25 55% 38%), transparent)` }} />
         <div className="flex justify-between items-start px-4">
           {acquisitions.map((acq, i) => (
@@ -333,9 +397,9 @@ function AcquisitionTimeline() {
 function SectionCard({ title, icon, children }) {
   return (
     <div className="rounded-xl w-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg, overflow: 'visible' }}>
-      <div className="px-4 py-3 flex items-center gap-2 rounded-t-xl" style={{ background: sectionBg, borderBottom: `1px solid ${cardBorder}` }}>
-        <span className="text-sm" style={{ color: ut }}>{icon}</span>
-        <span className="text-sm font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>{title}</span>
+      <div className="px-4 py-3 flex items-center gap-2 rounded-t-xl" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
+        <span className="text-sm" style={{ color: 'hsl(38 55% 72%)' }}>{icon}</span>
+        <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>{title}</span>
       </div>
       <div className="p-4">{children}</div>
     </div>
@@ -343,67 +407,98 @@ function SectionCard({ title, icon, children }) {
 }
 
 export default function Payward() {
-  const { data } = useSiteData();
-  const ipo = data?.ipo;
-  const sm = data?.secondary_market;
+  const [activeFilter, setActiveFilter] = useState('All');
 
   return (
     <>
       <Helmet>
-        <title>Payward Corporate Map — Kraken Watch</title>
-        <meta name="description" content="Full Payward entity structure, subsidiaries, regulatory filings, and jurisdiction footprint for the Kraken parent company." />
+        <title>Payward Map — Kraken Watch</title>
+        <meta name="description" content="Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity. Entities, partners, sponsorships, and acquisitions." />
         <link rel="canonical" href="https://krakenwatch.com/payward" />
+        <meta property="og:title" content="Payward Map — Kraken Watch" />
+        <meta property="og:description" content="Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity." />
+        <meta property="og:url" content="https://krakenwatch.com/payward" />
       </Helmet>
 
-      <div className="p-4 sm:p-6 space-y-6 w-full max-w-[960px] mx-auto">
+      <div className="p-4 sm:p-6 space-y-6 w-full max-w-[1024px] mx-auto">
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
-          <img src="/payward-kraken-seal.png" alt="Payward" className="object-contain" style={{ width: '100px', height: '100px' }} />
+          <img src="/stamp-ship.png" alt="Payward" className="object-contain" style={{ width: '100px', height: '100px' }} />
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
-            Payward
+            Payward Map
           </h1>
           <p className="text-sm max-w-lg" style={{ fontFamily: 'var(--font-serif)', color: ut }}>
-            Corporate structure, entities & regulatory footprint
+            Chart the full Payward armada: Kraken wares, prize ships, and battle standards.
+          </p>
+          <p className="text-[10px] max-w-md" style={{ fontFamily: 'var(--font-serif)', color: ut, fontStyle: 'italic' }}>
+            Includes Payward-owned entities, products, partners, sponsorships, and ecosystem projects. Not every entry is owned by Payward.
           </p>
         </div>
 
-        <IpoForecastModule ipo={ipo} />
-        <SecondaryMarketModule sm={sm} />
+        <div className="flex flex-wrap gap-2 justify-center">
+          {TAGS.map(tag => (
+            <button
+              key={tag}
+              onClick={() => setActiveFilter(tag)}
+              className="text-xs font-semibold px-3 py-1.5 rounded-full transition-all"
+              style={{
+                fontFamily: 'var(--font-display)',
+                letterSpacing: '0.04em',
+                background: activeFilter === tag ? qp : sectionBg,
+                color: activeFilter === tag ? 'hsl(38 50% 85%)' : ut,
+                border: `1px solid ${activeFilter === tag ? qp : cardBorder}`,
+              }}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
 
-        <SectionCard title="Board of Directors" icon="⚓">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {boardMembers.map((m, i) => (
-              <div key={i} className="rounded-lg p-3" style={{ border: `1px solid ${cardBorder}`, background: sectionBg }}>
-                <p className="text-xs font-bold" style={{ fontFamily: 'var(--font-display)', color: qp }}>{m.name}</p>
-                <p className="text-[10px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{m.role}</p>
+        {ecosystemSections.map(section => (
+          <SectionBlock key={section.id} section={section} activeFilter={activeFilter} />
+        ))}
+
+        {activeFilter === 'All' && (
+          <>
+            <SectionCard title="Board of Directors" icon="⚓">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {boardMembers.map((m, i) => (
+                  <div key={i} className="rounded-lg p-3" style={{ border: `1px solid ${cardBorder}`, background: sectionBg }}>
+                    <div className="flex items-center justify-between gap-1">
+                      <p className="text-xs font-bold" style={{ fontFamily: 'var(--font-display)', color: qp }}>{m.name}</p>
+                      {m.x && (
+                        <a href={m.x} target="_blank" rel="noopener noreferrer"
+                          className="shrink-0 transition-opacity hover:opacity-70" aria-label={`${m.name} on X`}>
+                          <svg viewBox="0 0 24 24" className="w-3 h-3" fill="currentColor" style={{ color: ut }}>
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                    <p className="text-[10px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{m.role}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </SectionCard>
+            </SectionCard>
 
-        <SectionCard title="Product Portfolio" icon="🏴‍☠️">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {products.map((p, i) => (
-              <a key={i} href={p.url} target="_blank" rel="noopener noreferrer"
-                className="rounded-lg p-3 transition-opacity hover:opacity-80"
-                style={{ border: `1px solid ${cardBorder}`, background: sectionBg, display: 'block' }}>
-                <p className="text-xs font-bold" style={{ fontFamily: 'var(--font-display)', color: qp }}>{p.name}</p>
-                <p className="text-[10px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{p.detail}</p>
-              </a>
-            ))}
-          </div>
-        </SectionCard>
+            <SectionCard title="Acquisition Timeline" icon="📜">
+              <AcquisitionTimeline />
+            </SectionCard>
 
-        <SectionCard title="Acquisition Timeline" icon="📜">
-          <AcquisitionTimeline />
-        </SectionCard>
+            <SectionCard title="Regulatory Entities by Jurisdiction" icon="🗺">
+              <div className="space-y-2">
+                {regulatoryEntities.map((region, i) => (
+                  <RegionBlock key={i} region={region} />
+                ))}
+              </div>
+            </SectionCard>
+          </>
+        )}
 
-        <SectionCard title="Regulatory Entities by Jurisdiction" icon="🗺">
-          <div className="space-y-2">
-            {regulatoryEntities.map((region, i) => (
-              <RegionBlock key={i} region={region} />
-            ))}
-          </div>
-        </SectionCard>
+        <div className="text-center py-4">
+          <p className="text-[11px]" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+            More entities, data modules, and ecosystem profiles will be added as the map expands.
+          </p>
+        </div>
       </div>
     </>
   );
