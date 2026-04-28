@@ -68,7 +68,15 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
+      - name: Restore last smoke-test status
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/smoke_last_status
+          key: smoke-status-${{ github.run_number }}
+          restore-keys: smoke-status-
+
       - name: Smoke-check production routes
+        id: smoke_check
         run: |
           set -euo pipefail
           PROD_HOST="https://krakenwatch.com"
@@ -123,6 +131,7 @@ jobs:
           }
 
           check_route /
+          check_route /prediction
           check_route /ink
           check_route /payward
           check_route /alpha-briefs
@@ -142,6 +151,39 @@ jobs:
             echo "ERROR: No blog post files found in src/content/briefs/ — check the repository layout"
             exit 1
           fi
+
+      - name: Notify Slack on smoke-test recovery
+        if: steps.smoke_check.outcome == 'success'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
+            echo "SLACK_WEBHOOK_URL secret is not set — skipping Slack notification"
+            exit 0
+          fi
+
+          if [ ! -f /tmp/smoke_last_status ] || [ "$(cat /tmp/smoke_last_status)" != "failed" ]; then
+            echo "Previous smoke-test was not a failure — skipping recovery notification"
+            exit 0
+          fi
+
+          MESSAGE=":white_check_mark: *Smoke-test recovered* — the site is back to normal"
+
+          curl -fsSL -X POST "${SLACK_WEBHOOK_URL}" \
+            -H 'Content-Type: application/json' \
+            -d "{
+              \"text\": \"${MESSAGE}\",
+              \"blocks\": [
+                {
+                  \"type\": \"section\",
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"${MESSAGE}\n<${RUN_URL}|View successful run>\"
+                  }
+                }
+              ]
+            }"
 
       - name: Notify Slack on smoke-test failure
         if: failure()
@@ -175,3 +217,19 @@ jobs:
                 }
               ]
             }"
+
+      - name: Record smoke-test status
+        if: steps.smoke_check.outcome == 'success' || steps.smoke_check.outcome == 'failure'
+        run: |
+          if [ "${{ steps.smoke_check.outcome }}" = "success" ]; then
+            echo "success" > /tmp/smoke_last_status
+          else
+            echo "failed" > /tmp/smoke_last_status
+          fi
+
+      - name: Save smoke-test status
+        if: steps.smoke_check.outcome == 'success' || steps.smoke_check.outcome == 'failure'
+        uses: actions/cache/save@v4
+        with:
+          path: /tmp/smoke_last_status
+          key: smoke-status-${{ github.run_number }}
