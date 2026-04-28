@@ -33,7 +33,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --omit=optional
 
       - name: Refresh site data
         run: npm run refresh:data
@@ -54,6 +54,7 @@ jobs:
           git push origin HEAD:main
 
       - name: Close staleness alert on recovery
+        id: close_staleness
         if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -62,22 +63,55 @@ jobs:
           set -euo pipefail
           LABEL="data-refresh-failure"
 
-          # Find any open issue with this label.
-          EXISTING="$(gh issue list \
+          # Find ALL open issues with this label to avoid orphaned duplicates.
+          EXISTING_ISSUES="$(gh issue list \
             --label "$LABEL" \
             --state open \
-            --limit 1 \
+            --limit 100 \
             --json number \
-            --jq '.[0].number // empty' \
+            --jq '.[].number' \
             --repo "$GITHUB_REPOSITORY")"
 
-          if [ -n "$EXISTING" ]; then
-            gh issue comment "$EXISTING" \
-              --body "The **Daily Data Refresh** recovered successfully on $(date -u +'%Y-%m-%d %H:%M UTC'). Closing this issue automatically. [View run]($RUN_URL)" \
-              --repo "$GITHUB_REPOSITORY"
-            gh issue close "$EXISTING" \
-              --repo "$GITHUB_REPOSITORY"
+          if [ -n "$EXISTING_ISSUES" ]; then
+            while IFS= read -r ISSUE_NUMBER; do
+              gh issue comment "$ISSUE_NUMBER" \
+                --body "The **Daily Data Refresh** recovered successfully on $(date -u +'%Y-%m-%d %H:%M UTC'). Closing this issue automatically. [View run]($RUN_URL)" \
+                --repo "$GITHUB_REPOSITORY"
+              gh issue close "$ISSUE_NUMBER" \
+                --repo "$GITHUB_REPOSITORY"
+            done <<< "$EXISTING_ISSUES"
+            echo "issue_closed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "issue_closed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Notify Slack on data-refresh recovery
+        if: success() && steps.close_staleness.outputs.issue_closed == 'true'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
+            echo "SLACK_WEBHOOK_URL secret is not set — skipping Slack notification"
+            exit 0
+          fi
+
+          MESSAGE=":white_check_mark: *Daily Data Refresh recovered* — the staleness alert has been closed and the site is serving fresh data"
+
+          curl -fsSL -X POST "${SLACK_WEBHOOK_URL}" \
+            -H 'Content-Type: application/json' \
+            -d "{
+              \"text\": \"${MESSAGE}\",
+              \"blocks\": [
+                {
+                  \"type\": \"section\",
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"${MESSAGE}\n<${RUN_URL}|View successful run>\"
+                  }
+                }
+              ]
+            }"
 
       - name: Notify on failure
         if: failure()
@@ -95,20 +129,22 @@ jobs:
             --color "d93f0b" \
             --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
 
-          # If an open issue with this label already exists, add a comment instead
+          # If any open issues with this label exist, add a comment to each instead
           # of opening a duplicate.
-          EXISTING="$(gh issue list \
+          EXISTING_ISSUES="$(gh issue list \
             --label "$LABEL" \
             --state open \
-            --limit 1 \
+            --limit 100 \
             --json number \
-            --jq '.[0].number // empty' \
+            --jq '.[].number' \
             --repo "$GITHUB_REPOSITORY")"
 
-          if [ -n "$EXISTING" ]; then
-            gh issue comment "$EXISTING" \
-              --body "Workflow failed again on $(date -u +'%Y-%m-%d %H:%M UTC'). [View run]($RUN_URL)" \
-              --repo "$GITHUB_REPOSITORY"
+          if [ -n "$EXISTING_ISSUES" ]; then
+            while IFS= read -r ISSUE_NUMBER; do
+              gh issue comment "$ISSUE_NUMBER" \
+                --body "Workflow failed again on $(date -u +'%Y-%m-%d %H:%M UTC'). [View run]($RUN_URL)" \
+                --repo "$GITHUB_REPOSITORY"
+            done <<< "$EXISTING_ISSUES"
           else
             gh issue create \
               --title "$TITLE" \
