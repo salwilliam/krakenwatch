@@ -20,6 +20,11 @@ const border = 'hsl(33 28% 70%)';
 const primary = 'hsl(28 40% 14%)';
 const muted = 'hsl(30 20% 40%)';
 const accent = 'hsl(350 50% 32%)';
+const cardBorder = 'hsl(33 35% 60%)';
+const sectionBg = 'hsl(33 28% 82%)';
+const darkHeaderBg = 'hsl(30 30% 24%)';
+const darkHeaderBorder = 'hsl(30 25% 32%)';
+const darkHeaderText = 'hsl(38 50% 78%)';
 
 const kpis = [
   { label: 'Total Value Locked', value: '$536.48M', sublabel: 'L2Beat TVS', delta: '+488.5%', positive: true },
@@ -27,14 +32,6 @@ const kpis = [
   { label: 'Total Transactions', value: '251.5M', sublabel: 'All-time', delta: null, positive: true },
   { label: 'Total Addresses', value: '8.35M', sublabel: 'Unique', delta: null, positive: true },
   { label: 'Daily Transactions', value: '447,821', sublabel: '24h avg', delta: '+12.3%', positive: true },
-];
-
-const polymarketData = [
-  { threshold: 'Above $250M', prob: 0.695, volume: '$73.2K' },
-  { threshold: 'Above $500M', prob: 0.525, volume: '$256.6K' },
-  { threshold: 'Above $1B', prob: 0.255, volume: '$157.5K' },
-  { threshold: 'Above $2B', prob: 0.09, volume: '$10.2K' },
-  { threshold: 'Above $3B', prob: 0.053, volume: '$6.9K' },
 ];
 
 const tvlChartData = [
@@ -116,71 +113,43 @@ function BridgeTooltip({ active, payload }) {
 
 function SectionCard({ title, subtitle, children }) {
   return (
-    <div className="rounded-lg overflow-hidden" style={{ background: bg, border: `1px solid ${border}` }}>
-      <div className="px-5 py-3 border-b" style={{ borderColor: border }}>
-        <h3 className="text-base font-bold" style={{ fontFamily: 'var(--font-display)', color: primary }}>{title}</h3>
-        {subtitle && <p className="text-xs mt-0.5" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>{subtitle}</p>}
+    <div className="rounded-lg overflow-hidden w-full" style={{ background: bg, border: `2px solid ${cardBorder}` }}>
+      <div className="px-5 py-3" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
+        <h3 className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>{title}</h3>
+        {subtitle && <p className="text-[11px] mt-0.5" style={{ color: 'hsl(38 35% 60%)', fontFamily: 'var(--font-serif)' }}>{subtitle}</p>}
       </div>
       <div className="p-4 sm:p-5">{children}</div>
     </div>
   );
 }
 
+
 export default function InkL2() {
   return (
     <>
       <Helmet>
-        <title>Ink L2 Analytics — Kraken Watch</title>
-        <meta name="description" content="Live Ink L2 TVL, protocol count, and ecosystem growth data. Kraken's L2 chain built on the OP Stack." />
+        <title>Ink Ecosystem — Kraken Watch</title>
+        <meta name="description" content="Explore apps, assets, and activity across the Ink onchain ecosystem. Live TVL, protocol data, and ecosystem growth metrics." />
         <link rel="canonical" href="https://krakenwatch.com/ink" />
-        <meta property="og:title" content="Ink L2 Analytics — Kraken Watch" />
-        <meta property="og:description" content="Live Ink L2 TVL, protocol count, and ecosystem growth data." />
+        <meta property="og:title" content="Ink Ecosystem — Kraken Watch" />
+        <meta property="og:description" content="Explore apps, assets, and activity across the Ink onchain ecosystem." />
         <meta property="og:url" content="https://krakenwatch.com/ink" />
       </Helmet>
 
       <div className="p-6 space-y-6 max-w-[900px] mx-auto">
-        <div className="flex justify-center">
-          <img src="/stamp-binnacle.png" alt="Ink" className="object-contain" style={{ width: '100px', height: '100px' }} />
+        <div className="flex flex-col items-center gap-2 pt-2 text-center">
+          <img src="/stamp-squid.png" alt="Ink" className="object-contain" style={{ width: '100px', height: '100px' }} />
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: primary }}>
+            Ink Ecosystem
+          </h1>
+          <p className="text-sm max-w-md" style={{ fontFamily: 'var(--font-serif)', color: muted }}>
+            Scour the onchain frontier for Ink dapps, data, and plunder.
+          </p>
+          <span className="inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full mt-1"
+            style={{ background: sectionBg, border: `1px solid ${cardBorder}`, color: muted, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+            ↻ Data updates daily
+          </span>
         </div>
-
-        <SectionCard
-          title="INK Token FDV Forecast"
-          subtitle="Polymarket implied probability · one day after token launch"
-        >
-          <div className="flex items-center justify-end mb-4">
-            <a href="https://polymarket.com/event/ink-fdv-above-one-day-after-launch" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1 text-[11px] px-2 py-1 rounded"
-              style={{ color: accent, fontFamily: 'var(--font-serif)', border: `1px solid ${border}` }}>
-              Polymarket ↗
-            </a>
-          </div>
-          <div className="space-y-3">
-            {polymarketData.map(({ threshold, prob, volume }) => (
-              <div key={threshold}>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-semibold" style={{ fontFamily: 'var(--font-display)', color: primary }}>{threshold}</span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[11px]" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>Vol {volume}</span>
-                    <span className="text-sm font-bold tabular-nums" style={{ color: prob >= 0.5 ? 'hsl(150 40% 30%)' : accent, fontFamily: 'var(--font-display)' }}>
-                      {(prob * 100).toFixed(1)}%
-                    </span>
-                  </div>
-                </div>
-                <div className="h-2 rounded-full overflow-hidden" style={{ background: 'hsl(33 28% 80%)' }}>
-                  <div className="h-full rounded-full" style={{
-                    width: `${prob * 100}%`,
-                    background: prob >= 0.5
-                      ? 'linear-gradient(to right, hsl(150 40% 40%), hsl(150 50% 30%))'
-                      : `linear-gradient(to right, ${accent}, hsl(25 55% 38%))`,
-                  }} />
-                </div>
-              </div>
-            ))}
-            <p className="text-[11px] pt-1" style={{ color: muted, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
-              Market probabilities reflect crowd consensus and are not financial advice. INK token has not yet launched.
-            </p>
-          </div>
-        </SectionCard>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {kpis.map(kpi => (
@@ -297,8 +266,30 @@ export default function InkL2() {
           </div>
         </SectionCard>
 
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { label: 'NFTs', icon: '🖼️', desc: 'Collections, marketplaces, and creator activity on Ink.' },
+            { label: 'Memecoins', icon: '🐸', desc: 'Token launches and community-driven assets on Ink.' },
+          ].map(({ label, icon, desc }) => (
+            <div key={label} className="rounded-lg overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: bg }}>
+              <div className="px-5 py-3 flex items-center gap-2" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
+                <span style={{ color: 'hsl(38 55% 72%)' }}>{icon}</span>
+                <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>{label}</span>
+                <span className="ml-auto text-[9px] font-semibold px-2 py-0.5 rounded-full"
+                  style={{ background: 'hsl(38 40% 30%)', color: 'hsl(38 60% 80%)', border: '1px solid hsl(38 35% 40%)', fontFamily: 'var(--font-display)', letterSpacing: '0.06em' }}>
+                  Coming Soon
+                </span>
+              </div>
+              <div className="p-5 flex flex-col items-center justify-center gap-2 text-center" style={{ minHeight: '100px' }}>
+                <p className="text-[11px]" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>{desc}</p>
+                <p className="text-[10px]" style={{ color: muted, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Module in development — charting the frontier.</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <p className="text-[10px] text-center pb-4 pt-2" style={{ color: muted }}>
-          Bubble size = composite score · Kraken Watch is independent research
+          Kraken Watch is independent research, not affiliated with Kraken or Payward.
         </p>
       </div>
     </>
