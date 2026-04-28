@@ -94,7 +94,7 @@ export default function BlogArchive() {
         <div>
           <div className="map-divider mt-2" />
           <p className="text-sm mt-2" style={{ color: 'hsl(30 20% 42%)', fontFamily: 'var(--font-serif)' }}>
-            Short-form intelligence on Kraken, Ink L2, and the Payward ecosystem. Updated as events develop.
+            Actionable insight from across the Kraken universe.
           </p>
         </div>
 
