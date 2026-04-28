@@ -2,7 +2,6 @@ name: Daily Data Refresh
 
 on:
   schedule:
-    # Run daily at 8:00 AM America/New_York (12:00 UTC during EDT, 13:00 UTC during EST).
     - cron: '0 12 * * *'
   workflow_dispatch:
 
@@ -63,7 +62,6 @@ jobs:
           set -euo pipefail
           LABEL="data-refresh-failure"
 
-          # Find ALL open issues with this label to avoid orphaned duplicates.
           EXISTING_ISSUES="$(gh issue list \
             --label "$LABEL" \
             --state open \
@@ -75,7 +73,7 @@ jobs:
           if [ -n "$EXISTING_ISSUES" ]; then
             while IFS= read -r ISSUE_NUMBER; do
               gh issue comment "$ISSUE_NUMBER" \
-                --body "The **Daily Data Refresh** recovered successfully on $(date -u +'%Y-%m-%d %H:%M UTC'). Closing this issue automatically. [View run]($RUN_URL)" \
+                --body "The Daily Data Refresh recovered on $(date -u +'%Y-%m-%d %H:%M UTC'). Closing automatically. [View run]($RUN_URL)" \
                 --repo "$GITHUB_REPOSITORY"
               gh issue close "$ISSUE_NUMBER" \
                 --repo "$GITHUB_REPOSITORY"
@@ -95,16 +93,11 @@ jobs:
           TITLE="Daily Data Refresh failed - $(date -u +'%Y-%m-%d')"
           LABEL="data-refresh-failure"
 
-          # Create the label if it doesn't already exist (idempotent).
           gh label create "$LABEL" \
             --description "Automated: daily data refresh workflow failure" \
             --color "d93f0b" \
             --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
 
-          # If any open issues with this label exist, add a comment to each instead
-          # of opening a duplicate.
-          # Issues are sorted newest-first by createdAt so that head -1 reliably
-          # picks the most-recently opened issue regardless of gh CLI default ordering.
           EXISTING_ISSUES="$(gh issue list \
             --label "$LABEL" \
             --state open \
@@ -120,7 +113,6 @@ jobs:
                 --repo "$GITHUB_REPOSITORY"
             done <<< "$EXISTING_ISSUES"
 
-            # Keep only the most-recent open issue; close any older duplicates.
             MOST_RECENT="$(echo "$EXISTING_ISSUES" | head -1)"
             while IFS= read -r ISSUE_NUMBER; do
               if [ "$ISSUE_NUMBER" != "$MOST_RECENT" ]; then
@@ -133,11 +125,11 @@ jobs:
             gh issue create \
               --title "$TITLE" \
               --label "$LABEL" \
-              --body "The **Daily Data Refresh** workflow failed. The live site may be serving stale data.
+              --body "The Daily Data Refresh workflow failed. The live site may be serving stale data.
 
 **Run:** $RUN_URL
 **Time:** $(date -u +'%Y-%m-%d %H:%M UTC')
 
-Please investigate and re-run the workflow once the issue is resolved. Close this issue when the refresh is confirmed healthy." \
+Please investigate and re-run the workflow once the issue is resolved." \
               --repo "$GITHUB_REPOSITORY"
           fi
