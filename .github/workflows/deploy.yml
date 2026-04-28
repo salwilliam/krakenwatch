@@ -152,79 +152,26 @@ jobs:
             exit 1
           fi
 
-      - name: Notify Slack on smoke-test recovery
-        if: steps.smoke_check.outcome == 'success'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
-            echo "SLACK_WEBHOOK_URL secret is not set — skipping Slack notification"
-            exit 0
-          fi
-
-          if [ ! -f /tmp/smoke_last_status ] || [ "$(cat /tmp/smoke_last_status)" != "failed" ]; then
-            echo "Previous smoke-test was not a failure — skipping recovery notification"
-            exit 0
-          fi
-
-          MESSAGE=":white_check_mark: *Smoke-test recovered* — the site is back to normal"
-
-          curl -fsSL -X POST "${SLACK_WEBHOOK_URL}" \
-            -H 'Content-Type: application/json' \
-            -d "{
-              \"text\": \"${MESSAGE}\",
-              \"blocks\": [
-                {
-                  \"type\": \"section\",
-                  \"text\": {
-                    \"type\": \"mrkdwn\",
-                    \"text\": \"${MESSAGE}\n<${RUN_URL}|View successful run>\"
-                  }
-                }
-              ]
-            }"
-
-      - name: Notify Slack on smoke-test failure
-        if: failure()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
-            echo "SLACK_WEBHOOK_URL secret is not set — skipping Slack notification"
-            exit 0
-          fi
-
-          if [ -f /tmp/smoke_failed_route ]; then
-            FAILED_ROUTE="$(cat /tmp/smoke_failed_route)"
-            MESSAGE=":rotating_light: *Smoke-test failed* on route \`${FAILED_ROUTE}\`"
-          else
-            MESSAGE=":rotating_light: *Smoke-test failed* (route could not be determined)"
-          fi
-
-          curl -fsSL -X POST "${SLACK_WEBHOOK_URL}" \
-            -H 'Content-Type: application/json' \
-            -d "{
-              \"text\": \"${MESSAGE}\",
-              \"blocks\": [
-                {
-                  \"type\": \"section\",
-                  \"text\": {
-                    \"type\": \"mrkdwn\",
-                    \"text\": \"${MESSAGE}\n<${RUN_URL}|View failed run>\"
-                  }
-                }
-              ]
-            }"
-
       - name: Record smoke-test status
         if: steps.smoke_check.outcome == 'success' || steps.smoke_check.outcome == 'failure'
         run: |
           if [ "${{ steps.smoke_check.outcome }}" = "success" ]; then
             echo "success" > /tmp/smoke_last_status
           else
-            echo "failed" > /tmp/smoke_last_status
+            # Preserve the original failure timestamp across consecutive failures so
+            # the recovery alert can report the full downtime duration.
+            PREV_STATUS=""
+            PREV_TS=""
+            if [ -f /tmp/smoke_last_status ]; then
+              PREV_STATUS="$(cut -d: -f1 /tmp/smoke_last_status)"
+              PREV_TS="$(cut -d: -f2 /tmp/smoke_last_status)"
+            fi
+            if [ "$PREV_STATUS" = "failed" ] && [[ "$PREV_TS" =~ ^[0-9]+$ ]]; then
+              echo "Already in failed state — keeping original failure timestamp"
+            else
+              # First failure, or legacy entry without a timestamp: record timestamp now.
+              echo "failed:$(date +%s)" > /tmp/smoke_last_status
+            fi
           fi
 
       - name: Save smoke-test status
