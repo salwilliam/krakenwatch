@@ -95,7 +95,7 @@ export default function Experimental() {
             Experimental
           </h1>
           <p className="text-sm max-w-lg" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.7 }}>
-            All proposed modules for review. Each module is numbered and labeled.
+            Greenhorn modules, still gettin' their sea legs.
           </p>
 
           <p className="text-sm mt-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>
