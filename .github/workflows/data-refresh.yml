@@ -5,6 +5,7 @@ on:
     branches:
       - main
   schedule:
+    # Run daily at 12:00 UTC.
     - cron: '0 12 * * *'
   workflow_dispatch:
 
@@ -48,92 +49,22 @@ jobs:
             echo "No data changes detected."
             exit 0
           fi
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add public/site-data.json src/worker.js
           git commit -m "chore(data): daily refresh site-data"
           git push origin HEAD:main
 
       - name: Close staleness alert on recovery
-        id: close_staleness
         if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          set -euo pipefail
-          LABEL="data-refresh-failure"
-
-          EXISTING_ISSUES="$(gh issue list \
-            --label "$LABEL" \
-            --state open \
-            --limit 100 \
-            --json number \
-            --jq '.[].number' \
-            --repo "$GITHUB_REPOSITORY")"
-
-          if [ -n "$EXISTING_ISSUES" ]; then
-            while IFS= read -r ISSUE_NUMBER; do
-              gh issue comment "$ISSUE_NUMBER" \
-                --body "The Daily Data Refresh recovered on $(date -u +'%Y-%m-%d %H:%M UTC'). Closing automatically. [View run]($RUN_URL)" \
-                --repo "$GITHUB_REPOSITORY"
-              gh issue close "$ISSUE_NUMBER" \
-                --repo "$GITHUB_REPOSITORY"
-            done <<< "$EXISTING_ISSUES"
-            echo "issue_closed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "issue_closed=false" >> "$GITHUB_OUTPUT"
-          fi
+        run: bash .github/scripts/close-staleness-alert.sh
 
       - name: Notify on failure
         if: failure()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          set -euo pipefail
-          TITLE="Daily Data Refresh failed - $(date -u +'%Y-%m-%d')"
-          LABEL="data-refresh-failure"
-
-          gh label create "$LABEL" \
-            --description "Automated: daily data refresh workflow failure" \
-            --color "d93f0b" \
-            --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
-
-          EXISTING_ISSUES="$(gh issue list \
-            --label "$LABEL" \
-            --state open \
-            --limit 100 \
-            --json number,createdAt \
-            --jq 'sort_by(.createdAt) | reverse | .[].number' \
-            --repo "$GITHUB_REPOSITORY")"
-
-          if [ -n "$EXISTING_ISSUES" ]; then
-            while IFS= read -r ISSUE_NUMBER; do
-              gh issue comment "$ISSUE_NUMBER" \
-                --body "Workflow failed again on $(date -u +'%Y-%m-%d %H:%M UTC'). [View run]($RUN_URL)" \
-                --repo "$GITHUB_REPOSITORY"
-            done <<< "$EXISTING_ISSUES"
-
-            MOST_RECENT="$(echo "$EXISTING_ISSUES" | head -1)"
-            while IFS= read -r ISSUE_NUMBER; do
-              if [ "$ISSUE_NUMBER" != "$MOST_RECENT" ]; then
-                gh issue close "$ISSUE_NUMBER" \
-                  --comment "Superseded by #${MOST_RECENT}. Closing to keep at most one open staleness issue at a time." \
-                  --repo "$GITHUB_REPOSITORY"
-              fi
-            done <<< "$EXISTING_ISSUES"
-          else
-            gh issue create \
-              --title "$TITLE" \
-              --label "$LABEL" \
-              --body "The Daily Data Refresh workflow failed. The live site may be serving stale data.
-
-**Run:** $RUN_URL
-**Time:** $(date -u +'%Y-%m-%d %H:%M UTC')
-
-Please investigate and re-run the workflow once the issue is resolved." \
-              --repo "$GITHUB_REPOSITORY"
-          fi
+        run: bash .github/scripts/notify-data-refresh-failure.sh
