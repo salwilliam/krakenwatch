@@ -85,34 +85,6 @@ jobs:
             echo "issue_closed=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Notify Slack on data-refresh recovery
-        if: success() && steps.close_staleness.outputs.issue_closed == 'true'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
-            echo "SLACK_WEBHOOK_URL secret is not set — skipping Slack notification"
-            exit 0
-          fi
-
-          MESSAGE=":white_check_mark: *Daily Data Refresh recovered* — the staleness alert has been closed and the site is serving fresh data"
-
-          curl -fsSL -X POST "${SLACK_WEBHOOK_URL}" \
-            -H 'Content-Type: application/json' \
-            -d "{
-              \"text\": \"${MESSAGE}\",
-              \"blocks\": [
-                {
-                  \"type\": \"section\",
-                  \"text\": {
-                    \"type\": \"mrkdwn\",
-                    \"text\": \"${MESSAGE}\n<${RUN_URL}|View successful run>\"
-                  }
-                }
-              ]
-            }"
-
       - name: Notify on failure
         if: failure()
         env:
