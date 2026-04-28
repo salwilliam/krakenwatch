@@ -92,7 +92,7 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
-          TITLE="Daily Data Refresh failed — $(date -u +'%Y-%m-%d')"
+          TITLE="Daily Data Refresh failed - $(date -u +'%Y-%m-%d')"
           LABEL="data-refresh-failure"
 
           # Create the label if it doesn't already exist (idempotent).
@@ -103,12 +103,14 @@ jobs:
 
           # If any open issues with this label exist, add a comment to each instead
           # of opening a duplicate.
+          # Issues are sorted newest-first by createdAt so that head -1 reliably
+          # picks the most-recently opened issue regardless of gh CLI default ordering.
           EXISTING_ISSUES="$(gh issue list \
             --label "$LABEL" \
             --state open \
             --limit 100 \
-            --json number \
-            --jq '.[].number' \
+            --json number,createdAt \
+            --jq 'sort_by(.createdAt) | reverse | .[].number' \
             --repo "$GITHUB_REPOSITORY")"
 
           if [ -n "$EXISTING_ISSUES" ]; then
@@ -116,6 +118,16 @@ jobs:
               gh issue comment "$ISSUE_NUMBER" \
                 --body "Workflow failed again on $(date -u +'%Y-%m-%d %H:%M UTC'). [View run]($RUN_URL)" \
                 --repo "$GITHUB_REPOSITORY"
+            done <<< "$EXISTING_ISSUES"
+
+            # Keep only the most-recent open issue; close any older duplicates.
+            MOST_RECENT="$(echo "$EXISTING_ISSUES" | head -1)"
+            while IFS= read -r ISSUE_NUMBER; do
+              if [ "$ISSUE_NUMBER" != "$MOST_RECENT" ]; then
+                gh issue close "$ISSUE_NUMBER" \
+                  --comment "Superseded by #${MOST_RECENT}. Closing to keep at most one open staleness issue at a time." \
+                  --repo "$GITHUB_REPOSITORY"
+              fi
             done <<< "$EXISTING_ISSUES"
           else
             gh issue create \
