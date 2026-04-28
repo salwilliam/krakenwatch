@@ -1,7 +1,9 @@
-const IconHome = () => (
+import { useLocation } from 'react-router-dom';
+
+const IconPrediction = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
-    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/>
-    <path d="M9 21V12h6v9"/>
+    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+    <polyline points="16 7 22 7 22 13"/>
   </svg>
 );
 
@@ -21,52 +23,40 @@ const IconPayward = () => (
   </svg>
 );
 
-const IconBriefs = () => (
+const IconBlog = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-    <path d="M14 2v6h6"/>
-    <line x1="8" y1="13" x2="16" y2="13"/>
-    <line x1="8" y1="17" x2="13" y2="17"/>
-  </svg>
-);
-
-const IconAbout = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M12 8h.01"/>
-    <path d="M11 12h1v4h1"/>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
   </svg>
 );
 
 const IconExperimental = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
-    <path d="M9 3h6v7l3.5 8.5A1 1 0 0 1 17.6 20H6.4a1 1 0 0 1-.9-1.5L9 10V3z"/>
-    <line x1="9" y1="3" x2="15" y2="3"/>
-    <path d="M7.5 15h9"/>
+    <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11M3 9h6m6 0h6M3 9a9 9 0 0 0 9 9 9 9 0 0 0 9-9"/>
   </svg>
 );
 
-const IconContact = () => (
+const IconAbout = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
   </svg>
 );
 
-const tabs = [
-  { id: 'home',         label: 'Home',         Icon: IconHome },
-  { id: 'ink',          label: 'Ink',           Icon: IconInk },
-  { id: 'corporate',    label: 'Payward',       Icon: IconPayward },
-  { id: 'blog',         label: 'Blog',          Icon: IconBriefs },
-  { id: 'experimental', label: 'Experimental',  Icon: IconExperimental },
-  { id: 'about',        label: 'About',         Icon: IconAbout },
+const navLinks = [
+  { href: '/prediction', label: 'Prediction', Icon: IconPrediction },
+  { href: '/ink', label: 'Ink Ecosystem', Icon: IconInk },
+  { href: '/payward', label: 'Payward Map', Icon: IconPayward },
+  { href: '/blog', label: 'Blog', Icon: IconBlog },
+  { href: '/experimental', label: 'Experimental', Icon: IconExperimental },
+  { href: '/about', label: 'About', Icon: IconAbout },
 ];
 
-export default function Nav({ activeTab, onTabChange }) {
+export default function Nav() {
+  const location = useLocation();
+
   return (
     <header className="sticky top-0 z-50 shrink-0" style={{ backgroundColor: 'var(--nav-bg)', borderBottom: '1px solid var(--nav-border)' }} data-testid="top-nav">
-      {/* Top row */}
       <div className="flex items-center justify-between px-4 sm:px-6 pt-2 pb-1">
-        <div className="flex items-center gap-3 shrink-0">
+        <a href="/prediction" className="flex items-center gap-3 shrink-0 transition-opacity hover:opacity-80">
           <img
             src="/stamp-pirate.png"
             alt="Kraken Watch mascot"
@@ -92,7 +82,7 @@ export default function Nav({ activeTab, onTabChange }) {
               beta
             </span>
           </div>
-        </div>
+        </a>
 
         <div className="flex items-center gap-2">
           <a
@@ -130,36 +120,24 @@ export default function Nav({ activeTab, onTabChange }) {
         </div>
       </div>
 
-      {/* Tab row */}
       <nav className="flex items-center gap-0 px-4 sm:px-6 pb-0 overflow-x-auto" data-testid="tab-nav">
-        {tabs.map((tab) => {
-          const active = activeTab === tab.id;
+        {navLinks.map(({ href, label, Icon }) => {
+          const active = location.pathname === href ||
+            (href === '/prediction' && (location.pathname === '/' || location.pathname === '')) ||
+            (href !== '/prediction' && href !== '/ink' && href !== '/payward' && location.pathname.startsWith(href + '/'));
           const cls = "flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium whitespace-nowrap transition-all duration-150 select-none border-b-2";
           const style = {
             fontFamily: 'var(--font-display)',
             letterSpacing: '0.04em',
             color: active ? 'hsl(38 60% 85%)' : 'hsl(38 25% 52%)',
             borderBottomColor: active ? 'hsl(38 55% 68%)' : 'transparent',
-            background: 'transparent',
+            textDecoration: 'none',
           };
-          if (tab.href) {
-            return (
-              <a key={tab.id} href={tab.href} target="_blank" rel="noopener noreferrer"
-                className={cls}
-                style={{ ...style, color: 'hsl(38 25% 52%)', borderBottomColor: 'transparent' }}
-              >
-                <tab.Icon />
-                {tab.label}
-              </a>
-            );
-          }
           return (
-            <button key={tab.id} onClick={() => onTabChange(tab.id)}
-              className={cls} style={style} data-testid={`tab-${tab.id}`}
-            >
-              <tab.Icon />
-              {tab.label}
-            </button>
+            <a key={href} href={href} className={cls} style={style} data-testid={`tab-${href.replace('/', '')}`}>
+              <Icon />
+              {label}
+            </a>
           );
         })}
       </nav>
