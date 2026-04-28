@@ -1,4 +1,5 @@
 name = "wispy-sun-811e"
+account_id = "f1706deefade579c61ef0cbf25bef6ef"
 main = "./src/worker.js"
 compatibility_date = "2026-04-17"
 
