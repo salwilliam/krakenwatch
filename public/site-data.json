@@ -1,42 +1,42 @@
 {
-  "updated_at": "2026-04-27T19:28:06.154Z",
-  "updated_display": "April 27, 2026",
+  "updated_at": "2026-04-28T23:46:34.752Z",
+  "updated_display": "April 28, 2026",
   "ink": {
-    "tvl_millions": 291.9,
+    "tvl_millions": 292.5,
     "protocol_count": 26
   },
   "ipo": {
-    "polymarket_pct": 74,
-    "kalshi_pct": 64.5,
-    "avg_pct": 70.6
+    "polymarket_pct": 78,
+    "kalshi_pct": 64,
+    "avg_pct": 74.4
   },
   "secondary_market": {
-    "hiive_pps": 34.44,
+    "hiive_pps": 34.41,
     "forge_pps": 33.25,
     "npm_pps": 37.69,
-    "notice_pps": 47.52,
-    "avg_pps": 35.73,
+    "notice_pps": 47.39,
+    "avg_pps": 35.7,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
-    "updated": "April 27, 2026"
+    "updated": "April 28, 2026"
   },
   "prediction_markets": {
     "ipo": {
-      "kalshi_pct": 64.5,
-      "polymarket_pct": 74,
-      "mktcap_16b_pct": 62,
-      "largest_excl_spacex_pct": 5.2
+      "kalshi_pct": 64,
+      "polymarket_pct": 78,
+      "mktcap_16b_pct": 55,
+      "largest_excl_spacex_pct": 9.6
     },
     "underwriters": [
       {
         "bank": "Bank of America",
         "ticker": "BOA",
-        "pct": 72
+        "pct": 71.5
       },
       {
         "bank": "Morgan Stanley",
         "ticker": "MS",
-        "pct": 62.5
+        "pct": 62
       },
       {
         "bank": "Citigroup",
@@ -46,23 +46,23 @@
       {
         "bank": "JPMorgan Chase",
         "ticker": "JPM",
-        "pct": 58
+        "pct": 57
       },
       {
         "bank": "Goldman Sachs",
         "ticker": "GS",
-        "pct": 56
+        "pct": 56.5
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 46.5,
-      "crypto_structure_aug_pct": 37.5
+      "clarity_act_pct": 46,
+      "crypto_structure_aug_pct": 24
     },
     "ink_fdv": {
-      "above_250m_pct": 83,
-      "above_500m_pct": 73,
-      "above_1b_pct": 44.5,
-      "above_2b_pct": 15.5
+      "above_250m_pct": 82.5,
+      "above_500m_pct": 72,
+      "above_1b_pct": 42,
+      "above_2b_pct": 20
     }
   }
 }
