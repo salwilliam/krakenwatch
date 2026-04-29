@@ -90,9 +90,9 @@ npm run refresh:data
 
 The project includes a scheduled GitHub Actions workflow:
 
-- `.github/workflows/daily-data-refresh.yml`
+- `.github/workflows/data-refresh.yml`
 - Workflow name: `Daily Data Refresh`
-- Schedule: daily at `14:15 UTC`
+- Schedule: daily at `12:00 UTC`
 
 It refreshes `public/site-data.json` from:
 
@@ -103,35 +103,3 @@ It refreshes `public/site-data.json` from:
 
 The workflow commits updated `public/site-data.json` back to `main` when values change.
 
-## Daily Ink 24h X snapshot
-
-The project can also generate a daily internal snapshot report from a monitored
-X List (with optional account fallback).
-
-- Workflow: `.github/workflows/daily-x-monitor.yml`
-- Name: `Daily X Monitor Report`
-- Schedule: daily at `14:45 UTC`
-- Output:
-  - report: `reports/x-daily/YYYY-MM-DD.md`
-  - internal raw data: `reports/x-daily/raw/YYYY-MM-DD.json`
-
-### Where to enter your inputs
-
-1. Edit account list + objective in:
-   - `config/x-monitor.config.json`
-   - Primary mode: set `list_id` (example: `2046327906943500367`)
-   - Optional fallback: `accounts_fallback` usernames
-2. Add required GitHub repository secrets:
-   - `X_BEARER_TOKEN`
-   - `OPENAI_API_KEY`
-   - optional: `X_MONITOR_LLM_MODEL`
-   - Note: your X API project must have active API credits/plan access for list
-     and timeline endpoints. Without credits, runs fail with `CreditsDepleted`.
-3. (Optional) run locally:
-   - `npm run report:x-daily`
-
-### Runtime model
-
-This runs in GitHub Actions on a daily schedule (not inside the Cloudflare
-Worker runtime). The Worker and app serve the site; the snapshot job is a
-separate automation pipeline that writes reports to the repo.

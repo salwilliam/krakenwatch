@@ -8,8 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview --host 0.0.0.0",
-    "refresh:data": "node scripts/refresh-site-data.mjs",
-    "report:x-daily": "node scripts/generate-x-daily-report.mjs"
+    "refresh:data": "node scripts/refresh-site-data.mjs"
   },
   "dependencies": {
     "d3": "^7.9.0",
