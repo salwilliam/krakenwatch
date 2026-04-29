@@ -228,6 +228,9 @@ export default function Prediction() {
         <meta property="og:title" content="Prediction Watch — Kraken Watch" />
         <meta property="og:description" content="Track prediction market data and key signals across crypto, macro, and global events." />
         <meta property="og:url" content="https://krakenwatch.com/prediction" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Prediction Watch — Kraken Watch" />
+        <meta name="twitter:description" content="Track prediction market data and key signals across crypto, macro, and global events. Daily Kraken IPO odds, INK token forecasts, and secondary market pricing." />
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">

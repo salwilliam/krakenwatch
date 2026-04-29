@@ -134,6 +134,9 @@ export default function InkL2() {
         <meta property="og:title" content="Ink Ecosystem — Kraken Watch" />
         <meta property="og:description" content="Explore apps, assets, and activity across the Ink onchain ecosystem." />
         <meta property="og:url" content="https://krakenwatch.com/ink" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Ink Ecosystem — Kraken Watch" />
+        <meta name="twitter:description" content="Explore apps, assets, and activity across the Ink onchain ecosystem. Live TVL, protocol data, and ecosystem growth metrics." />
       </Helmet>
 
       <div className="p-6 space-y-6 max-w-[900px] mx-auto">

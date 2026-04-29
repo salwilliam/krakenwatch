@@ -29,7 +29,13 @@ export default function BlogPost() {
         <title>{brief.title} — Kraken Watch</title>
         <meta name="description" content={brief.description} />
         <link rel="canonical" href={`https://krakenwatch.com/blog/${brief.slug}`} />
+        <meta property="og:title" content={`${brief.title} — Kraken Watch`} />
+        <meta property="og:description" content={brief.description} />
+        <meta property="og:url" content={`https://krakenwatch.com/blog/${brief.slug}`} />
         {brief.image && <meta property="og:image" content={`https://krakenwatch.com${brief.image}`} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${brief.title} — Kraken Watch`} />
+        <meta name="twitter:description" content={brief.description} />
       </Helmet>
 
       <div className="p-6 max-w-[900px] mx-auto">

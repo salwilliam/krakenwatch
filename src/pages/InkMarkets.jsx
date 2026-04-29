@@ -34,6 +34,9 @@ export default function InkMarkets({ onNav }) {
         <meta property="og:title" content="Ink Markets — Kraken Watch" />
         <meta property="og:description" content="Ink L2 live TVL, protocol count, and INK token FDV prediction markets." />
         <meta property="og:url" content="https://krakenwatch.com/ink" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Ink Markets — Kraken Watch" />
+        <meta name="twitter:description" content="Ink L2 live TVL, protocol count, and INK token FDV prediction markets. Kraken's OP Stack chain." />
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">

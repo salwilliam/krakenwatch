@@ -77,6 +77,13 @@ export default function Experimental() {
       <Helmet>
         <title>Experimental — Kraken Watch</title>
         <meta name="description" content="Staging area for all proposed Kraken Map and Ink Markets modules under development." />
+        <link rel="canonical" href="https://krakenwatch.com/experimental" />
+        <meta property="og:title" content="Experimental — Kraken Watch" />
+        <meta property="og:description" content="Staging area for all proposed Kraken Map and Ink Markets modules under development." />
+        <meta property="og:url" content="https://krakenwatch.com/experimental" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Experimental — Kraken Watch" />
+        <meta name="twitter:description" content="Staging area for all proposed Kraken Map and Ink Markets modules under development." />
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">

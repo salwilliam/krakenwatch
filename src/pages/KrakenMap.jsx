@@ -63,6 +63,9 @@ export default function KrakenMap({ onNav }) {
         <meta property="og:title" content="Kraken Map — Kraken Watch" />
         <meta property="og:description" content="Live Kraken IPO odds, prediction markets, and secondary share pricing." />
         <meta property="og:url" content="https://krakenwatch.com/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Kraken Map — Kraken Watch" />
+        <meta name="twitter:description" content="Live Kraken IPO odds, prediction markets, secondary share pricing, Ink TVL, and regulatory signals — updated daily." />
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">

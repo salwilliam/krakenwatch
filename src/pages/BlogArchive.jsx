@@ -84,6 +84,12 @@ export default function BlogArchive() {
         <title>Blog — Kraken Watch</title>
         <meta name="description" content="Short-form intelligence on Kraken, Ink L2, and the Payward ecosystem. Updated as events develop." />
         <link rel="canonical" href="https://krakenwatch.com/blog" />
+        <meta property="og:title" content="Blog — Kraken Watch" />
+        <meta property="og:description" content="Short-form intelligence on Kraken, Ink L2, and the Payward ecosystem. Updated as events develop." />
+        <meta property="og:url" content="https://krakenwatch.com/blog" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Blog — Kraken Watch" />
+        <meta name="twitter:description" content="Short-form intelligence on Kraken, Ink L2, and the Payward ecosystem. Updated as events develop." />
       </Helmet>
 
       <div className="p-6 space-y-6 max-w-[900px] mx-auto">

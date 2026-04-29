@@ -238,6 +238,43 @@ const ecosystemSections = [
   },
 ];
 
+function XIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 1200 1227" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="X (Twitter)" role="img">
+      <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" fill="currentColor"/>
+    </svg>
+  );
+}
+
+let _igIconSeq = 0;
+
+function InstagramIcon() {
+  const gradId = `ig-grad-${++_igIconSeq}`;
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Instagram" role="img">
+      <defs>
+        <linearGradient id={gradId} x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#f09433"/>
+          <stop offset="25%" stopColor="#e6683c"/>
+          <stop offset="50%" stopColor="#dc2743"/>
+          <stop offset="75%" stopColor="#cc2366"/>
+          <stop offset="100%" stopColor="#bc1888"/>
+        </linearGradient>
+      </defs>
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke={`url(#${gradId})`} strokeWidth="2" fill="none"/>
+      <circle cx="12" cy="12" r="4" stroke={`url(#${gradId})`} strokeWidth="2" fill="none"/>
+      <circle cx="17.5" cy="6.5" r="1" fill={`url(#${gradId})`}/>
+    </svg>
+  );
+}
+
+function getPlatformIcon(url) {
+  if (!url) return null;
+  if (url.includes('x.com') || url.includes('twitter.com')) return <XIcon />;
+  if (url.includes('instagram.com')) return <InstagramIcon />;
+  return null;
+}
+
 function TagPill({ tag }) {
   const colors = TAG_COLORS[tag] || { bg: sectionBg, color: ut, border: cardBorder };
   return (
@@ -249,11 +286,19 @@ function TagPill({ tag }) {
 }
 
 function EntityCard({ entity }) {
+  const platformIcon = entity.tag === 'Social' ? getPlatformIcon(entity.url) : null;
   const content = (
     <div className="rounded-lg p-3 h-full flex flex-col gap-2 transition-opacity"
       style={{ border: `1px solid ${cardBorder}`, background: sectionBg }}>
       <div className="flex items-start justify-between gap-2">
-        <p className="text-xs font-bold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>{entity.name}</p>
+        <div className="flex items-center gap-1.5 min-w-0">
+          {platformIcon && (
+            <span className="shrink-0 flex items-center" style={{ color: 'hsl(210 10% 40%)', marginTop: '1px' }}>
+              {platformIcon}
+            </span>
+          )}
+          <p className="text-xs font-bold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>{entity.name}</p>
+        </div>
         <TagPill tag={entity.tag} />
       </div>
       <p className="text-[10px] leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{entity.desc}</p>
@@ -418,6 +463,9 @@ export default function Payward() {
         <meta property="og:title" content="Payward Map — Kraken Watch" />
         <meta property="og:description" content="Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity." />
         <meta property="og:url" content="https://krakenwatch.com/payward" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Payward Map — Kraken Watch" />
+        <meta name="twitter:description" content="Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity. Entities, partners, sponsorships, and acquisitions." />
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 w-full max-w-[1024px] mx-auto">

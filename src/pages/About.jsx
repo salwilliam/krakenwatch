@@ -1,9 +1,23 @@
+import { Helmet } from 'react-helmet-async';
+
 const qp = 'hsl(28 40% 14%)';
 const b5 = 'hsl(350 55% 32%)';
 const ut = 'hsl(30 20% 38%)';
 
 export default function About() {
   return (
+    <>
+      <Helmet>
+        <title>About — Kraken Watch</title>
+        <meta name="description" content="Kraken Watch is independent research tracking Kraken, Payward, and Ink L2. Daily analytics on IPO odds, share pricing, and the onchain ecosystem." />
+        <link rel="canonical" href="https://krakenwatch.com/about" />
+        <meta property="og:title" content="About — Kraken Watch" />
+        <meta property="og:description" content="Kraken Watch is independent research tracking Kraken, Payward, and Ink L2." />
+        <meta property="og:url" content="https://krakenwatch.com/about" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About — Kraken Watch" />
+        <meta name="twitter:description" content="Kraken Watch is independent research tracking Kraken, Payward, and Ink L2." />
+      </Helmet>
     <div className="max-w-[900px] mx-auto px-4 py-10 flex flex-col items-center gap-8">
       <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
         <img src="/about-hero.png" alt="Kraken Watch crew at the docks" className="w-full object-cover" />
@@ -68,5 +82,6 @@ export default function About() {
         </div>
       </div>
     </div>
+    </>
   );
 }
