@@ -1,42 +1,42 @@
 {
-  "updated_at": "2026-04-29T13:27:39.402Z",
-  "updated_display": "April 29, 2026",
+  "updated_at": "2026-04-30T13:25:01.471Z",
+  "updated_display": "April 30, 2026",
   "ink": {
-    "tvl_millions": 294.9,
-    "protocol_count": 26
+    "tvl_millions": 298.4,
+    "protocol_count": 27
   },
   "ipo": {
-    "polymarket_pct": 78.5,
-    "kalshi_pct": 64,
-    "avg_pct": 76.5
+    "polymarket_pct": 77,
+    "kalshi_pct": 61,
+    "avg_pct": 63.1
   },
   "secondary_market": {
-    "hiive_pps": 34.42,
+    "hiive_pps": 34.74,
     "forge_pps": 32.52,
     "npm_pps": 37.69,
-    "notice_pps": 47.42,
-    "avg_pps": 35.44,
+    "notice_pps": 46.94,
+    "avg_pps": 35.54,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
-    "updated": "April 29, 2026"
+    "updated": "April 30, 2026"
   },
   "prediction_markets": {
     "ipo": {
-      "kalshi_pct": 64,
-      "polymarket_pct": 78.5,
-      "mktcap_16b_pct": 56,
-      "largest_excl_spacex_pct": 6.7
+      "kalshi_pct": 61,
+      "polymarket_pct": 77,
+      "mktcap_16b_pct": 55.5,
+      "largest_excl_spacex_pct": 5.8
     },
     "underwriters": [
       {
         "bank": "Bank of America",
         "ticker": "BOA",
-        "pct": 71.5
+        "pct": 71
       },
       {
         "bank": "Morgan Stanley",
         "ticker": "MS",
-        "pct": 61.5
+        "pct": 61
       },
       {
         "bank": "Citigroup",
@@ -46,7 +46,7 @@
       {
         "bank": "JPMorgan Chase",
         "ticker": "JPM",
-        "pct": 57
+        "pct": 56.5
       },
       {
         "bank": "Goldman Sachs",
@@ -56,13 +56,13 @@
     ],
     "regulatory": {
       "clarity_act_pct": 45.5,
-      "crypto_structure_aug_pct": 23.5
+      "crypto_structure_aug_pct": 35
     },
     "ink_fdv": {
-      "above_250m_pct": 82,
-      "above_500m_pct": 72,
+      "above_250m_pct": 86,
+      "above_500m_pct": 71.5,
       "above_1b_pct": 41.5,
-      "above_2b_pct": 17.5
+      "above_2b_pct": 17
     }
   }
 }
