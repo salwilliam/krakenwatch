@@ -18,9 +18,9 @@ export default function About() {
         <meta name="twitter:title" content="About — Kraken Watch" />
         <meta name="twitter:description" content="Kraken Watch is independent research tracking Kraken, Payward, and Ink L2." />
       </Helmet>
-    <div className="max-w-[900px] mx-auto px-4 py-10 flex flex-col items-center gap-8">
-      <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-        <img src="/about-hero.png" alt="Kraken Watch crew at the docks" className="w-full object-cover" />
+    <div className="max-w-[900px] mx-auto p-4 sm:p-6 flex flex-col items-center gap-6">
+      <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)', height: '280px' }}>
+        <img src="/about-hero.png" alt="Kraken Watch crew at the docks" className="w-full h-full object-cover" />
       </div>
       <div className="w-full flex flex-col gap-5 text-center">
         <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
