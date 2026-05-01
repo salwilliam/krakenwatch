@@ -88,8 +88,8 @@ export default function Experimental() {
 
       <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">
 
-        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-          <img src="/experimental-hero.png" alt="Experimental staging area" className="w-full object-cover" />
+        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)', height: '280px' }}>
+          <img src="/experimental-hero.png" alt="Experimental staging area" className="w-full h-full object-cover" />
         </div>
 
         <div className="text-center flex flex-col items-center gap-2 pt-2">
@@ -110,6 +110,11 @@ export default function Experimental() {
             <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer"
               className="underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
               style={{ color: on }}>Request a feature.</a>
+          </p>
+          <p className="text-sm" style={{ fontFamily: 'var(--font-display)', color: ut }}>
+            <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer"
+              className="underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
+              style={{ color: on }}>Submit a story.</a>
           </p>
         </div>
 
