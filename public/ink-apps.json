@@ -15,7 +15,7 @@
   {
     "id": "velodrome",
     "name": "Velodrome",
-    "category": "DEX",
+    "category": "DEX/Liquidity",
     "tags": ["dex", "liquidity"],
     "description": "Superchain-native AMM DEX for deep liquidity pools on Ink.",
     "context_note": "placeholder — to be filled by site owner",
