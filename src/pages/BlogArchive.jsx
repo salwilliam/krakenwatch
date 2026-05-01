@@ -106,8 +106,8 @@ export default function BlogArchive() {
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">
-        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)', height: '280px' }}>
-          <img src="/alpha-briefs-hero.png" alt="Blog" className="w-full h-full object-cover" />
+        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
+          <img src="/alpha-briefs-hero.png" alt="Blog" className="w-full object-cover" />
         </div>
 
         <div className="text-center flex flex-col items-center gap-2 pt-2">
