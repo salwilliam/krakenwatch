@@ -1,14 +1,25 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import briefs from '../content/briefs/index.js';
+
+const mdComponents = {
+  p: ({ children }) => <p className="leading-relaxed">{children}</p>,
+  h1: ({ children }) => <p className="font-bold leading-relaxed">{children}</p>,
+  h2: ({ children }) => <p className="font-semibold leading-relaxed">{children}</p>,
+  strong: ({ children }) => <strong style={{ color: 'hsl(28 40% 18%)', fontWeight: 700 }}>{children}</strong>,
+  em: ({ children }) => <em style={{ color: 'hsl(28 30% 38%)' }}>{children}</em>,
+  a: ({ href, children }) => (
+    <a href={href} target="_blank" rel="noopener noreferrer"
+      className="underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
+      style={{ color: 'hsl(350 50% 35%)' }}>{children}</a>
+  ),
+};
 
 function BriefCard({ brief }) {
   const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
-  const paragraphs = brief.body.split('\n\n');
-  const preview = paragraphs.slice(0, 1).join('\n\n');
-  const rest = paragraphs.slice(1);
 
   return (
     <div className="parchment-card rounded-lg overflow-hidden" data-testid={`brief-${brief.slug}`}>
@@ -41,10 +52,12 @@ function BriefCard({ brief }) {
           {brief.title}
         </h3>
         <div className="text-sm leading-relaxed space-y-3" style={{ fontFamily: 'var(--font-serif)', color: 'hsl(28 30% 28%)' }}>
-          <p style={{ whiteSpace: 'pre-line' }}>{preview}</p>
-          {expanded && rest.map((p, i) => <p key={i} style={{ whiteSpace: 'pre-line' }}>{p}</p>)}
+          <p>{brief.description}</p>
+          {expanded && (
+            <ReactMarkdown components={mdComponents}>{brief.body}</ReactMarkdown>
+          )}
         </div>
-        {rest.length > 0 && (
+        {brief.body && (
           <button onClick={() => setExpanded(!expanded)}
             className="mt-3 inline-flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-70"
             style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.06em', color: 'hsl(350 50% 35%)' }}>
@@ -92,15 +105,24 @@ export default function BlogArchive() {
         <meta name="twitter:description" content="Short-form intelligence on Kraken, Ink L2, and the Payward ecosystem. Updated as events develop." />
       </Helmet>
 
-      <div className="p-6 space-y-6 max-w-[900px] mx-auto">
-        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-          <img src="/alpha-briefs-hero.png" alt="Blog" className="w-full object-cover" />
+      <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">
+        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)', height: '280px' }}>
+          <img src="/alpha-briefs-hero.png" alt="Blog" className="w-full h-full object-cover" />
         </div>
 
-        <div>
-          <div className="map-divider mt-2" />
-          <p className="text-sm mt-2" style={{ color: 'hsl(30 20% 42%)', fontFamily: 'var(--font-serif)' }}>
+        <div className="text-center flex flex-col items-center gap-2 pt-2">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-wide"
+            style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 14%)' }}>
+            Kraken Watch Blog
+          </h1>
+          <p className="text-sm max-w-lg" style={{ fontFamily: 'var(--font-serif)', color: 'hsl(28 40% 14%)', opacity: 0.7 }}>
             Actionable insight from across the Kraken universe.
+          </p>
+          <p className="text-sm mt-1" style={{ fontFamily: 'var(--font-display)', color: 'hsl(30 20% 38%)' }}>
+            Yar!{' '}
+            <a href="https://x.com/KrakWatch" target="_blank" rel="noopener noreferrer"
+              className="underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
+              style={{ color: 'hsl(350 55% 32%)' }}>Submit a story.</a>
           </p>
         </div>
 
