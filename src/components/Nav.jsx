@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 
 const IconPrediction = () => (
@@ -61,10 +61,16 @@ const menuItems = [
   { href: 'https://x.com/KrakWatch', label: '@KrakWatch on X', Icon: IconX, external: true },
 ];
 
+const menuItemStyle = {
+  fontFamily: 'var(--font-display)',
+  letterSpacing: '0.04em',
+  color: 'hsl(38 35% 65%)',
+  textDecoration: 'none',
+};
+
 function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!open) return;
@@ -77,16 +83,6 @@ function HamburgerMenu() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open]);
 
-  function handleNav(item, e) {
-    e.preventDefault();
-    setOpen(false);
-    if (item.external) {
-      window.open(item.href, '_blank', 'noopener,noreferrer');
-    } else {
-      navigate(item.href);
-    }
-  }
-
   return (
     <div className="relative" ref={ref}>
       <button
@@ -96,54 +92,42 @@ function HamburgerMenu() {
         className="flex flex-col items-center justify-center w-8 h-8 gap-1.5 rounded transition-opacity hover:opacity-70"
         style={{ color: 'hsl(38 35% 65%)' }}
       >
-        <span
-          className="block w-4 h-px transition-all duration-200"
-          style={{
-            background: 'currentColor',
-            transform: open ? 'translateY(5px) rotate(45deg)' : 'none',
-          }}
-        />
-        <span
-          className="block w-4 h-px transition-all duration-200"
-          style={{
-            background: 'currentColor',
-            opacity: open ? 0 : 1,
-          }}
-        />
-        <span
-          className="block w-4 h-px transition-all duration-200"
-          style={{
-            background: 'currentColor',
-            transform: open ? 'translateY(-5px) rotate(-45deg)' : 'none',
-          }}
-        />
+        <span className="block w-4 h-px transition-all duration-200" style={{ background: 'currentColor', transform: open ? 'translateY(5px) rotate(45deg)' : 'none' }} />
+        <span className="block w-4 h-px transition-all duration-200" style={{ background: 'currentColor', opacity: open ? 0 : 1 }} />
+        <span className="block w-4 h-px transition-all duration-200" style={{ background: 'currentColor', transform: open ? 'translateY(-5px) rotate(-45deg)' : 'none' }} />
       </button>
 
       {open && (
         <div
           className="absolute right-0 mt-2 w-52 rounded-lg shadow-xl overflow-hidden z-50"
-          style={{
-            background: 'hsl(30 30% 18%)',
-            border: '1px solid hsl(30 25% 28%)',
-          }}
+          style={{ background: 'hsl(30 30% 18%)', border: '1px solid hsl(30 25% 28%)' }}
         >
           {menuItems.map(item => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={e => handleNav(item, e)}
-              className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium transition-colors hover:bg-white/5"
-              style={{
-                fontFamily: 'var(--font-display)',
-                letterSpacing: '0.04em',
-                color: 'hsl(38 35% 65%)',
-                textDecoration: 'none',
-              }}
-              {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            >
-              <item.Icon />
-              {item.label}
-            </a>
+            item.external ? (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium transition-colors hover:bg-white/5"
+                style={menuItemStyle}
+              >
+                <item.Icon />
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium transition-colors hover:bg-white/5"
+                style={menuItemStyle}
+              >
+                <item.Icon />
+                {item.label}
+              </Link>
+            )
           ))}
         </div>
       )}
