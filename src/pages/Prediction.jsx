@@ -13,211 +13,164 @@ const darkHeaderBorder = 'hsl(30 25% 32%)';
 const darkHeaderText = 'hsl(38 50% 78%)';
 const accent = 'hsl(350 50% 32%)';
 const muted = 'hsl(30 20% 40%)';
-const bg = 'hsl(38 38% 93%)';
-const border = 'hsl(33 28% 70%)';
 
-const mktCapBars = [
-  { label: '$16B', pct: 38, note: 'floor' },
-  { label: '$18B', pct: 31, note: '' },
-  { label: '$20B', pct: 29, note: '' },
-  { label: '$22B', pct: 24, note: '' },
-  { label: '$24B+', pct: 25, note: 'bull' },
-];
+const SOURCE_BADGE = {
+  Kalshi:     { bg: 'hsl(220 45% 88%)', fg: 'hsl(220 50% 35%)' },
+  Polymarket: { bg: 'hsl(270 35% 88%)', fg: 'hsl(270 40% 35%)' },
+};
 
-const priceSourceRows = [
-  { key: 'hiive', label: 'Hiive', href: 'https://www.hiive.com/securities/kraken-stock', field: 'hiive_pps', note: 'weighted avg' },
-  { key: 'forge', label: 'Forge Global', href: 'https://forgeglobal.com/kraken_stock/', field: 'forge_pps', note: 'Forge Price™' },
-  { key: 'npm', label: 'Nasdaq Private Mkt', href: 'https://www.nasdaqprivatemarket.com/company/kraken/', field: 'npm_pps', note: 'Tape D™' },
-  { key: 'notice', label: 'Notice', href: 'https://notice.co/c/kraken', field: 'notice_pps', note: 'algorithmic' },
-];
-
-const inkPolymarketData = [
-  { threshold: 'Above $250M', prob: 0.695, volume: '$73.2K' },
-  { threshold: 'Above $500M', prob: 0.525, volume: '$256.6K' },
-  { threshold: 'Above $1B', prob: 0.255, volume: '$157.5K' },
-  { threshold: 'Above $2B', prob: 0.09, volume: '$10.2K' },
-  { threshold: 'Above $3B', prob: 0.053, volume: '$6.9K' },
-];
-
-function DataModuleCard({ title, icon, children }) {
+function SourceBadge({ src }) {
+  const s = SOURCE_BADGE[src] || { bg: sectionBg, fg: ut };
   return (
-    <div className="rounded-lg overflow-hidden w-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
-      <div className="px-5 py-3 flex items-center gap-3" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
-        <span className="shrink-0" style={{ color: 'hsl(38 55% 72%)' }}>{icon}</span>
-        <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>{title}</span>
+    <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded shrink-0"
+      style={{ background: s.bg, color: s.fg, fontFamily: 'var(--font-display)' }}>
+      {src}
+    </span>
+  );
+}
+
+function MarketCard({ name, pct, sources, href, note, subRows }) {
+  const pctNum = parseFloat(pct);
+  const barWidth = Math.min(100, Math.max(0, isNaN(pctNum) ? 0 : pctNum));
+  const srcs = Array.isArray(sources) ? sources : [sources].filter(Boolean);
+
+  const inner = (
+    <div className="rounded-xl overflow-hidden flex flex-col h-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+      <div className="px-4 pt-3.5 pb-2 flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+            {srcs.map(s => <SourceBadge key={s} src={s} />)}
+          </div>
+          <p className="text-sm font-semibold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>
+            {name}
+          </p>
+          {note && <p className="text-[10px] mt-1 leading-snug" style={{ color: ut, fontStyle: 'italic' }}>{note}</p>}
+        </div>
+        <div className="shrink-0 text-right">
+          <p className="text-3xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
+            {pct == null ? '—' : `${pct}%`}
+          </p>
+          {subRows && subRows.map(r => (
+            <p key={r.src} className="text-[10px] mt-0.5 tabular-nums" style={{ color: ut }}>
+              {r.src} {r.pct != null ? `${r.pct}%` : '—'}
+            </p>
+          ))}
+        </div>
       </div>
-      <div className="p-5">{children}</div>
+      <div className="px-4 pb-3">
+        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'hsl(33 25% 76%)' }}>
+          <div className="h-full rounded-full" style={{
+            width: `${barWidth}%`,
+            background: barWidth >= 50
+              ? 'linear-gradient(to right, hsl(150 40% 40%), hsl(150 50% 30%))'
+              : `linear-gradient(to right, ${accent}, hsl(25 55% 38%))`,
+          }} />
+        </div>
+        <p className="text-[9px] mt-1.5" style={{ color: ut }}>updated daily{href ? ' · click to view market ↗' : ''}</p>
+      </div>
+    </div>
+  );
+
+  return href ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className="block h-full transition-opacity hover:opacity-90" style={{ textDecoration: 'none' }}>
+      {inner}
+    </a>
+  ) : inner;
+}
+
+function SectionDivider({ title }) {
+  return (
+    <div className="flex items-center gap-3 pt-2">
+      <div className="flex-1 h-px" style={{ background: 'hsl(30 25% 72%)' }} />
+      <span className="text-[10px] font-bold uppercase tracking-widest px-1" style={{ fontFamily: 'var(--font-display)', color: muted }}>
+        {title}
+      </span>
+      <div className="flex-1 h-px" style={{ background: 'hsl(30 25% 72%)' }} />
     </div>
   );
 }
 
-function IpoForecastModule({ ipo }) {
-  const avg = ipo?.avg_pct;
-  const poly = ipo?.polymarket_pct;
-  const kalshi = ipo?.kalshi_pct;
-  return (
-    <DataModuleCard title="Kraken IPO Forecast" icon={
-      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
-      </svg>
-    }>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>IPO by Dec 31 2026<MethodologyTooltip /></p>
-          <p className="text-5xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
-            {avg == null ? '—' : `${avg}%`}
-          </p>
-          <p className="text-[11px] mt-1.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>avg. implied probability</p>
-          <div className="mt-4 space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <a href="https://polymarket.com/event/kraken-ipo-in-2025" target="_blank" rel="noopener noreferrer"
-                className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>Polymarket</a>
-              <span className="text-sm font-bold tabular-nums" style={{ color: on }}>{poly == null ? '—' : `${poly}%`}</span>
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <a href="https://kalshi.com/markets/kxipo/ipos/kxipo-26" target="_blank" rel="noopener noreferrer"
-                className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>Kalshi</a>
-              <span className="text-sm font-bold tabular-nums" style={{ color: on }}>{kalshi == null ? '—' : `${kalshi}%`}</span>
-            </div>
-          </div>
-          <p className="text-[10px] mt-3" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Mid-market prices · updated daily</p>
-        </div>
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: ut }}>Likely Market Cap at Listing</p>
-          <div className="space-y-1.5">
-            {mktCapBars.map(({ label, pct, note }) => (
-              <div key={label} className="flex items-center gap-3">
-                <span className="text-xs font-mono w-12 shrink-0 text-right" style={{ color: ut }}>{label}</span>
-                <div className="flex-1 rounded-full overflow-hidden h-2" style={{ background: 'hsl(33 25% 76%)' }}>
-                  <div className="h-2 rounded-full" style={{ width: `${pct}%`, background: `hsl(350 ${40 + pct / 3}% ${45 - pct / 5}%)` }} />
-                </div>
-                <span className="text-xs tabular-nums font-semibold w-8 shrink-0" style={{ color: on }}>{pct}%</span>
-                {note && <span className="text-[10px] hidden sm:inline" style={{ color: ut, fontStyle: 'italic' }}>{note}</span>}
-              </div>
-            ))}
-          </div>
-          <p className="text-[10px] mt-2" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Polymarket market cap data · ~$20B current private valuation</p>
-        </div>
-      </div>
-    </DataModuleCard>
-  );
-}
+const priceSourceRows = [
+  { key: 'hiive',  label: 'Hiive',            href: 'https://www.hiive.com/securities/kraken-stock',             field: 'hiive_pps',  note: 'weighted avg' },
+  { key: 'forge',  label: 'Forge Global',      href: 'https://forgeglobal.com/kraken_stock/',                    field: 'forge_pps',  note: 'Forge Price™' },
+  { key: 'npm',    label: 'Nasdaq Private Mkt', href: 'https://www.nasdaqprivatemarket.com/company/kraken/',      field: 'npm_pps',    note: 'Tape D™' },
+  { key: 'notice', label: 'Notice',            href: 'https://notice.co/c/kraken',                               field: 'notice_pps', note: 'algorithmic' },
+];
 
 function SecondaryMarketModule({ sm }) {
   return (
-    <DataModuleCard title="Private Market Share Price" icon={
-      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-      </svg>
-    }>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Secondary Market Fair Value<MethodologyTooltip /></p>
-          <p className="text-5xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
-            {sm?.avg_pps == null ? '—' : `$${sm.avg_pps.toFixed(2)}`}
-          </p>
-          <p className="text-[11px] mt-1.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>avg. across 4 secondary venues</p>
-          <div className="mt-3 space-y-1">
-            <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Est. 30D Volume<MethodologyTooltip /></p>
-            <p className="text-2xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: on }}>
-              {sm?.volume_30d_est_m == null ? '—' : `~$${sm.volume_30d_est_m}M`}
+    <div className="rounded-xl overflow-hidden w-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+      <div className="px-5 py-3 flex items-center gap-3" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
+        <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'hsl(38 55% 72%)' }}>
+          <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>Private Market Share Price</span>
+      </div>
+      <div className="p-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>
+              Secondary Market Fair Value<MethodologyTooltip />
             </p>
-            <p className="text-[11px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
-              {sm?.volume_note || 'Est. 30D secondary volume'}
+            <p className="text-5xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
+              {sm?.avg_pps == null ? '—' : `$${sm.avg_pps.toFixed(2)}`}
             </p>
+            <p className="text-[11px] mt-1.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>avg. across 4 secondary venues</p>
+            <div className="mt-3 space-y-1">
+              <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Est. 30D Volume<MethodologyTooltip /></p>
+              <p className="text-2xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: on }}>
+                {sm?.volume_30d_est_m == null ? '—' : `~$${sm.volume_30d_est_m}M`}
+              </p>
+              <p className="text-[11px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+                {sm?.volume_note || 'Est. 30D secondary volume'}
+              </p>
+            </div>
+            <p className="text-[10px] mt-3" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Snapshot · updated daily · not financial advice</p>
           </div>
-          <p className="text-[10px] mt-3" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Snapshot · updated daily · not financial advice</p>
-        </div>
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: ut }}>Price by Source</p>
-          <div className="space-y-2">
-            {priceSourceRows.map(({ key, label, href, field, note }) => {
-              const val = sm?.[field];
-              return (
-                <div key={key} className="flex items-center justify-between gap-2">
-                  <div className="flex flex-col">
-                    <a href={href} target="_blank" rel="noopener noreferrer"
-                      className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>{label}</a>
-                    <span className="text-[10px]" style={{ color: ut, fontStyle: 'italic' }}>{note}</span>
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: ut }}>Price by Source</p>
+            <div className="space-y-2">
+              {priceSourceRows.map(({ key, label, href, field, note }) => {
+                const val = sm?.[field];
+                return (
+                  <div key={key} className="flex items-center justify-between gap-2">
+                    <div className="flex flex-col">
+                      <a href={href} target="_blank" rel="noopener noreferrer"
+                        className="text-xs font-medium underline decoration-dotted" style={{ color: ut }}>{label}</a>
+                      <span className="text-[10px]" style={{ color: ut, fontStyle: 'italic' }}>{note}</span>
+                    </div>
+                    <span className="text-sm font-bold tabular-nums" style={{ color: on }}>
+                      {val == null ? '—' : `$${val.toFixed(2)}`}
+                    </span>
                   </div>
-                  <span className="text-sm font-bold tabular-nums" style={{ color: on }}>
-                    {val == null ? '—' : `$${val.toFixed(2)}`}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-          <div className="mt-3 pt-2" style={{ borderTop: '1px solid hsl(33 30% 72%)' }}>
-            <p className="text-[10px]" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
-              Prices are indicative secondary market data, not official valuations. Volume is estimated from platform activity data and public disclosures.
-            </p>
+                );
+              })}
+            </div>
+            <div className="mt-3 pt-2" style={{ borderTop: '1px solid hsl(33 30% 72%)' }}>
+              <p className="text-[10px]" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+                Prices are indicative secondary market data, not official valuations.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </DataModuleCard>
+    </div>
   );
 }
-
-function InkFdvModule() {
-  return (
-    <DataModuleCard title="INK Token FDV Forecast" icon={
-      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2C8 7 5 10.5 5 14a7 7 0 0 0 14 0c0-3.5-3-7-7-12z"/>
-        <path d="M12 14.5a2.5 2.5 0 0 1 2.5 2.5"/>
-      </svg>
-    }>
-      <div className="flex items-center justify-end mb-4">
-        <a href="https://polymarket.com/event/ink-fdv-above-one-day-after-launch" target="_blank" rel="noopener noreferrer"
-          className="flex items-center gap-1 text-[11px] px-2 py-1 rounded"
-          style={{ color: accent, fontFamily: 'var(--font-serif)', border: `1px solid ${border}` }}>
-          Polymarket ↗
-        </a>
-      </div>
-      <p className="text-[10px] mb-3" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
-        Implied probability · one day after token launch
-      </p>
-      <div className="space-y-3">
-        {inkPolymarketData.map(({ threshold, prob, volume }) => (
-          <div key={threshold}>
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-sm font-semibold" style={{ fontFamily: 'var(--font-display)', color: qp }}>{threshold}</span>
-              <div className="flex items-center gap-3">
-                <span className="text-[11px]" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>Vol {volume}</span>
-                <span className="text-sm font-bold tabular-nums" style={{ color: prob >= 0.5 ? 'hsl(150 40% 30%)' : accent, fontFamily: 'var(--font-display)' }}>
-                  {(prob * 100).toFixed(1)}%
-                </span>
-              </div>
-            </div>
-            <div className="h-2 rounded-full overflow-hidden" style={{ background: 'hsl(33 28% 80%)' }}>
-              <div className="h-full rounded-full" style={{
-                width: `${prob * 100}%`,
-                background: prob >= 0.5
-                  ? 'linear-gradient(to right, hsl(150 40% 40%), hsl(150 50% 30%))'
-                  : `linear-gradient(to right, ${accent}, hsl(25 55% 38%))`,
-              }} />
-            </div>
-          </div>
-        ))}
-        <p className="text-[11px] pt-1" style={{ color: muted, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
-          Market probabilities reflect crowd consensus and are not financial advice. INK token has not yet launched.
-        </p>
-      </div>
-    </DataModuleCard>
-  );
-}
-
 
 export default function Prediction() {
   const { data } = useSiteData();
   const ipo = data?.ipo;
   const sm = data?.secondary_market;
-  const ink = data?.ink;
-  const updated = data?.updated_display || 'April 28, 2026';
+  const pm = data?.prediction_markets;
+  const updated = data?.updated_display || 'May 1, 2026';
 
-  const cardStyle = {
-    border: `2px solid ${cardBorder}`,
-    background: cardBg,
-  };
+  const ipoKalshi = pm?.ipo?.kalshi_pct ?? ipo?.kalshi_pct;
+  const ipoPoly   = pm?.ipo?.polymarket_pct ?? ipo?.polymarket_pct;
+  const ipoAvg    = ipo?.avg_pct ??
+    (ipoKalshi != null && ipoPoly != null
+      ? Math.round((ipoKalshi + ipoPoly) / 2 * 10) / 10
+      : (ipoKalshi ?? ipoPoly));
 
   return (
     <>
@@ -233,7 +186,9 @@ export default function Prediction() {
         <meta name="twitter:description" content="Track prediction market data and key signals across crypto, macro, and global events. Daily Kraken IPO odds, INK token forecasts, and secondary market pricing." />
       </Helmet>
 
-      <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">
+      <div className="p-4 sm:p-6 space-y-5 max-w-[900px] mx-auto">
+
+        {/* ── Header ── */}
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
           <img src="/stamp-prediction.png" alt="Prediction Watch" className="object-contain" style={{ width: '100px', height: '100px' }} />
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
@@ -254,19 +209,108 @@ export default function Prediction() {
           <div className="flex-1 h-px" style={{ background: 'hsl(30 30% 70%)' }} />
         </div>
 
-        <IpoForecastModule ipo={ipo} />
+        {/* ── Private Market Prices ── */}
         <SecondaryMarketModule sm={sm} />
-        <InkFdvModule />
 
+        {/* ── IPO Prediction Markets ── */}
+        <SectionDivider title="IPO Prediction Markets" />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <MarketCard
+            name="Kraken IPO by Dec 31, 2026"
+            pct={ipoAvg}
+            sources={['Kalshi', 'Polymarket']}
+            href="https://polymarket.com/event/kraken-ipo-in-2025"
+            subRows={[
+              { src: 'Kalshi', pct: ipoKalshi },
+              { src: 'Polymarket', pct: ipoPoly },
+            ]}
+          />
+          <MarketCard
+            name="IPO market cap above $16B at listing"
+            pct={pm?.ipo?.mktcap_16b_pct}
+            sources="Polymarket"
+            href="https://polymarket.com/event/kraken-ipo-closing-market-cap-above"
+          />
+          <MarketCard
+            name="Largest IPO of 2026 (excl. SpaceX)"
+            pct={pm?.ipo?.largest_excl_spacex_pct}
+            sources="Polymarket"
+            href="https://polymarket.com/event/largest-ipo-by-market-cap-in-2026-287"
+            note="Conditional: raw 0.5% ÷ non-SpaceX pool ~10.5%"
+          />
+        </div>
+
+        {/* ── Underwriter Watch ── */}
+        <SectionDivider title="Underwriter Watch" />
+        <p className="text-[11px] -mt-2" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>
+          Which bank leads the Kraken IPO? Markets are not mutually exclusive.
+        </p>
+
+        {pm?.underwriters?.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {pm.underwriters.map(u => (
+              <MarketCard
+                key={u.ticker}
+                name={`${u.bank} leads Kraken IPO`}
+                pct={u.pct}
+                sources="Kalshi"
+                href="https://kalshi.com/markets/kxkrakenbankpublic/kraken-ipo/kxkrakenbankpublic-27jan01"
+              />
+            ))}
+          </div>
+        )}
+
+        {/* ── INK Token FDV ── */}
+        <SectionDivider title="INK Token FDV" />
+        <p className="text-[11px] -mt-2" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>
+          Polymarket — implied probability one day after token launch
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {[
+            { label: 'INK FDV above $250M', field: 'above_250m_pct' },
+            { label: 'INK FDV above $500M', field: 'above_500m_pct' },
+            { label: 'INK FDV above $1B',   field: 'above_1b_pct' },
+            { label: 'INK FDV above $2B',   field: 'above_2b_pct' },
+          ].map(({ label, field }) => (
+            <MarketCard
+              key={field}
+              name={label}
+              pct={pm?.ink_fdv?.[field]}
+              sources="Polymarket"
+              href="https://polymarket.com/event/ink-fdv-above-one-day-after-launch"
+            />
+          ))}
+        </div>
+
+        {/* ── Regulatory ── */}
+        <SectionDivider title="Regulatory" />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <MarketCard
+            name="Clarity Act signed into law in 2026"
+            pct={pm?.regulatory?.clarity_act_pct}
+            sources="Polymarket"
+            href="https://polymarket.com/event/clarity-act-signed-into-law-in-2026"
+          />
+          <MarketCard
+            name="Crypto market structure bill by Aug 1, 2026"
+            pct={pm?.regulatory?.crypto_structure_aug_pct}
+            sources="Kalshi"
+            href="https://kalshi.com/markets/kxcryptostructure/crypto-market-structure/kxcryptostructure-26jan"
+          />
+        </div>
+
+        {/* ── Footer ── */}
         <p className="text-[10px] text-center pb-4 pt-2" style={{ color: ut }}>
-          <span
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded mr-1"
-            style={{ background: 'hsl(33 28% 82%)', border: '1px solid hsl(33 25% 70%)' }}
-          >
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded mr-1"
+            style={{ background: 'hsl(33 28% 82%)', border: '1px solid hsl(33 25% 70%)' }}>
             ↻ Updated daily · {updated}
           </span>
-          Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from market data using Kraken Watch&apos;s proprietary method.
+          Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures derived from market data using Kraken Watch&apos;s proprietary method.
         </p>
+
       </div>
     </>
   );
