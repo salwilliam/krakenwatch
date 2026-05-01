@@ -46,8 +46,8 @@ const navLinks = [
   { href: '/ink', label: 'Ink Ecosystem', Icon: IconInk },
   { href: '/payward', label: 'Payward Map', Icon: IconPayward },
   { href: '/blog', label: 'Blog', Icon: IconBlog },
-  { href: '/experimental', label: 'Experimental', Icon: IconExperimental },
   { href: '/about', label: 'About', Icon: IconAbout },
+  { href: '/experimental', label: 'Experimental', Icon: IconExperimental },
 ];
 
 export default function Nav() {
