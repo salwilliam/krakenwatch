@@ -158,19 +158,6 @@ export default function Experimental() {
             note="Conditional: Kraken raw 0.5% ÷ non-SpaceX pool ~10.5%" />
         </ModuleShell>
 
-        {/* ── MODULE 3 ── */}
-        <ModuleShell number="3" title="Prediction Markets — Regulatory">
-          <p className="text-[10px] font-semibold uppercase tracking-widest pb-1" style={{ color: ut }}>Regulatory</p>
-          <PredRow label="Clarity Act signed into law in 2026"
-            pct={pm?.regulatory?.clarity_act_pct}
-            src="Polymarket"
-            href="https://polymarket.com/event/clarity-act-signed-into-law-in-2026" />
-          <PredRow label="Crypto market structure bill before Aug 1, 2026"
-            pct={pm?.regulatory?.crypto_structure_aug_pct}
-            src="Kalshi"
-            href="https://kalshi.com/markets/kxcryptostructure/crypto-market-structure/kxcryptostructure-26jan" />
-        </ModuleShell>
-
         {/* ── MODULE 4 ── */}
         <ModuleShell number="4" title="Underwriter Watch">
           <p className="text-[10px] mb-2" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>
