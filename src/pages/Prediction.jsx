@@ -165,12 +165,11 @@ export default function Prediction() {
   const pm = data?.prediction_markets;
   const updated = data?.updated_display || 'May 1, 2026';
 
-  const ipoKalshi = pm?.ipo?.kalshi_pct ?? ipo?.kalshi_pct;
-  const ipoPoly   = pm?.ipo?.polymarket_pct ?? ipo?.polymarket_pct;
-  const ipoAvg    = ipo?.avg_pct ??
-    (ipoKalshi != null && ipoPoly != null
-      ? Math.round((ipoKalshi + ipoPoly) / 2 * 10) / 10
-      : (ipoKalshi ?? ipoPoly));
+  const ipoKalshi = pm?.ipo?.kalshi_pct;
+  const ipoPoly   = pm?.ipo?.polymarket_pct;
+  const ipoAvg    = ipoKalshi != null && ipoPoly != null
+    ? Math.round((ipoKalshi + ipoPoly) / 2 * 10) / 10
+    : (ipoKalshi ?? ipoPoly ?? null);
 
   return (
     <>
