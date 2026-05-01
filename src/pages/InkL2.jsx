@@ -1,130 +1,210 @@
 import { Helmet } from 'react-helmet-async';
-import EcosystemMap from '../components/EcosystemMap';
-import {
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ReferenceLine,
-  Label,
-  Cell,
-} from 'recharts';
+import { useState, useEffect, useRef } from 'react';
 
-const bg = 'hsl(38 38% 93%)';
-const border = 'hsl(33 28% 70%)';
 const primary = 'hsl(28 40% 14%)';
 const muted = 'hsl(30 20% 40%)';
 const accent = 'hsl(350 50% 32%)';
+const cardBg = 'hsl(38 40% 90%)';
 const cardBorder = 'hsl(33 35% 60%)';
 const sectionBg = 'hsl(33 28% 82%)';
 const darkHeaderBg = 'hsl(30 30% 24%)';
 const darkHeaderBorder = 'hsl(30 25% 32%)';
 const darkHeaderText = 'hsl(38 50% 78%)';
+const bg = 'hsl(38 38% 93%)';
+const border = 'hsl(33 28% 70%)';
+
+const CAT_BADGE = {
+  DEX:      { bg: 'hsl(270 35% 88%)', fg: 'hsl(270 40% 35%)' },
+  Bridge:   { bg: 'hsl(180 38% 84%)', fg: 'hsl(180 50% 26%)' },
+  Lending:  { bg: 'hsl(220 45% 88%)', fg: 'hsl(220 50% 35%)' },
+  Wallet:   { bg: 'hsl(35 55% 86%)',  fg: 'hsl(35 50% 28%)' },
+  Exchange: { bg: 'hsl(150 38% 84%)', fg: 'hsl(150 48% 26%)' },
+  DCA:      { bg: 'hsl(50 50% 85%)',  fg: 'hsl(50 45% 26%)' },
+  Explorer: { bg: 'hsl(0 0% 87%)',    fg: 'hsl(0 0% 30%)' },
+};
 
 const kpis = [
-  { label: 'Total Value Locked', value: '$536.48M', sublabel: 'L2Beat TVS', delta: '+488.5%', positive: true },
-  { label: 'Bridged TVL', value: '$829.94M', sublabel: 'Cross-chain', delta: null, positive: true },
-  { label: 'Total Transactions', value: '251.5M', sublabel: 'All-time', delta: null, positive: true },
-  { label: 'Total Addresses', value: '8.35M', sublabel: 'Unique', delta: null, positive: true },
-  { label: 'Daily Transactions', value: '447,821', sublabel: '24h avg', delta: '+12.3%', positive: true },
+  { label: 'Total Value Locked', value: '$536.48M', sublabel: 'L2Beat TVS',  delta: '+488.5%', positive: true },
+  { label: 'Bridged TVL',        value: '$829.94M', sublabel: 'Cross-chain', delta: null,      positive: true },
+  { label: 'Total Transactions', value: '251.5M',   sublabel: 'All-time',    delta: null,      positive: true },
+  { label: 'Total Addresses',    value: '8.35M',    sublabel: 'Unique',      delta: null,      positive: true },
+  { label: 'Daily Transactions', value: '447,821',  sublabel: '24h avg',     delta: '+12.3%',  positive: true },
 ];
 
-const tvlChartData = [
-  { month: "Dec '24", value: 0.97 },
-  { month: "Jan '25", value: 2 },
-  { month: "Feb '25", value: 5.49 },
-  { month: "Mar '25", value: 4.29 },
-  { month: "Apr '25", value: 4.04 },
-  { month: "May '25", value: 6.88 },
-  { month: "Jun '25", value: 7.4 },
-  { month: "Jul '25", value: 8.63 },
-  { month: "Aug '25", value: 9.22 },
-  { month: "Sep '25", value: 8.68 },
-  { month: "Oct '25", value: 111.7 },
-  { month: "Nov '25", value: 288.1 },
-  { month: "Dec '25", value: 409.5 },
-  { month: "Jan '26", value: 526 },
-  { month: "Feb '26", value: 437.7 },
-  { month: "Mar '26", value: 472.1 },
-  { month: "Apr '26", value: 481.7 },
-];
-
-const bridgedAssets = [
-  { name: 'kBTC', value: 244.93, pct: '29.5%' },
-  { name: 'USDT0', value: 235.05, pct: '28.3%' },
-  { name: 'USDG', value: 107.48, pct: '12.9%' },
-  { name: 'WETH', value: 57.54, pct: '6.9%' },
-  { name: 'sUSDe', value: 45.85, pct: '5.5%' },
-  { name: 'USDC', value: 44.69, pct: '5.4%' },
-  { name: 'ezETH', value: 35.24, pct: '4.2%' },
-  { name: 'rsETH', value: 17.2, pct: '2.1%' },
-  { name: 'Other', value: 42, pct: '5.1%' },
-];
-const barColors = ['#7B61FF', '#20C9A6', '#5B8DEF', '#E9A74A', '#C27AFF', '#3DD68C', '#FF7B93', '#5EC4D4', '#6B7280'];
-
-const protocols = [
-  { name: 'Tydro', type: 'Lending', tvl: '~$380M TVL', detail: 'Aave v3 white-label', color: '#7B61FF' },
-  { name: 'Nado', type: 'Perp DEX', tvl: '$17B Jan volume', detail: '5-15ms latency', color: '#20C9A6' },
-  { name: 'Rails', type: 'Institutional Perps', tvl: 'KYC/Compliant', detail: 'Kraken Ventures-backed', color: '#5B8DEF' },
-  { name: 'Velodrome', type: 'AMM DEX', tvl: 'Superchain native', detail: '', color: '#E9A74A' },
-  { name: 'Morpho', type: 'Modular Lending', tvl: '', detail: '', color: '#C27AFF' },
-  { name: 'Uniswap', type: 'AMM DEX', tvl: '', detail: '', color: '#FF7B93' },
-  { name: 'Curve', type: 'Stableswap', tvl: '', detail: '', color: '#3DD68C' },
-  { name: 'Spark', type: 'Lending', tvl: '', detail: 'MakerDAO/Sky', color: '#5EC4D4' },
-];
-
-const milestones = [
-  { date: 'Dec 18, 2024', title: 'Mainnet Launch', detail: 'Ink L2 goes live on Optimism Superchain', highlight: false },
-  { date: 'Jan 22, 2025', title: 'Stage 1 Decentralization', detail: 'Governance framework established', highlight: false },
-  { date: 'Jun 17, 2025', title: 'INK Token Announced', detail: 'Native token for ecosystem incentives', highlight: false },
-  { date: 'Oct 15, 2025', title: 'Tydro Launch', detail: '+3,800% TVL growth — Aave v3 white-label', highlight: true },
-  { date: 'Jan 2026', title: 'Nado Beta', detail: '$17B volume — perpetual DEX', highlight: true },
-  { date: 'Jan 15, 2026', title: 'Peak TVL $572.8M', detail: 'All-time high total value locked', highlight: true },
-  { date: 'Apr 7, 2026', title: 'L2Beat Interop Dashboard', detail: 'Cross-chain analytics integration', highlight: false },
-  { date: 'Q2-Q3 2026', title: 'INK Token TGE', detail: 'Projected token generation event', highlight: false },
-];
-
-function TvlTooltip({ active, payload, label }) {
-  if (!active || !payload?.length) return null;
+function CategoryBadge({ category }) {
+  const s = CAT_BADGE[category] || { bg: sectionBg, fg: muted };
   return (
-    <div style={{ background: 'hsl(38 35% 92%)', border: '1px solid hsl(33 25% 65%)', borderRadius: 6, padding: '6px 10px', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-      <p style={{ fontSize: 11, fontWeight: 600, color: primary }}>{label}</p>
-      <p style={{ fontSize: 13, fontWeight: 700, color: primary, fontVariantNumeric: 'tabular-nums' }}>${payload[0].value}M</p>
-    </div>
+    <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded shrink-0"
+      style={{ background: s.bg, color: s.fg, fontFamily: 'var(--font-display)' }}>
+      {category}
+    </span>
   );
 }
 
-function BridgeTooltip({ active, payload }) {
-  if (!active || !payload?.length) return null;
-  const d = payload[0].payload;
-  return (
-    <div style={{ background: 'hsl(38 35% 92%)', border: '1px solid hsl(33 25% 65%)', borderRadius: 6, padding: '6px 10px', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-      <p style={{ fontSize: 11, fontWeight: 600, color: primary }}>{d.name}</p>
-      <p style={{ fontSize: 13, fontWeight: 700, color: primary, fontVariantNumeric: 'tabular-nums' }}>${d.value.toFixed(2)}M</p>
-      <p style={{ fontSize: 11, color: muted }}>{d.pct} of total</p>
-    </div>
-  );
-}
+function SlideOutPanel({ app, onClose }) {
+  const panelRef = useRef(null);
+  const { steps, url: directUrl } = app.action;
+  const finalStep = steps?.find(s => s.url);
+  const ctaUrl = finalStep?.url || directUrl;
 
-function SectionCard({ title, subtitle, children }) {
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onClose(); }
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
   return (
-    <div className="rounded-lg overflow-hidden w-full" style={{ background: bg, border: `2px solid ${cardBorder}` }}>
-      <div className="px-5 py-3" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
-        <h3 className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>{title}</h3>
-        {subtitle && <p className="text-[11px] mt-0.5" style={{ color: 'hsl(38 35% 60%)', fontFamily: 'var(--font-serif)' }}>{subtitle}</p>}
+    <div
+      className="fixed inset-0 z-50 flex justify-end"
+      style={{ background: 'rgba(20, 15, 10, 0.55)' }}
+      onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div
+        ref={panelRef}
+        className="relative flex flex-col w-full max-w-sm h-full overflow-y-auto"
+        style={{ background: cardBg, borderLeft: `2px solid ${cardBorder}`, boxShadow: '-4px 0 24px rgba(0,0,0,0.18)' }}
+      >
+        {/* Header */}
+        <div className="flex items-start justify-between gap-3 px-5 py-4 sticky top-0 z-10"
+          style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-widest mb-0.5" style={{ color: 'hsl(38 40% 55%)', fontFamily: 'var(--font-display)' }}>
+              How to use
+            </p>
+            <p className="text-base font-bold" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>
+              {app.name}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            aria-label="Close panel"
+            className="mt-0.5 flex items-center justify-center w-7 h-7 rounded transition-opacity hover:opacity-70 shrink-0"
+            style={{ color: 'hsl(38 40% 60%)' }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-4 h-4">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        {/* Steps */}
+        <div className="flex-1 px-5 py-5 space-y-5">
+          {steps?.map((s, i) => (
+            <div key={i} className="flex gap-3">
+              <div className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+                style={{ background: accent, color: 'hsl(38 60% 92%)', fontFamily: 'var(--font-display)' }}>
+                {i + 1}
+              </div>
+              <div>
+                <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-display)', color: primary }}>{s.step}</p>
+                <p className="text-xs mt-0.5 leading-relaxed" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>{s.detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        {ctaUrl && (
+          <div className="px-5 pb-6 pt-2" style={{ borderTop: `1px solid ${cardBorder}` }}>
+            <a
+              href={ctaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-center text-sm font-bold px-4 py-3 rounded-lg transition-opacity hover:opacity-85"
+              style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textDecoration: 'none' }}
+            >
+              Go to {app.name} ↗
+            </a>
+            <p className="text-[10px] text-center mt-2" style={{ color: muted, fontStyle: 'italic' }}>
+              Opens in a new tab · Kraken Watch is not affiliated with {app.name}
+            </p>
+          </div>
+        )}
       </div>
-      <div className="p-4 sm:p-5">{children}</div>
     </div>
   );
 }
 
+function AppCard({ app, onAction }) {
+  return (
+    <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+      <div className="px-4 pt-3.5 pb-3 flex-1">
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
+          <CategoryBadge category={app.category} />
+          <span className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)', color: primary }}>{app.name}</span>
+        </div>
+        <p className="text-xs leading-relaxed mb-2" style={{ fontFamily: 'var(--font-serif)', color: primary, opacity: 0.85 }}>
+          {app.description}
+        </p>
+        {app.context_note && app.context_note !== 'placeholder — to be filled by site owner' && (
+          <p className="text-[10px] leading-snug" style={{ color: muted, fontStyle: 'italic', fontFamily: 'var(--font-serif)' }}>
+            {app.context_note}
+          </p>
+        )}
+      </div>
+      <div className="px-4 pb-3.5 pt-1" style={{ borderTop: `1px solid hsl(33 28% 78%)` }}>
+        <button
+          onClick={() => onAction(app)}
+          className="w-full text-xs font-bold px-3 py-2 rounded-lg transition-opacity hover:opacity-85"
+          style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-display)', letterSpacing: '0.04em' }}
+        >
+          {app.action.label}
+          {app.action.type === 'link' ? ' ↗' : ' →'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FilterTabs({ categories, active, onChange }) {
+  return (
+    <div className="flex items-center gap-2 flex-wrap">
+      {categories.map(cat => (
+        <button
+          key={cat}
+          onClick={() => onChange(cat)}
+          className="text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full transition-colors"
+          style={{
+            fontFamily: 'var(--font-display)',
+            background: active === cat ? darkHeaderBg : sectionBg,
+            color: active === cat ? darkHeaderText : muted,
+            border: `1px solid ${active === cat ? 'transparent' : border}`,
+          }}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function InkL2() {
+  const [apps, setApps] = useState([]);
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [openPanel, setOpenPanel] = useState(null);
+
+  useEffect(() => {
+    fetch('/ink-apps.json')
+      .then(r => r.json())
+      .then(setApps)
+      .catch(() => {});
+  }, []);
+
+  const categories = ['All', ...new Set(apps.map(a => a.category))];
+  const filtered = activeFilter === 'All' ? apps : apps.filter(a => a.category === activeFilter);
+
+  function handleAction(app) {
+    if (app.action.type === 'link') {
+      window.open(app.action.url, '_blank', 'noopener,noreferrer');
+    } else {
+      setOpenPanel(app);
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -139,7 +219,9 @@ export default function InkL2() {
         <meta name="twitter:description" content="Explore apps, assets, and activity across the Ink onchain ecosystem. Live TVL, protocol data, and ecosystem growth metrics." />
       </Helmet>
 
-      <div className="p-6 space-y-6 max-w-[900px] mx-auto">
+      <div className="p-4 sm:p-6 space-y-5 max-w-[900px] mx-auto">
+
+        {/* ── Header ── */}
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
           <img src="/stamp-squid.png" alt="Ink" className="object-contain" style={{ width: '100px', height: '100px' }} />
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: primary }}>
@@ -154,19 +236,17 @@ export default function InkL2() {
           </span>
         </div>
 
+        {/* ── KPI Strip ── */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {kpis.map(kpi => (
             <div key={kpi.label} className="rounded-lg p-4 relative overflow-hidden"
-              style={{ background: bg, border: `1px solid ${border}` }}
-              data-testid={`kpi-${kpi.label.toLowerCase().replace(/\s/g, '-')}`}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ fontFamily: 'var(--font-display)', color: muted }}>
-                  {kpi.label}
-                </span>
-              </div>
-              <div className="text-xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: primary }}>
+              style={{ background: bg, border: `1px solid ${border}` }}>
+              <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ fontFamily: 'var(--font-display)', color: muted }}>
+                {kpi.label}
+              </p>
+              <p className="text-xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: primary }}>
                 {kpi.value}
-              </div>
+              </p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-[11px]" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>{kpi.sublabel}</span>
                 {kpi.delta && (
@@ -180,121 +260,53 @@ export default function InkL2() {
           ))}
         </div>
 
-        <SectionCard title="TVL Growth: $0.97M → $481.7M" subtitle="DeFi TVL since mainnet launch (Dec 2024)">
-          <div className="w-full h-[340px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={tvlChartData} margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
-                <defs>
-                  <linearGradient id="tvlGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#7B61FF" stopOpacity={0.35} />
-                    <stop offset="60%" stopColor="#7B61FF" stopOpacity={0.08} />
-                    <stop offset="100%" stopColor="#7B61FF" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(215 19% 16%)" vertical={false} />
-                <XAxis dataKey="month" tick={{ fontSize: 11, fill: 'hsl(215 10% 55%)' }} tickLine={false} axisLine={{ stroke: 'hsl(215 19% 16%)' }} interval={2} />
-                <YAxis tick={{ fontSize: 11, fill: 'hsl(215 10% 55%)' }} tickLine={false} axisLine={false} tickFormatter={v => v >= 1 ? `$${v}M` : ''} width={65} />
-                <Tooltip content={<TvlTooltip />} />
-                <ReferenceLine x="Oct '25" stroke="#20C9A6" strokeDasharray="4 4" strokeWidth={1.5}>
-                  <Label value="Tydro Launch" position="top" fill="#20C9A6" fontSize={11} fontWeight={600} offset={10} />
-                </ReferenceLine>
-                <Area type="monotone" dataKey="value" stroke="#7B61FF" strokeWidth={2.5} fill="url(#tvlGradient)" dot={false} activeDot={{ r: 4, stroke: '#7B61FF', strokeWidth: 2, fill: '#0D1117' }} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </SectionCard>
+        {/* ── Divider ── */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px" style={{ background: 'hsl(30 30% 70%)' }} />
+          <span style={{ color: 'hsl(30 30% 55%)', fontSize: '1.1rem' }}>⚓</span>
+          <div className="flex-1 h-px" style={{ background: 'hsl(30 30% 70%)' }} />
+        </div>
 
-        <SectionCard title="Bridged Assets Breakdown" subtitle="$829.94M total bridged value">
-          <div className="w-full h-[340px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={bridgedAssets} layout="vertical" margin={{ top: 5, right: 40, bottom: 5, left: 5 }}>
-                <XAxis type="number" tick={{ fontSize: 11, fill: 'hsl(215 10% 55%)' }} tickLine={false} axisLine={{ stroke: 'hsl(215 19% 16%)' }} tickFormatter={v => `$${v}M`} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 12, fill: 'hsl(210 20% 85%)', fontWeight: 500 }} tickLine={false} axisLine={false} width={55} />
-                <Tooltip content={<BridgeTooltip />} cursor={{ fill: 'rgba(123, 97, 255, 0.06)' }} />
-                <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={22}>
-                  {bridgedAssets.map((_, i) => <Cell key={i} fill={barColors[i]} fillOpacity={0.85} />)}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </SectionCard>
-
+        {/* ── App Directory ── */}
         <div>
-          <h3 className="text-base font-bold mb-3 tracking-wide" style={{ fontFamily: 'var(--font-display)', color: primary }}>Ecosystem Protocols</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {protocols.map(p => (
-              <div key={p.name} className="rounded-xl border relative overflow-hidden transition-colors"
-                style={{ background: bg, borderColor: border }}
-                data-testid={`protocol-${p.name.toLowerCase()}`}>
-                <div className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
-                    <span className="text-sm font-semibold" style={{ color: primary }}>{p.name}</span>
-                  </div>
-                  <span className="inline-flex text-[10px] font-medium px-2 py-0.5 rounded-md mb-2"
-                    style={{ background: 'hsl(36 22% 80%)', color: primary, border: `1px solid ${border}` }}>
-                    {p.type}
-                  </span>
-                  {p.tvl && <p className="text-xs tabular-nums mt-1" style={{ color: muted }}>{p.tvl}</p>}
-                  {p.detail && <p className="text-[11px] mt-0.5" style={{ color: muted }}>{p.detail}</p>}
-                </div>
-                <div className="absolute top-0 left-0 w-[2px] h-full" style={{ backgroundColor: p.color, opacity: 0.5 }} />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <SectionCard title="Ecosystem Map" subtitle="Key projects and relationships on Ink">
-          <div style={{ height: 700, margin: '-1rem' }}>
-            <EcosystemMap embedded={true} />
-          </div>
-        </SectionCard>
-
-        <SectionCard title="Growth Milestones" subtitle="Key events in Ink's development">
-          <div className="relative pl-6">
-            <div className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-[#7B61FF] via-[#7B61FF]/50 to-transparent" />
-            <div className="space-y-5">
-              {milestones.map((m, i) => (
-                <div key={i} className="relative flex gap-4">
-                  <div className="absolute -left-[25px] top-1 w-3 h-3 rounded-full border-2 flex items-center justify-center"
-                    style={{ borderColor: m.highlight ? '#7B61FF' : 'hsl(33 25% 58%)', background: m.highlight ? '#7B61FF' : 'hsl(38 30% 84%)' }} />
-                  <div>
-                    <p className="text-[11px] font-semibold tabular-nums" style={{ color: 'hsl(215 10% 50%)', fontFamily: 'var(--font-serif)' }}>{m.date}</p>
-                    <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-display)', color: m.highlight ? primary : 'hsl(28 30% 30%)' }}>{m.title}</p>
-                    <p className="text-xs mt-0.5" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>{m.detail}</p>
-                  </div>
-                </div>
-              ))}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+            <div>
+              <h2 className="text-base font-bold" style={{ fontFamily: 'var(--font-display)', color: primary }}>App Directory</h2>
+              <p className="text-[11px]" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>
+                {apps.length} vetted apps · click an action to get started
+              </p>
             </div>
           </div>
-        </SectionCard>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[
-            { label: 'NFTs', icon: '🖼️', desc: 'Collections, marketplaces, and creator activity on Ink.' },
-            { label: 'Memecoins', icon: '🐸', desc: 'Token launches and community-driven assets on Ink.' },
-          ].map(({ label, icon, desc }) => (
-            <div key={label} className="rounded-lg overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: bg }}>
-              <div className="px-5 py-3 flex items-center gap-2" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
-                <span style={{ color: 'hsl(38 55% 72%)' }}>{icon}</span>
-                <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>{label}</span>
-                <span className="ml-auto text-[9px] font-semibold px-2 py-0.5 rounded-full"
-                  style={{ background: 'hsl(38 40% 30%)', color: 'hsl(38 60% 80%)', border: '1px solid hsl(38 35% 40%)', fontFamily: 'var(--font-display)', letterSpacing: '0.06em' }}>
-                  Coming Soon
-                </span>
+          {apps.length > 0 && (
+            <>
+              <FilterTabs categories={categories} active={activeFilter} onChange={setActiveFilter} />
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {filtered.map(app => (
+                  <AppCard key={app.id} app={app} onAction={handleAction} />
+                ))}
+                {filtered.length === 0 && (
+                  <p className="col-span-2 text-sm text-center py-8" style={{ color: muted }}>No apps in this category yet.</p>
+                )}
               </div>
-              <div className="p-5 flex flex-col items-center justify-center gap-2 text-center" style={{ minHeight: '100px' }}>
-                <p className="text-[11px]" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>{desc}</p>
-                <p className="text-[10px]" style={{ color: muted, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>Module in development — charting the frontier.</p>
-              </div>
+            </>
+          )}
+
+          {apps.length === 0 && (
+            <div className="py-12 text-center">
+              <p className="text-sm" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>Loading app directory…</p>
             </div>
-          ))}
+          )}
         </div>
 
+        {/* ── Footer ── */}
         <p className="text-[10px] text-center pb-4 pt-2" style={{ color: muted }}>
-          Kraken Watch is independent research, not affiliated with Kraken or Payward.
+          Kraken Watch is independent research, not affiliated with Kraken or Payward. App listings are curated for action-readiness; nothing executes on-site.
         </p>
+
       </div>
+
+      {openPanel && <SlideOutPanel app={openPanel} onClose={() => setOpenPanel(null)} />}
     </>
   );
 }
