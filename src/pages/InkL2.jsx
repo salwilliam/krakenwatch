@@ -14,8 +14,9 @@ const bg = 'hsl(38 38% 93%)';
 const border = 'hsl(33 28% 70%)';
 
 const CAT_BADGE = {
-  DEX:      { bg: 'hsl(270 35% 88%)', fg: 'hsl(270 40% 35%)' },
-  Bridge:   { bg: 'hsl(180 38% 84%)', fg: 'hsl(180 50% 26%)' },
+  DEX:            { bg: 'hsl(270 35% 88%)', fg: 'hsl(270 40% 35%)' },
+  'DEX/Liquidity':{ bg: 'hsl(290 30% 86%)', fg: 'hsl(290 38% 32%)' },
+  Bridge:         { bg: 'hsl(180 38% 84%)', fg: 'hsl(180 50% 26%)' },
   Lending:  { bg: 'hsl(220 45% 88%)', fg: 'hsl(220 50% 35%)' },
   Wallet:   { bg: 'hsl(35 55% 86%)',  fg: 'hsl(35 50% 28%)' },
   Exchange: { bg: 'hsl(150 38% 84%)', fg: 'hsl(150 48% 26%)' },
@@ -140,7 +141,7 @@ function AppCard({ app, onAction }) {
         <p className="text-xs leading-relaxed mb-2" style={{ fontFamily: 'var(--font-serif)', color: primary, opacity: 0.85 }}>
           {app.description}
         </p>
-        {app.context_note && app.context_note !== 'placeholder — to be filled by site owner' && (
+        {app.context_note && (
           <p className="text-[10px] leading-snug" style={{ color: muted, fontStyle: 'italic', fontFamily: 'var(--font-serif)' }}>
             {app.context_note}
           </p>
