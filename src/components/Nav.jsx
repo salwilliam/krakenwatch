@@ -1,4 +1,5 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
 
 const IconPrediction = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
@@ -41,14 +42,114 @@ const IconAbout = () => (
   </svg>
 );
 
-const navLinks = [
+const IconX = () => (
+  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0" fill="currentColor" aria-hidden="true">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
+const primaryNavLinks = [
   { href: '/prediction', label: 'Prediction', Icon: IconPrediction },
   { href: '/ink', label: 'Ink Ecosystem', Icon: IconInk },
   { href: '/payward', label: 'Payward Map', Icon: IconPayward },
-  { href: '/blog', label: 'Blog', Icon: IconBlog },
-  { href: '/about', label: 'About', Icon: IconAbout },
-  { href: '/experimental', label: 'Experimental', Icon: IconExperimental },
 ];
+
+const menuItems = [
+  { href: '/blog', label: 'Blog', Icon: IconBlog, external: false },
+  { href: '/about', label: 'About', Icon: IconAbout, external: false },
+  { href: '/experimental', label: 'Experimental', Icon: IconExperimental, external: false },
+  { href: 'https://x.com/KrakWatch', label: '@KrakWatch on X', Icon: IconX, external: true },
+];
+
+function HamburgerMenu() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open]);
+
+  function handleNav(item, e) {
+    e.preventDefault();
+    setOpen(false);
+    if (item.external) {
+      window.open(item.href, '_blank', 'noopener,noreferrer');
+    } else {
+      navigate(item.href);
+    }
+  }
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen(v => !v)}
+        aria-label="Open menu"
+        aria-expanded={open}
+        className="flex flex-col items-center justify-center w-8 h-8 gap-1.5 rounded transition-opacity hover:opacity-70"
+        style={{ color: 'hsl(38 35% 65%)' }}
+      >
+        <span
+          className="block w-4 h-px transition-all duration-200"
+          style={{
+            background: 'currentColor',
+            transform: open ? 'translateY(5px) rotate(45deg)' : 'none',
+          }}
+        />
+        <span
+          className="block w-4 h-px transition-all duration-200"
+          style={{
+            background: 'currentColor',
+            opacity: open ? 0 : 1,
+          }}
+        />
+        <span
+          className="block w-4 h-px transition-all duration-200"
+          style={{
+            background: 'currentColor',
+            transform: open ? 'translateY(-5px) rotate(-45deg)' : 'none',
+          }}
+        />
+      </button>
+
+      {open && (
+        <div
+          className="absolute right-0 mt-2 w-52 rounded-lg shadow-xl overflow-hidden z-50"
+          style={{
+            background: 'hsl(30 30% 18%)',
+            border: '1px solid hsl(30 25% 28%)',
+          }}
+        >
+          {menuItems.map(item => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={e => handleNav(item, e)}
+              className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium transition-colors hover:bg-white/5"
+              style={{
+                fontFamily: 'var(--font-display)',
+                letterSpacing: '0.04em',
+                color: 'hsl(38 35% 65%)',
+                textDecoration: 'none',
+              }}
+              {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            >
+              <item.Icon />
+              {item.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Nav() {
   const location = useLocation();
@@ -86,18 +187,6 @@ export default function Nav() {
 
         <div className="flex items-center gap-2">
           <a
-            href="https://x.com/KrakWatch"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-8 h-8 rounded transition-opacity hover:opacity-70"
-            style={{ color: 'hsl(38 35% 65%)' }}
-            aria-label="@KrakWatch on X"
-          >
-            <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-hidden="true">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-          </a>
-          <a
             href="https://terminal.spreads.fi/?ref=ZSNKR2"
             target="_blank"
             rel="noopener noreferrer"
@@ -117,11 +206,12 @@ export default function Nav() {
             </svg>
             <span className="hidden sm:inline">Trade</span>
           </a>
+          <HamburgerMenu />
         </div>
       </div>
 
       <nav className="flex items-center gap-0 px-4 sm:px-6 pb-0 overflow-x-auto" data-testid="tab-nav">
-        {navLinks.map(({ href, label, Icon }) => {
+        {primaryNavLinks.map(({ href, label, Icon }) => {
           const active = location.pathname === href ||
             (href === '/prediction' && (location.pathname === '/' || location.pathname === '')) ||
             (href !== '/prediction' && href !== '/ink' && href !== '/payward' && location.pathname.startsWith(href + '/'));
