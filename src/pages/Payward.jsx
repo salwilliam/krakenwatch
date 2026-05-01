@@ -285,9 +285,35 @@ function TagPill({ tag }) {
   );
 }
 
+function parseHandleFromDesc(desc) {
+  const match = desc.match(/^(.+?)\s+((?:X|Instagram|Twitter):\s*)(@\w+)$/);
+  if (!match) return { prefix: desc, platformLabel: null, handle: null };
+  return { prefix: match[1], platformLabel: match[2], handle: match[3] };
+}
+
 function EntityCard({ entity }) {
-  const platformIcon = entity.tag === 'Social' ? getPlatformIcon(entity.url) : null;
-  const content = (
+  const isSocial = entity.tag === 'Social';
+  const platformIcon = isSocial ? getPlatformIcon(entity.url) : null;
+  const parsed = isSocial ? parseHandleFromDesc(entity.desc) : null;
+
+  const descContent = isSocial && parsed && parsed.handle ? (
+    <p className="text-[10px] leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>
+      {parsed.prefix}{' '}{parsed.platformLabel}
+      <a
+        href={entity.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={e => e.stopPropagation()}
+        style={{ color: 'hsl(210 50% 40%)', textDecoration: 'underline', textUnderlineOffset: '2px' }}
+      >
+        {parsed.handle}
+      </a>
+    </p>
+  ) : (
+    <p className="text-[10px] leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{entity.desc}</p>
+  );
+
+  const innerCard = (
     <div className="rounded-lg p-3 h-full flex flex-col gap-2 transition-opacity"
       style={{ border: `1px solid ${cardBorder}`, background: sectionBg }}>
       <div className="flex items-start justify-between gap-2">
@@ -301,18 +327,73 @@ function EntityCard({ entity }) {
         </div>
         <TagPill tag={entity.tag} />
       </div>
-      <p className="text-[10px] leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{entity.desc}</p>
+      {descContent}
     </div>
   );
+
+  if (isSocial && entity.url) {
+    return (
+      <div className="relative hover:opacity-80" style={{ transition: 'opacity 0.15s' }}>
+        <a
+          href={entity.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${entity.name} profile`}
+          style={{
+            position: 'absolute', inset: 0, zIndex: 0,
+            textDecoration: 'none', borderRadius: '0.5rem',
+          }}
+        />
+        <div style={{ position: 'relative', zIndex: 1, pointerEvents: 'none' }}>
+          <div className="rounded-lg p-3 h-full flex flex-col gap-2"
+            style={{ border: `1px solid ${cardBorder}`, background: sectionBg }}>
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                {platformIcon && (
+                  <span className="shrink-0 flex items-center" style={{ color: 'hsl(210 10% 40%)', marginTop: '1px' }}>
+                    {platformIcon}
+                  </span>
+                )}
+                <p className="text-xs font-bold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>{entity.name}</p>
+              </div>
+              <TagPill tag={entity.tag} />
+            </div>
+            <p className="text-[10px] leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-serif)', pointerEvents: 'none' }}>
+              {parsed && parsed.handle ? (
+                <>
+                  {parsed.prefix}{' '}{parsed.platformLabel}
+                  <a
+                    href={entity.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: 'hsl(210 50% 40%)',
+                      textDecoration: 'underline',
+                      textUnderlineOffset: '2px',
+                      pointerEvents: 'auto',
+                      position: 'relative',
+                      zIndex: 2,
+                    }}
+                  >
+                    {parsed.handle}
+                  </a>
+                </>
+              ) : entity.desc}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (entity.url) {
     return (
       <a href={entity.url} target="_blank" rel="noopener noreferrer" className="block hover:opacity-80" style={{ textDecoration: 'none' }}>
-        {content}
+        {innerCard}
       </a>
     );
   }
-  return content;
+  return innerCard;
 }
 
 function SectionBlock({ section, activeFilter }) {
@@ -469,8 +550,11 @@ export default function Payward() {
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 w-full max-w-[1024px] mx-auto">
+        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
+          <img src="/payward-hero.png" alt="Krakenland map of the Payward ecosystem" className="w-full object-cover" />
+        </div>
+
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
-          <img src="/stamp-ship.png" alt="Payward" className="object-contain" style={{ width: '100px', height: '100px' }} />
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
             Payward Map
           </h1>
@@ -515,10 +599,9 @@ export default function Payward() {
                       <p className="text-xs font-bold" style={{ fontFamily: 'var(--font-display)', color: qp }}>{m.name}</p>
                       {m.x && (
                         <a href={m.x} target="_blank" rel="noopener noreferrer"
-                          className="shrink-0 transition-opacity hover:opacity-70" aria-label={`${m.name} on X`}>
-                          <svg viewBox="0 0 24 24" className="w-3 h-3" fill="currentColor" style={{ color: ut }}>
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                          </svg>
+                          className="shrink-0 transition-opacity hover:opacity-70" aria-label={`${m.name} on X`}
+                          style={{ color: 'hsl(210 10% 40%)' }}>
+                          <XIcon />
                         </a>
                       )}
                     </div>
@@ -546,6 +629,10 @@ export default function Payward() {
           <p className="text-[11px]" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
             More entities, data modules, and ecosystem profiles will be added as the map expands.
           </p>
+        </div>
+
+        <div className="flex justify-center pb-4">
+          <img src="/stamp-ship.png" alt="Payward" className="object-contain" style={{ width: '100px', height: '100px' }} />
         </div>
       </div>
     </>
