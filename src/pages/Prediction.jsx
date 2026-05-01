@@ -29,9 +29,16 @@ function SourceBadge({ src }) {
   );
 }
 
+function normalizePct(raw) {
+  const n = parseFloat(raw);
+  if (isNaN(n)) return null;
+  return n <= 1 ? Math.round(n * 1000) / 10 : n;
+}
+
 function MarketCard({ name, pct, sources, href, note, subRows }) {
-  const pctNum = parseFloat(pct);
-  const barWidth = Math.min(100, Math.max(0, isNaN(pctNum) ? 0 : pctNum));
+  const pctNum = normalizePct(pct);
+  const barWidth = Math.min(100, Math.max(0, pctNum ?? 0));
+  const displayPct = pctNum != null ? pctNum : null;
   const srcs = Array.isArray(sources) ? sources : [sources].filter(Boolean);
 
   const inner = (
@@ -48,13 +55,16 @@ function MarketCard({ name, pct, sources, href, note, subRows }) {
         </div>
         <div className="shrink-0 text-right">
           <p className="text-3xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
-            {pct == null ? '—' : `${pct}%`}
+            {displayPct == null ? '—' : `${displayPct}%`}
           </p>
-          {subRows && subRows.map(r => (
-            <p key={r.src} className="text-[10px] mt-0.5 tabular-nums" style={{ color: ut }}>
-              {r.src} {r.pct != null ? `${r.pct}%` : '—'}
-            </p>
-          ))}
+          {subRows && subRows.map(r => {
+            const sub = normalizePct(r.pct);
+            return (
+              <p key={r.src} className="text-[10px] mt-0.5 tabular-nums" style={{ color: ut }}>
+                {r.src} {sub != null ? `${sub}%` : '—'}
+              </p>
+            );
+          })}
         </div>
       </div>
       <div className="px-4 pb-3">
@@ -160,7 +170,6 @@ function SecondaryMarketModule({ sm }) {
 
 export default function Prediction() {
   const { data } = useSiteData();
-  const ipo = data?.ipo;
   const sm = data?.secondary_market;
   const pm = data?.prediction_markets;
   const updated = data?.updated_display || 'May 1, 2026';
