@@ -245,7 +245,7 @@ export default function InkL2() {
           </p>
           <span className="inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full mt-1"
             style={{ background: sectionBg, border: `1px solid ${cardBorder}`, color: muted, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
-            ↻ Data updates daily
+            ↻ Updates every 4h
           </span>
         </div>
 
