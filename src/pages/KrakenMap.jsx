@@ -58,14 +58,14 @@ export default function KrakenMap({ onNav }) {
     <>
       <Helmet>
         <title>Kraken Map — Kraken Watch</title>
-        <meta name="description" content="Live Kraken IPO odds, prediction markets, secondary share pricing, Ink TVL, and regulatory signals — updated daily." />
+        <meta name="description" content="Live Kraken IPO odds, prediction markets, secondary share pricing, Ink TVL, and regulatory signals — updated every 4 hours." />
         <link rel="canonical" href="https://krakenwatch.com/" />
         <meta property="og:title" content="Kraken Map — Kraken Watch" />
         <meta property="og:description" content="Live Kraken IPO odds, prediction markets, and secondary share pricing." />
         <meta property="og:url" content="https://krakenwatch.com/" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Kraken Map — Kraken Watch" />
-        <meta name="twitter:description" content="Live Kraken IPO odds, prediction markets, secondary share pricing, Ink TVL, and regulatory signals — updated daily." />
+        <meta name="twitter:description" content="Live Kraken IPO odds, prediction markets, secondary share pricing, Ink TVL, and regulatory signals — updated every 4 hours." />
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">
@@ -79,7 +79,7 @@ export default function KrakenMap({ onNav }) {
             Starboard ho!
           </h1>
           <p className="text-sm" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.7 }}>
-            Live data · updated daily
+            Live data · updated every 4 hours
           </p>
         </div>
 

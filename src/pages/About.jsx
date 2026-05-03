@@ -50,11 +50,11 @@ export default function About() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-left">
           {[
-            { href: '/prediction', label: 'Prediction Watch', desc: 'Spy ye forecast markets for omens of Ink and Kraken.' },
-            { href: '/ink', label: 'Ink Ecosystem', desc: 'Scour the onchain frontier for Ink dapps, data, and plunder.' },
-            { href: '/payward', label: 'Payward Map', desc: 'Chart the full Payward armada: Kraken wares, prize ships, and battle standards.' },
+            { href: '/prediction', label: 'Prediction Watch', desc: 'Track forecast signals tied to Kraken and Ink.' },
+            { href: '/ink', label: 'Ink Ecosystem', desc: 'Track Ink dapps, data, and ecosystem activity.' },
+            { href: '/payward', label: 'Payward Map', desc: 'Chart the full Payward corporate armada.' },
             { href: '/blog', label: 'Blog', desc: 'Actionable insight from across the Kraken universe.' },
-            { href: '/experimental', label: 'Experimental', desc: "Greenhorn modules, still gettin' their sea legs." },
+            { href: '/experimental', label: 'Experimental', desc: 'New modules still getting their sea legs.' },
           ].map(({ href, label, desc }) => (
             <a key={href} href={href}
               className="rounded-lg p-3 transition-opacity hover:opacity-80"

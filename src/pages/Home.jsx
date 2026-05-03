@@ -15,7 +15,7 @@ function Footer({ extra }) {
         className="inline-flex items-center gap-1 px-2 py-0.5 rounded mr-1"
         style={{ background: 'hsl(33 28% 82%)', border: '1px solid hsl(33 25% 70%)' }}
       >
-        ↻ Updated daily · {updated}
+        ↻ Updated every 4 hours · {updated}
       </span>
       {extra && <>{extra} · </>}
       Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from market data using Kraken Watch&apos;s proprietary method.
@@ -47,7 +47,7 @@ export default function Home({ onNav }) {
           Starboard ho!
         </h1>
         <p className="text-sm" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.7 }}>
-          Live data · updated daily
+          Live data · updated every 4 hours
         </p>
       </div>
 
@@ -97,7 +97,7 @@ export default function Home({ onNav }) {
               Ink Starboard
             </p>
             <p className="text-sm mt-1" style={{ fontFamily: 'var(--font-serif)', color: qp, opacity: 0.75 }}>
-              TVL, protocol count, ecosystem metrics & INK token data — updated daily.
+              TVL, protocol count, ecosystem metrics & INK token data — updated every 4 hours.
             </p>
           </div>
         </button>

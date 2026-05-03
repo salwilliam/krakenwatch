@@ -32,7 +32,9 @@ const IconBlog = () => (
 
 const IconExperimental = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
-    <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11M3 9h6m6 0h6M3 9a9 9 0 0 0 9 9 9 9 0 0 0 9-9"/>
+    <path d="M9 3h6"/>
+    <path d="M10 3v6.5L5.5 17A2 2 0 0 0 7.4 20h9.2a2 2 0 0 0 1.9-3L14 9.5V3"/>
+    <line x1="6" y1="14" x2="18" y2="14"/>
   </svg>
 );
 
@@ -148,24 +150,29 @@ export default function Nav() {
             className="object-contain shrink-0"
             style={{ width: '80px', height: '80px' }}
           />
-          <div className="flex items-baseline gap-2">
-            <span
-              className="text-2xl font-bold tracking-wide"
-              style={{ fontFamily: 'var(--font-display)', color: 'hsl(38 60% 82%)' }}
-            >
-              Kraken Watch
-            </span>
-            <span
-              className="hidden sm:inline text-[10px] font-medium px-1.5 py-0.5 rounded"
-              style={{
-                fontFamily: 'var(--font-sans)',
-                color: 'hsl(38 35% 58%)',
-                border: '1px solid hsl(38 25% 42%)',
-                letterSpacing: '0.12em',
-              }}
-            >
-              beta
-            </span>
+          <div className="flex flex-col">
+            <div className="flex items-baseline gap-2">
+              <span
+                className="text-2xl font-bold tracking-wide"
+                style={{ fontFamily: 'var(--font-display)', color: 'hsl(38 60% 82%)' }}
+              >
+                Kraken Watch
+              </span>
+              <span
+                className="hidden sm:inline text-[10px] font-medium px-1.5 py-0.5 rounded"
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  color: 'hsl(38 35% 58%)',
+                  border: '1px solid hsl(38 25% 42%)',
+                  letterSpacing: '0.12em',
+                }}
+              >
+                beta
+              </span>
+            </div>
+            <p className="hidden sm:block text-[10px] mt-0.5" style={{ fontFamily: 'var(--font-serif)', color: 'hsl(38 25% 52%)', fontStyle: 'italic' }}>
+              Chart the crypto frontier in one handy place.
+            </p>
           </div>
         </a>
 

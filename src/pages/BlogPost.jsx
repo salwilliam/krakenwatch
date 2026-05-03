@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import { getBriefBySlug } from '../content/briefs/index.js';
 
 export default function BlogPost() {
@@ -73,10 +74,33 @@ export default function BlogPost() {
               {brief.title}
             </h1>
 
-            <div className="space-y-4 text-sm leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: 'hsl(28 30% 28%)' }}>
-              {paragraphs.map((p, i) => (
-                <p key={i} style={{ whiteSpace: 'pre-line' }}>{p}</p>
-              ))}
+            <div className="space-y-3 text-sm leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: 'hsl(28 30% 28%)' }}>
+              <ReactMarkdown
+                components={{
+                  h1: ({ children }) => (
+                    <h1 className="text-xl font-bold mt-2 mb-1" style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 16%)' }}>{children}</h1>
+                  ),
+                  h2: ({ children }) => (
+                    <h2 className="text-base font-bold mt-4 mb-1" style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 20%)' }}>{children}</h2>
+                  ),
+                  p: ({ children }) => (
+                    <p className="leading-relaxed">{children}</p>
+                  ),
+                  strong: ({ children }) => (
+                    <strong style={{ color: 'hsl(28 40% 18%)', fontWeight: 700 }}>{children}</strong>
+                  ),
+                  em: ({ children }) => (
+                    <em style={{ color: 'hsl(28 30% 38%)' }}>{children}</em>
+                  ),
+                  a: ({ href, children }) => (
+                    <a href={href} target="_blank" rel="noopener noreferrer"
+                      className="underline decoration-dotted underline-offset-2 hover:opacity-70 transition-opacity"
+                      style={{ color: 'hsl(350 50% 35%)' }}>{children}</a>
+                  ),
+                }}
+              >
+                {brief.body}
+              </ReactMarkdown>
             </div>
 
             <div className="mt-8 pt-4 flex flex-wrap items-center gap-3" style={{ borderTop: '1px solid hsl(33 25% 72%)' }}>

@@ -147,7 +147,7 @@ export default function InkMarkets({ onNav }) {
         <p className="text-[10px] text-center pb-4 pt-2" style={{ color: ut }}>
           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded mr-1"
             style={{ background: 'hsl(33 28% 82%)', border: '1px solid hsl(33 25% 70%)' }}>
-            ↻ Updated daily · {updated}
+            ↻ Updated every 4 hours · {updated}
           </span>
           Kraken Watch is independent research, not affiliated with Kraken or Payward. Aggregated figures are derived from market data using Kraken Watch&apos;s proprietary method.
         </p>

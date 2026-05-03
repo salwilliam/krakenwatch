@@ -3,6 +3,10 @@ account_id = "f1706deefade579c61ef0cbf25bef6ef"
 main = "./src/worker.js"
 compatibility_date = "2026-04-17"
 
+[[kv_namespaces]]
+binding = "SITE_DATA"
+id = "4515258da6c246048f75ce19493764e2"
+
 [assets]
 directory = "./dist"
 binding = "ASSETS"

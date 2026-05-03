@@ -17,11 +17,12 @@ const CAT_BADGE = {
   DEX:            { bg: 'hsl(270 35% 88%)', fg: 'hsl(270 40% 35%)' },
   'DEX/Liquidity':{ bg: 'hsl(290 30% 86%)', fg: 'hsl(290 38% 32%)' },
   Bridge:         { bg: 'hsl(180 38% 84%)', fg: 'hsl(180 50% 26%)' },
-  Lending:  { bg: 'hsl(220 45% 88%)', fg: 'hsl(220 50% 35%)' },
-  Wallet:   { bg: 'hsl(35 55% 86%)',  fg: 'hsl(35 50% 28%)' },
-  Exchange: { bg: 'hsl(150 38% 84%)', fg: 'hsl(150 48% 26%)' },
-  DCA:      { bg: 'hsl(50 50% 85%)',  fg: 'hsl(50 45% 26%)' },
-  Explorer: { bg: 'hsl(0 0% 87%)',    fg: 'hsl(0 0% 30%)' },
+  Lending:        { bg: 'hsl(220 45% 88%)', fg: 'hsl(220 50% 35%)' },
+  Wallet:         { bg: 'hsl(35 55% 86%)',  fg: 'hsl(35 50% 28%)' },
+  Exchange:       { bg: 'hsl(150 38% 84%)', fg: 'hsl(150 48% 26%)' },
+  DCA:            { bg: 'hsl(50 50% 85%)',  fg: 'hsl(50 45% 26%)' },
+  Explorer:       { bg: 'hsl(0 0% 87%)',    fg: 'hsl(0 0% 30%)' },
+  Launcher:       { bg: 'hsl(10 55% 86%)',  fg: 'hsl(10 55% 30%)' },
 };
 
 const kpis = [
@@ -33,12 +34,19 @@ const kpis = [
 ];
 
 function CategoryBadge({ category }) {
-  const s = CAT_BADGE[category] || { bg: sectionBg, fg: muted };
+  const cats = Array.isArray(category) ? category : [category];
   return (
-    <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded shrink-0"
-      style={{ background: s.bg, color: s.fg, fontFamily: 'var(--font-display)' }}>
-      {category}
-    </span>
+    <>
+      {cats.map(cat => {
+        const s = CAT_BADGE[cat] || { bg: sectionBg, fg: muted };
+        return (
+          <span key={cat} className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded shrink-0"
+            style={{ background: s.bg, color: s.fg, fontFamily: 'var(--font-display)' }}>
+            {cat}
+          </span>
+        );
+      })}
+    </>
   );
 }
 
@@ -195,8 +203,8 @@ export default function InkL2() {
       .catch(() => {});
   }, []);
 
-  const categories = ['All', ...new Set(apps.map(a => a.category))];
-  const filtered = activeFilter === 'All' ? apps : apps.filter(a => a.category === activeFilter);
+  const categories = ['All', ...new Set(apps.flatMap(a => Array.isArray(a.category) ? a.category : [a.category]))];
+  const filtered = activeFilter === 'All' ? apps : apps.filter(a => Array.isArray(a.category) ? a.category.includes(activeFilter) : a.category === activeFilter);
 
   function handleAction(app) {
     if (app.action.type === 'link') {
@@ -220,16 +228,20 @@ export default function InkL2() {
         <meta name="twitter:description" content="Explore apps, assets, and activity across the Ink onchain ecosystem. Live TVL, protocol data, and ecosystem growth metrics." />
       </Helmet>
 
-      <div className="p-4 sm:p-6 space-y-5 max-w-[900px] mx-auto">
+      <div className="p-4 sm:p-6 space-y-5 max-w-[1100px] mx-auto">
+
+        {/* ── Hero Image ── */}
+        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
+          <img src="/ink-hero.png" alt="Ink Ecosystem" className="w-full object-cover" />
+        </div>
 
         {/* ── Header ── */}
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
-          <img src="/stamp-squid.png" alt="Ink" className="object-contain" style={{ width: '100px', height: '100px' }} />
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: primary }}>
             Ink Ecosystem
           </h1>
           <p className="text-sm max-w-md" style={{ fontFamily: 'var(--font-serif)', color: muted }}>
-            Scour the onchain frontier for Ink dapps, data, and plunder.
+            Track Ink dapps, data, and ecosystem activity.
           </p>
           <span className="inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full mt-1"
             style={{ background: sectionBg, border: `1px solid ${cardBorder}`, color: muted, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
@@ -282,12 +294,12 @@ export default function InkL2() {
           {apps.length > 0 && (
             <>
               <FilterTabs categories={categories} active={activeFilter} onChange={setActiveFilter} />
-              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {filtered.map(app => (
                   <AppCard key={app.id} app={app} onAction={handleAction} />
                 ))}
                 {filtered.length === 0 && (
-                  <p className="col-span-2 text-sm text-center py-8" style={{ color: muted }}>No apps in this category yet.</p>
+                  <p className="col-span-3 text-sm text-center py-8" style={{ color: muted }}>No apps in this category yet.</p>
                 )}
               </div>
             </>
@@ -300,7 +312,35 @@ export default function InkL2() {
           )}
         </div>
 
+        {/* ── About Ink ── */}
+        <div className="rounded-xl overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+          <div className="px-4 pt-3.5 pb-2">
+            <p className="text-sm font-bold leading-tight" style={{ fontFamily: 'var(--font-display)', color: primary }}>About Ink</p>
+          </div>
+          <div className="px-4 pb-4">
+            <p className="text-sm leading-relaxed mb-3" style={{ fontFamily: 'var(--font-serif)', color: primary, opacity: 0.85 }}>
+              Ink is Kraken's Ethereum L2 chain, built on the OP Stack. It launched in November 2024 and is designed to bring Kraken's crypto exchange users on-chain, enabling DeFi, NFTs, and native crypto applications.
+            </p>
+            <div className="flex gap-3 flex-wrap">
+              {[
+                { label: 'Explorer',  href: 'https://explorer.inkonchain.com' },
+                { label: 'Bridge',    href: 'https://inkonchain.com/bridge' },
+                { label: 'Ecosystem', href: 'https://inkonchain.com/ecosystem' },
+              ].map(({ label, href }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                  className="text-xs font-semibold px-3 py-1 rounded transition-opacity hover:opacity-75"
+                  style={{ background: sectionBg, color: primary, fontFamily: 'var(--font-display)' }}>
+                  {label} →
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* ── Footer ── */}
+        <div className="flex justify-center pb-2">
+          <img src="/stamp-squid.png" alt="Ink" className="object-contain" style={{ width: '100px', height: '100px' }} />
+        </div>
         <p className="text-[10px] text-center pb-4 pt-2" style={{ color: muted }}>
           Kraken Watch is independent research, not affiliated with Kraken or Payward. App listings are curated for action-readiness; nothing executes on-site.
         </p>

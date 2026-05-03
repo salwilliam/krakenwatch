@@ -549,7 +549,7 @@ export default function Payward() {
         <meta name="twitter:description" content="Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity. Entities, partners, sponsorships, and acquisitions." />
       </Helmet>
 
-      <div className="p-4 sm:p-6 space-y-6 w-full max-w-[1024px] mx-auto">
+      <div className="p-4 sm:p-6 space-y-6 w-full max-w-[1100px] mx-auto">
         <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
           <img src="/payward-hero.png" alt="Krakenland map of the Payward ecosystem" className="w-full object-cover" />
         </div>
@@ -559,7 +559,7 @@ export default function Payward() {
             Payward Map
           </h1>
           <p className="text-sm max-w-lg" style={{ fontFamily: 'var(--font-serif)', color: ut }}>
-            Chart the full Payward armada: Kraken wares, prize ships, and battle standards.
+            Chart the full Payward corporate armada.
           </p>
           <p className="text-[10px] max-w-md" style={{ fontFamily: 'var(--font-serif)', color: ut, fontStyle: 'italic' }}>
             Includes Payward-owned entities, products, partners, sponsorships, and ecosystem projects. Not every entry is owned by Payward.
