@@ -5,8 +5,8 @@ on:
     branches:
       - main
   schedule:
-    # Run daily at 12:00 UTC.
-    - cron: '0 12 * * *'
+    # Run every 4 hours.
+    - cron: '0 */4 * * *'
   workflow_dispatch:
 
 permissions:
@@ -47,13 +47,25 @@ jobs:
           set -euo pipefail
           if git diff --quiet -- public/site-data.json src/worker.js; then
             echo "No data changes detected."
-            exit 0
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/site-data.json src/worker.js
+            git commit -m "chore(data): daily refresh site-data"
+            git push origin HEAD:main
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/site-data.json src/worker.js
-          git commit -m "chore(data): daily refresh site-data"
-          git push origin HEAD:main
+
+      - name: Build site
+        run: npm run build
+
+      - name: Deploy to Cloudflare Workers
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          rm -f dist/_redirects
+          npx wrangler@latest deploy --config wrangler.workers.toml
 
       - name: Close staleness alert on recovery
         if: success()
