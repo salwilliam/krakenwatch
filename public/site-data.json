@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-05-03T17:37:13.746Z",
+  "updated_at": "2026-05-03T17:45:57.807Z",
   "updated_display": "May 3, 2026",
   "ink": {
     "tvl_millions": 309.2,
     "protocol_count": 27
   },
   "ipo": {
-    "polymarket_pct": 70,
+    "polymarket_pct": 70.5,
     "kalshi_pct": 60.5,
     "avg_pct": 60.7
   },
@@ -23,8 +23,8 @@
   "prediction_markets": {
     "ipo": {
       "kalshi_pct": 60.5,
-      "polymarket_pct": 70,
-      "mktcap_16b_pct": 43.5,
+      "polymarket_pct": 70.5,
+      "mktcap_16b_pct": 49.5,
       "largest_excl_spacex_pct": 5.6
     },
     "underwriters": [
