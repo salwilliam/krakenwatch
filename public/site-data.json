@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-03T17:45:57.807Z",
+  "updated_at": "2026-05-03T18:00:49.004Z",
   "updated_display": "May 3, 2026",
   "ink": {
     "tvl_millions": 309.2,
@@ -24,7 +24,7 @@
     "ipo": {
       "kalshi_pct": 60.5,
       "polymarket_pct": 70.5,
-      "mktcap_16b_pct": 49.5,
+      "mktcap_16b_pct": 47.5,
       "largest_excl_spacex_pct": 5.6
     },
     "underwriters": [
@@ -46,12 +46,12 @@
       {
         "bank": "JPMorgan Chase",
         "ticker": "JPM",
-        "pct": 56
+        "pct": 55.5
       },
       {
         "bank": "Goldman Sachs",
         "ticker": "GS",
-        "pct": 54.5
+        "pct": 55
       }
     ],
     "regulatory": {
