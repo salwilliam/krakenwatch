@@ -545,6 +545,41 @@ function AcquisitionTimeline() {
   );
 }
 
+const SOURCE_BADGE = {
+  Kalshi:     { bg: 'hsl(220 45% 88%)', fg: 'hsl(220 50% 35%)' },
+  Polymarket: { bg: 'hsl(270 35% 88%)', fg: 'hsl(270 40% 35%)' },
+};
+
+function SourceBadge({ src }) {
+  const s = SOURCE_BADGE[src] || { bg: sectionBg, fg: ut };
+  return (
+    <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded shrink-0"
+      style={{ background: s.bg, color: s.fg, fontFamily: 'var(--font-display)' }}>
+      {src}
+    </span>
+  );
+}
+
+function PctBar({ pct }) {
+  const n = parseFloat(pct);
+  const w = isNaN(n) ? 0 : Math.min(100, Math.max(0, n));
+  return (
+    <div className="flex items-center gap-2 min-w-0">
+      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'hsl(33 25% 76%)' }}>
+        <div className="h-full rounded-full" style={{
+          width: `${w}%`,
+          background: w >= 50
+            ? 'linear-gradient(to right, hsl(150 40% 40%), hsl(150 50% 30%))'
+            : `linear-gradient(to right, ${on}, hsl(25 55% 38%))`,
+        }} />
+      </div>
+      <span className="text-sm font-bold tabular-nums shrink-0" style={{ color: on, fontFamily: 'var(--font-display)' }}>
+        {isNaN(n) ? '—' : `${n}%`}
+      </span>
+    </div>
+  );
+}
+
 function SectionCard({ title, icon, children }) {
   return (
     <div className="rounded-xl w-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg, overflow: 'visible' }}>
@@ -557,10 +592,23 @@ function SectionCard({ title, icon, children }) {
   );
 }
 
+function normalizePct(raw) {
+  const n = parseFloat(raw);
+  if (isNaN(n)) return null;
+  return n <= 1 ? Math.round(n * 1000) / 10 : n;
+}
+
 export default function Payward() {
   const [activeFilter, setActiveFilter] = useState('All');
   const { data } = useSiteData();
   const sm = data?.secondary_market;
+  const pm = data?.prediction_markets;
+  const ipoKalshi = normalizePct(pm?.ipo?.kalshi_pct);
+  const ipoPoly   = normalizePct(pm?.ipo?.polymarket_pct);
+  const ipoAvg    = ipoKalshi != null && ipoPoly != null
+    ? Math.round((ipoKalshi + ipoPoly) / 2 * 10) / 10
+    : (ipoKalshi ?? ipoPoly ?? null);
+  const mktcap16b = normalizePct(pm?.ipo?.mktcap_16b_pct);
 
   return (
     <>
@@ -593,6 +641,127 @@ export default function Payward() {
           </p>
         </div>
 
+        {/* ── 3-column data strip ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
+
+          {/* Secondary Market Pricing */}
+          <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+            <div className="px-4 pt-3.5 pb-2 flex items-start justify-between gap-3 flex-1">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Secondary Market</p>
+                <p className="text-sm font-semibold leading-tight mb-2" style={{ fontFamily: 'var(--font-display)', color: qp }}>Payward share price across private venues</p>
+                <div className="flex flex-col gap-1 mt-1">
+                  {[
+                    { label: 'Hiive',     raw: sm?.hiive_pps },
+                    { label: 'Forge',     raw: sm?.forge_pps },
+                    { label: 'NASDAQ PM', raw: sm?.npm_pps },
+                    { label: 'Notice',    raw: sm?.notice_pps },
+                  ].map(({ label, raw }) => (
+                    <div key={label} className="flex items-center justify-between">
+                      <span className="text-[10px]" style={{ color: ut, fontFamily: 'var(--font-display)' }}>{label}</span>
+                      <span className="text-[10px] font-bold tabular-nums" style={{ color: on, fontFamily: 'var(--font-display)' }}>{raw ? `$${raw}` : '—'}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="shrink-0 text-right">
+                <p className="text-3xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
+                  {sm?.avg_pps ? `$${sm.avg_pps}` : '—'}
+                </p>
+                <p className="text-[10px] mt-0.5" style={{ color: ut }}>wtd avg</p>
+              </div>
+            </div>
+            <div className="px-4 pb-3">
+              <p className="text-[9px]" style={{ color: ut }}>
+                {sm?.volume_30d_est_m ? `Est. 30D vol ~$${sm.volume_30d_est_m}M · ` : ''}updated every 4 hours
+              </p>
+            </div>
+          </div>
+
+          {/* IPO Odds */}
+          <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+            <div className="px-4 pt-3.5 pb-2 flex items-start justify-between gap-3 flex-1">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+                  <SourceBadge src="Kalshi" />
+                  <SourceBadge src="Polymarket" />
+                </div>
+                <p className="text-sm font-semibold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>Kraken IPO by Dec 31, 2026</p>
+                {(ipoKalshi != null || ipoPoly != null) && (
+                  <div className="mt-2 flex flex-col gap-0.5">
+                    {ipoKalshi != null && (
+                      <p className="text-[10px] tabular-nums" style={{ color: ut }}>Kalshi {ipoKalshi}%</p>
+                    )}
+                    {ipoPoly != null && (
+                      <p className="text-[10px] tabular-nums" style={{ color: ut }}>Polymarket {ipoPoly}%</p>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="shrink-0 text-right">
+                <p className="text-3xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
+                  {ipoAvg != null ? `${ipoAvg}%` : '—'}
+                </p>
+              </div>
+            </div>
+            <div className="px-4 pb-3">
+              <div className="h-1.5 rounded-full overflow-hidden mb-1" style={{ background: 'hsl(33 25% 76%)' }}>
+                <div className="h-full rounded-full" style={{
+                  width: `${Math.min(100, Math.max(0, ipoAvg ?? 0))}%`,
+                  background: (ipoAvg ?? 0) >= 50
+                    ? 'linear-gradient(to right, hsl(150 40% 40%), hsl(150 50% 30%))'
+                    : `linear-gradient(to right, ${on}, hsl(25 55% 38%))`,
+                }} />
+              </div>
+              <p className="text-[9px]" style={{ color: ut }}>updated every 4 hours</p>
+            </div>
+            <div className="px-4 pb-3.5 pt-1" style={{ borderTop: `1px solid ${cardBorder}` }}>
+              <a href="https://polymarket.com/event/kraken-ipo-in-2025" target="_blank" rel="noopener noreferrer"
+                className="block w-full text-center text-xs font-bold px-3 py-2 rounded-lg transition-opacity hover:opacity-85"
+                style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textDecoration: 'none' }}>
+                Trade ↗
+              </a>
+            </div>
+          </div>
+
+          {/* IPO Market Cap >$16B */}
+          <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+            <div className="px-4 pt-3.5 pb-2 flex items-start justify-between gap-3 flex-1">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <SourceBadge src="Polymarket" />
+                </div>
+                <p className="text-sm font-semibold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>IPO market cap above $16B at listing</p>
+              </div>
+              <div className="shrink-0 text-right">
+                <p className="text-3xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
+                  {mktcap16b != null ? `${mktcap16b}%` : '—'}
+                </p>
+              </div>
+            </div>
+            <div className="px-4 pb-3">
+              <div className="h-1.5 rounded-full overflow-hidden mb-1" style={{ background: 'hsl(33 25% 76%)' }}>
+                <div className="h-full rounded-full" style={{
+                  width: `${Math.min(100, Math.max(0, mktcap16b ?? 0))}%`,
+                  background: (mktcap16b ?? 0) >= 50
+                    ? 'linear-gradient(to right, hsl(150 40% 40%), hsl(150 50% 30%))'
+                    : `linear-gradient(to right, ${on}, hsl(25 55% 38%))`,
+                }} />
+              </div>
+              <p className="text-[9px]" style={{ color: ut }}>updated every 4 hours</p>
+            </div>
+            <div className="px-4 pb-3.5 pt-1" style={{ borderTop: `1px solid ${cardBorder}` }}>
+              <a href="https://polymarket.com/event/kraken-ipo-closing-market-cap-above" target="_blank" rel="noopener noreferrer"
+                className="block w-full text-center text-xs font-bold px-3 py-2 rounded-lg transition-opacity hover:opacity-85"
+                style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textDecoration: 'none' }}>
+                Trade ↗
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        {/* ── Filter tabs ── */}
         <div className="flex flex-wrap gap-2 justify-center">
           {TAGS.map(tag => (
             <button
@@ -611,26 +780,6 @@ export default function Payward() {
             </button>
           ))}
         </div>
-
-        <SectionCard title="Secondary Market Pricing" icon="📈">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-3">
-            {[
-              { label: 'Hiive',     value: sm?.hiive_pps  ? `$${sm.hiive_pps}` : '—' },
-              { label: 'Forge',     value: sm?.forge_pps  ? `$${sm.forge_pps}` : '—' },
-              { label: 'NASDAQ PM', value: sm?.npm_pps    ? `$${sm.npm_pps}` : '—' },
-              { label: 'Notice',    value: sm?.notice_pps ? `$${sm.notice_pps}` : '—' },
-            ].map(({ label, value }) => (
-              <div key={label} className="flex flex-col gap-0.5">
-                <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-display)', color: ut }}>{label}</p>
-                <p className="text-xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: on }}>{value}</p>
-              </div>
-            ))}
-          </div>
-          <p className="text-[10px]" style={{ color: ut }}>
-            Weighted avg: <span className="font-bold" style={{ color: on }}>{sm?.avg_pps ? `$${sm.avg_pps}` : '—'}</span>
-            {sm?.volume_30d_est_m ? ` · Est. 30D vol ~$${sm.volume_30d_est_m}M across venues` : ''}
-          </p>
-        </SectionCard>
 
         {ecosystemSections.map(section => (
           <SectionBlock key={section.id} section={section} activeFilter={activeFilter} />
