@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useSiteData } from '../hooks/useSiteData';
 
 const qp = 'hsl(28 40% 14%)';
 const ut = 'hsl(30 20% 38%)';
@@ -234,6 +235,10 @@ const ecosystemSections = [
       { name: 'Kraken Argentina (X)', desc: 'Argentine market account. X: @krakenfx_ar', tag: 'Social', url: 'https://x.com/krakenfx_ar' },
       { name: 'Kraken Argentina (Instagram)', desc: 'Argentine market account. Instagram: @krakenfx_ar', tag: 'Social', url: 'https://instagram.com/krakenfx_ar' },
       { name: 'Kraken Brazil', desc: 'Brazilian market account. Instagram: @krakenfx_br', tag: 'Social', url: 'https://instagram.com/krakenfx_br' },
+      { name: 'Kraken LinkedIn', desc: 'Official company LinkedIn page. LinkedIn: @kraken-exchange', tag: 'Social', url: 'https://www.linkedin.com/company/kraken-exchange/' },
+      { name: 'Kraken YouTube', desc: 'Official YouTube channel for tutorials and announcements. YouTube: @krakenfx', tag: 'Social', url: 'https://www.youtube.com/@krakenfx' },
+      { name: 'NinjaTrader YouTube', desc: 'NinjaTrader platform tutorials and trading content. YouTube: @NinjaTrader', tag: 'Social', url: 'https://www.youtube.com/@NinjaTrader' },
+      { name: 'NinjaTrader LinkedIn', desc: 'NinjaTrader official company LinkedIn page. LinkedIn: @ninjatrader', tag: 'Social', url: 'https://www.linkedin.com/company/ninjatrader/' },
     ],
   },
 ];
@@ -268,10 +273,30 @@ function InstagramIcon() {
   );
 }
 
+function LinkedInIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img">
+      <rect x="2" y="2" width="20" height="20" rx="3" ry="3" fill="#0077B5"/>
+      <path d="M7 10h2v7H7v-7zm1-3a1.1 1.1 0 110 2.2A1.1 1.1 0 018 7zm4 3h1.9v1h.03C14.22 10.4 15.1 10 16.1 10c2.1 0 2.9 1.38 2.9 3.17V17h-2v-3.4c0-.82-.01-1.87-1.14-1.87-1.14 0-1.32.89-1.32 1.81V17H12v-7z" fill="white"/>
+    </svg>
+  );
+}
+
+function YouTubeIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="YouTube" role="img">
+      <rect x="2" y="5" width="20" height="14" rx="3" fill="#FF0000"/>
+      <path d="M10 8.5l5 3.5-5 3.5V8.5z" fill="white"/>
+    </svg>
+  );
+}
+
 function getPlatformIcon(url) {
   if (!url) return null;
   if (url.includes('x.com') || url.includes('twitter.com')) return <XIcon />;
   if (url.includes('instagram.com')) return <InstagramIcon />;
+  if (url.includes('linkedin.com')) return <LinkedInIcon />;
+  if (url.includes('youtube.com')) return <YouTubeIcon />;
   return null;
 }
 
@@ -286,7 +311,7 @@ function TagPill({ tag }) {
 }
 
 function parseHandleFromDesc(desc) {
-  const match = desc.match(/^(.+?)\s+((?:X|Instagram|Twitter):\s*)(@\w+)$/);
+  const match = desc.match(/^(.+?)\s+((?:X|Instagram|Twitter|LinkedIn|YouTube):\s*)(@[\w-]+)$/);
   if (!match) return { prefix: desc, platformLabel: null, handle: null };
   return { prefix: match[1], platformLabel: match[2], handle: match[3] };
 }
@@ -534,6 +559,8 @@ function SectionCard({ title, icon, children }) {
 
 export default function Payward() {
   const [activeFilter, setActiveFilter] = useState('All');
+  const { data } = useSiteData();
+  const sm = data?.secondary_market;
 
   return (
     <>
@@ -584,6 +611,26 @@ export default function Payward() {
             </button>
           ))}
         </div>
+
+        <SectionCard title="Secondary Market Pricing" icon="📈">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-3">
+            {[
+              { label: 'Hiive',     value: sm?.hiive_pps  ? `$${sm.hiive_pps}` : '—' },
+              { label: 'Forge',     value: sm?.forge_pps  ? `$${sm.forge_pps}` : '—' },
+              { label: 'NASDAQ PM', value: sm?.npm_pps    ? `$${sm.npm_pps}` : '—' },
+              { label: 'Notice',    value: sm?.notice_pps ? `$${sm.notice_pps}` : '—' },
+            ].map(({ label, value }) => (
+              <div key={label} className="flex flex-col gap-0.5">
+                <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-display)', color: ut }}>{label}</p>
+                <p className="text-xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: on }}>{value}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-[10px]" style={{ color: ut }}>
+            Weighted avg: <span className="font-bold" style={{ color: on }}>{sm?.avg_pps ? `$${sm.avg_pps}` : '—'}</span>
+            {sm?.volume_30d_est_m ? ` · Est. 30D vol ~$${sm.volume_30d_est_m}M across venues` : ''}
+          </p>
+        </SectionCard>
 
         {ecosystemSections.map(section => (
           <SectionBlock key={section.id} section={section} activeFilter={activeFilter} />

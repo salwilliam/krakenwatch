@@ -312,6 +312,40 @@ export default function InkL2() {
           )}
         </div>
 
+        {/* ── Coming Soon: NFT Marketplace ── */}
+        <div className="rounded-xl overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+          <div className="px-4 py-3 flex items-center gap-2" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
+            <span className="text-sm" style={{ color: 'hsl(38 55% 72%)' }}>🖼</span>
+            <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>NFT Marketplace</span>
+            <span className="ml-auto text-[9px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded"
+              style={{ background: 'hsl(30 25% 32%)', color: 'hsl(38 40% 65%)', border: '1px solid hsl(30 20% 38%)', fontFamily: 'var(--font-display)' }}>
+              Coming Soon
+            </span>
+          </div>
+          <div className="px-4 py-4">
+            <p className="text-sm" style={{ fontFamily: 'var(--font-serif)', color: muted, fontStyle: 'italic' }}>
+              NFT collections, floor prices, and trading volume across Ink — coming soon.
+            </p>
+          </div>
+        </div>
+
+        {/* ── Coming Soon: Memecoins ── */}
+        <div className="rounded-xl overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+          <div className="px-4 py-3 flex items-center gap-2" style={{ background: darkHeaderBg, borderBottom: `1px solid ${darkHeaderBorder}` }}>
+            <span className="text-sm" style={{ color: 'hsl(38 55% 72%)' }}>🐙</span>
+            <span className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)', color: darkHeaderText }}>Memecoins</span>
+            <span className="ml-auto text-[9px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded"
+              style={{ background: 'hsl(30 25% 32%)', color: 'hsl(38 40% 65%)', border: '1px solid hsl(30 20% 38%)', fontFamily: 'var(--font-display)' }}>
+              Coming Soon
+            </span>
+          </div>
+          <div className="px-4 py-4">
+            <p className="text-sm" style={{ fontFamily: 'var(--font-serif)', color: muted, fontStyle: 'italic' }}>
+              Memecoin launches, market cap, and momentum on Ink — coming soon.
+            </p>
+          </div>
+        </div>
+
         {/* ── About Ink ── */}
         <div className="rounded-xl overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
           <div className="px-4 pt-3.5 pb-2">
