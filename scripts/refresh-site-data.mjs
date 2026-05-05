@@ -94,19 +94,32 @@ function freshnessMultiplier(sourceDate, now) {
   return 1 - ((ageDays - 2) / (45 - 2)) * 0.8;
 }
 
-async function fetchText(url, options = {}) {
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status} at ${url}`);
+async function fetchWithTimeout(url, options = {}, timeoutMs = 30_000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status} at ${url}`);
+    }
+    return response;
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      throw new Error(`Request timed out after ${timeoutMs}ms: ${url}`);
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
   }
+}
+
+async function fetchText(url, options = {}) {
+  const response = await fetchWithTimeout(url, options);
   return response.text();
 }
 
 async function fetchJson(url, options = {}) {
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status} at ${url}`);
-  }
+  const response = await fetchWithTimeout(url, options);
   return response.json();
 }
 
