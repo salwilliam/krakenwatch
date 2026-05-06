@@ -10,6 +10,7 @@ import mooreCfo from './payward-appoints-robert-moore-cfo.js';
 import roadmap from './kraken-watch-roadmap-beyond-dashboard.js';
 import xstocksBnb from './ink-alpha-xstocks-bnb-chain.js';
 import sentry from './ink-alpha-sentry-token-markets.js';
+import otomate from './otomate-ink-launch.js';
 
 const briefs = [
   artemis,
@@ -24,6 +25,7 @@ const briefs = [
   roadmap,
   xstocksBnb,
   sentry,
+  otomate,
 ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
 export default briefs;
