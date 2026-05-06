@@ -204,6 +204,7 @@ const ecosystemSections = [
       { name: 'BNY', desc: "US banking partner providing custody and settlement infrastructure for Kraken's operations.", tag: 'Partner' },
       { name: 'Deutsche Börse Group / 360T', desc: 'European exchange and FX infrastructure partner via the 360T FX trading platform.', tag: 'Partner' },
       { name: 'Global Dollar Network', desc: 'Settlement network underpinning the USDG stablecoin used across payment rails.', tag: 'Partner' },
+      { name: 'MoneyGram', desc: 'Global payments network partnering with Kraken to enable crypto-to-cash withdrawals across ~500,000 retail locations in 200+ countries. The partnership may expand over time to include local bank deposits and the Krak global money app.', tag: 'Partner', url: 'https://blog.kraken.com/news/moneygram-partnership?inviteCode=dt2db4pz' },
     ],
   },
   {
