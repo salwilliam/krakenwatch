@@ -620,7 +620,9 @@ export default function Payward() {
         <meta property="og:title" content="Payward Map — Kraken Watch" />
         <meta property="og:description" content="Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity." />
         <meta property="og:url" content="https://krakenwatch.com/payward" />
+        <meta property="og:image" content="https://krakenwatch.com/payward-hero.png" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://krakenwatch.com/payward-hero.png" />
         <meta name="twitter:title" content="Payward Map — Kraken Watch" />
         <meta name="twitter:description" content="Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity. Entities, partners, sponsorships, and acquisitions." />
       </Helmet>
