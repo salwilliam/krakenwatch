@@ -178,7 +178,7 @@ export default function Nav() {
 
         <div className="flex items-center gap-2">
           <a
-            href="https://terminal.spreads.fi/?ref=ZSNKR2"
+            href="https://invite.kraken.com/JDNW/qu2e5diu"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold transition-all"

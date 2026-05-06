@@ -74,7 +74,7 @@ export default function About() {
             </svg>
             Follow on X
           </a>
-          <a href="https://terminal.spreads.fi/?ref=ZSNKR2" target="_blank" rel="noopener noreferrer"
+          <a href="https://invite.kraken.com/JDNW/qu2e5diu" target="_blank" rel="noopener noreferrer"
             className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-opacity hover:opacity-80"
             style={{ fontFamily: 'var(--font-display)', background: 'hsl(350 55% 32%)', color: 'hsl(38 60% 92%)', letterSpacing: '0.04em' }}>
             Trade ↗
