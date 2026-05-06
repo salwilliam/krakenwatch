@@ -16,7 +16,7 @@ const protocols = [
   { id: 'gelato', label: 'Gelato', category: 'infrastructure', score: 48, description: 'RaaS, automation, fault proof challenger. Core security.', url: 'https://gelato.network', krakenTier: 'partner' },
   { id: 'inkmcp', label: 'Ink MCP', category: 'infrastructure', score: 38, description: 'Chain-level MCP server. Agentic stack gateway for local execution.', url: 'https://inkonchain.com', krakenTier: 'foundation' },
   { id: 'krakenwallet', label: 'Kraken Wallet', category: 'infrastructure', score: 55, description: 'Non-custodial. Native Ink wallet. Free ETH withdrawals.', url: 'https://x.com/krakenwallet', krakenTier: 'owned' },
-  { id: 'kbtc', label: 'kBTC', category: 'asset', score: 62, description: 'Kraken-issued wrapped BTC. 1:1 backed, SPDI-held. Listed on Tydro, Velodrome, Nado.', url: 'https://invite.kraken.com/JDNW/qu2e5diu', krakenTier: 'owned' },
+  { id: 'kbtc', label: 'kBTC', category: 'asset', score: 62, description: 'Kraken-issued wrapped BTC. 1:1 backed, SPDI-held. Listed on Tydro, Velodrome, Nado.', url: 'https://www.kraken.com/en-ca?inviteCode=dt2db4pz', krakenTier: 'owned' },
   { id: 'usdt0', label: 'USDT0', category: 'asset', score: 70, description: 'Omnichain USDT (LayerZero OFT). Debuted on Ink. Primary Tydro/Nado collateral.', url: 'https://x.com/usdt0', krakenTier: 'partner' },
   { id: 'usdg', label: 'USDG', category: 'asset', score: 50, description: 'Paxos stablecoin. Kraken is a founding GDN member.', url: 'https://x.com/usdg', krakenTier: 'partner' },
 ];
