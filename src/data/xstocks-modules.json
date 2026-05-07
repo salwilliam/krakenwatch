@@ -1,0 +1,47 @@
+{
+  "lastUpdated": "2026-05-06T15:00:00Z",
+  "modules": [
+    {
+      "id": "pulse",
+      "title": "xStocks Pulse",
+      "data": ["24h Volume: $18.4M", "Active Venues: 8", "Top Asset: AAPLx"],
+      "insight": "Activity is expanding steadily with tokenized equities gaining traction across venues.",
+      "action": "Monitor"
+    },
+    {
+      "id": "activity",
+      "title": "Activity",
+      "data": ["24h Volume Trend: ↑14%", "7d Volume Trend: ↑28%", "Transactions: 12.4K", "Active Wallets: 3.8K"],
+      "insight": "Usage is growing consistently week-over-week.",
+      "action": "Monitor"
+    },
+    {
+      "id": "asset-leaders",
+      "title": "Asset Leaders",
+      "data": ["1. AAPLx — 31%", "2. GOOGLx — 18%", "3. TSLAx — 12%", "Top 3 Share: 61%"],
+      "insight": "Activity remains concentrated in major tech equities.",
+      "action": "Trade"
+    },
+    {
+      "id": "venue-distribution",
+      "title": "Venue Distribution",
+      "data": ["Top Venue: Kraken — 68%", "Secondary: Ink — 19%", "Active Venues: 8"],
+      "insight": "Liquidity is consolidating on Kraken while spreading to new venues.",
+      "action": "Trade"
+    },
+    {
+      "id": "momentum",
+      "title": "Momentum",
+      "data": ["24h Change: +14%", "7d Change: +31%", "New Listings: 2", "New Integrations: 1"],
+      "insight": "Momentum appears strong and potentially sustained.",
+      "action": "Enter"
+    },
+    {
+      "id": "narrative-signals",
+      "title": "Narrative Signals",
+      "data": ["New Ink integration live", "Major RWA fund added xStocks", "Kraken xStocks TVL up 42% this month"],
+      "insight": "Ecosystem attention is shifting toward broader RWA adoption.",
+      "action": "Explore"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import InkL2 from './pages/InkL2';
 import Payward from './pages/Payward';
 import About from './pages/About';
 import Experimental from './pages/Experimental';
+import XStocks from './pages/XStocks';
 
 function AppShell() {
   return (
@@ -19,6 +20,7 @@ function AppShell() {
         <Route path="/prediction" element={<Prediction />} />
         <Route path="/ink" element={<InkL2 />} />
         <Route path="/payward" element={<Payward />} />
+        <Route path="/xstocks" element={<XStocks />} />
         <Route path="/blog" element={<BlogArchive />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/alpha-briefs" element={<Navigate to="/blog" replace />} />

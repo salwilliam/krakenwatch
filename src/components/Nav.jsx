@@ -44,6 +44,15 @@ const IconAbout = () => (
   </svg>
 );
 
+const IconXStocks = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
+    <polyline points="3 17 8 12 12 16 17 9 21 13"/>
+    <line x1="3" y1="20" x2="21" y2="20"/>
+    <line x1="8" y1="20" x2="8" y2="12"/>
+    <line x1="17" y1="20" x2="17" y2="9"/>
+  </svg>
+);
+
 const IconX = () => (
   <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0" fill="currentColor" aria-hidden="true">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -54,6 +63,7 @@ const primaryNavLinks = [
   { href: '/prediction', label: 'Prediction', Icon: IconPrediction },
   { href: '/ink', label: 'Ink Ecosystem', Icon: IconInk },
   { href: '/payward', label: 'Payward Map', Icon: IconPayward },
+  { href: '/xstocks', label: 'xStocks', Icon: IconXStocks },
 ];
 
 const menuItems = [
