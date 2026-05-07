@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-05-07T10:17:41.196Z",
+  "updated_at": "2026-05-07T13:51:29.829Z",
   "updated_display": "May 7, 2026",
   "ink": {
-    "tvl_millions": 321.6,
+    "tvl_millions": 321,
     "protocol_count": 28
   },
   "ipo": {
-    "polymarket_pct": 62.5,
+    "polymarket_pct": 62,
     "kalshi_pct": 67.5,
-    "avg_pct": 67.4
+    "avg_pct": 67.3
   },
   "secondary_market": {
     "hiive_pps": 34.04,
@@ -23,8 +23,8 @@
   "prediction_markets": {
     "ipo": {
       "kalshi_pct": 67.5,
-      "polymarket_pct": 62.5,
-      "mktcap_16b_pct": 49,
+      "polymarket_pct": 62,
+      "mktcap_16b_pct": 47.5,
       "largest_excl_spacex_pct": 2.1
     },
     "underwriters": [
@@ -41,7 +41,7 @@
       {
         "bank": "JPMorgan Chase",
         "ticker": "JPM",
-        "pct": 55
+        "pct": 57
       },
       {
         "bank": "Citigroup",
@@ -51,12 +51,12 @@
       {
         "bank": "Goldman Sachs",
         "ticker": "GS",
-        "pct": 54
+        "pct": 53.5
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 64.5,
-      "crypto_structure_aug_pct": 51
+      "clarity_act_pct": 66.5,
+      "crypto_structure_aug_pct": 52.5
     },
     "ink_fdv": {
       "above_250m_pct": 81.5,
