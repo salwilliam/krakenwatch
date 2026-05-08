@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-05-08T09:10:21.709Z",
+  "updated_at": "2026-05-08T13:18:11.189Z",
   "updated_display": "May 8, 2026",
   "ink": {
-    "tvl_millions": 313.7,
+    "tvl_millions": 316.2,
     "protocol_count": 28
   },
   "ipo": {
@@ -59,7 +59,7 @@
       "crypto_structure_aug_pct": 59.5
     },
     "ink_fdv": {
-      "above_250m_pct": 83,
+      "above_250m_pct": 81,
       "above_500m_pct": 67.5,
       "above_1b_pct": 37.5,
       "above_2b_pct": 17.5
