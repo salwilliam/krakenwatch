@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-09T02:15:10.521Z",
+  "updated_at": "2026-05-09T06:11:30.406Z",
   "updated_display": "May 9, 2026",
   "ink": {
     "tvl_millions": 317.5,
@@ -24,7 +24,7 @@
     "ipo": {
       "kalshi_pct": 67.5,
       "polymarket_pct": 58,
-      "mktcap_16b_pct": 48.5,
+      "mktcap_16b_pct": 50.5,
       "largest_excl_spacex_pct": 2.2
     },
     "underwriters": [
@@ -36,12 +36,12 @@
       {
         "bank": "Morgan Stanley",
         "ticker": "MS",
-        "pct": 60
+        "pct": 61
       },
       {
         "bank": "JPMorgan Chase",
         "ticker": "JPM",
-        "pct": 57
+        "pct": 57.5
       },
       {
         "bank": "Citigroup",
@@ -55,8 +55,8 @@
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 74.5,
-      "crypto_structure_aug_pct": 60
+      "clarity_act_pct": 73.5,
+      "crypto_structure_aug_pct": 64.5
     },
     "ink_fdv": {
       "above_250m_pct": 81,
