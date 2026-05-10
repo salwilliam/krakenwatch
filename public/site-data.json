@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-05-09T20:38:17.131Z",
-  "updated_display": "May 9, 2026",
+  "updated_at": "2026-05-10T02:26:25.780Z",
+  "updated_display": "May 10, 2026",
   "ink": {
-    "tvl_millions": 319,
+    "tvl_millions": 299.2,
     "protocol_count": 28
   },
   "ipo": {
-    "polymarket_pct": 56.5,
+    "polymarket_pct": 55,
     "kalshi_pct": 67.5,
-    "avg_pct": 67.3
+    "avg_pct": 66.7
   },
   "secondary_market": {
     "hiive_pps": 34.75,
@@ -18,13 +18,13 @@
     "avg_pps": 35.77,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
-    "updated": "May 9, 2026"
+    "updated": "May 10, 2026"
   },
   "prediction_markets": {
     "ipo": {
       "kalshi_pct": 67.5,
-      "polymarket_pct": 56.5,
-      "mktcap_16b_pct": 49,
+      "polymarket_pct": 55,
+      "mktcap_16b_pct": 49.5,
       "largest_excl_spacex_pct": 2.2
     },
     "underwriters": [
@@ -55,13 +55,13 @@
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 72.5,
-      "crypto_structure_aug_pct": 66
+      "clarity_act_pct": 73.5,
+      "crypto_structure_aug_pct": 65
     },
     "ink_fdv": {
-      "above_250m_pct": 84,
+      "above_250m_pct": 84.5,
       "above_500m_pct": 66.5,
-      "above_1b_pct": 37,
+      "above_1b_pct": 37.5,
       "above_2b_pct": 17
     }
   }
