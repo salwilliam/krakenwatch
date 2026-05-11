@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-11T10:55:53.743Z",
+  "updated_at": "2026-05-11T14:35:37.676Z",
   "updated_display": "May 11, 2026",
   "ink": {
     "tvl_millions": 292.3,
@@ -11,11 +11,11 @@
     "avg_pct": 66.2
   },
   "secondary_market": {
-    "hiive_pps": 31.81,
+    "hiive_pps": 32.53,
     "forge_pps": 32.52,
     "npm_pps": 37.69,
     "notice_pps": 48.85,
-    "avg_pps": 34.37,
+    "avg_pps": 34.72,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
     "updated": "May 11, 2026"
@@ -36,7 +36,7 @@
       {
         "bank": "Morgan Stanley",
         "ticker": "MS",
-        "pct": 60.5
+        "pct": 60
       },
       {
         "bank": "JPMorgan Chase",
@@ -51,12 +51,12 @@
       {
         "bank": "Goldman Sachs",
         "ticker": "GS",
-        "pct": 53.5
+        "pct": 53
       }
     ],
     "regulatory": {
       "clarity_act_pct": 62,
-      "crypto_structure_aug_pct": 66
+      "crypto_structure_aug_pct": 67
     },
     "ink_fdv": {
       "above_250m_pct": 83,
