@@ -1,29 +1,29 @@
 {
-  "updated_at": "2026-05-11T17:51:21.957Z",
+  "updated_at": "2026-05-11T21:12:53.064Z",
   "updated_display": "May 11, 2026",
   "ink": {
     "tvl_millions": 292.4,
     "protocol_count": 28
   },
   "ipo": {
-    "polymarket_pct": 59.5,
-    "kalshi_pct": 66.5,
-    "avg_pct": 66.2
+    "polymarket_pct": 65,
+    "kalshi_pct": 59,
+    "avg_pct": 59.5
   },
   "secondary_market": {
     "hiive_pps": 32.53,
     "forge_pps": 32.52,
     "npm_pps": 37.69,
-    "notice_pps": 48.85,
-    "avg_pps": 34.72,
+    "notice_pps": 48.73,
+    "avg_pps": 34.7,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
     "updated": "May 11, 2026"
   },
   "prediction_markets": {
     "ipo": {
-      "kalshi_pct": 66.5,
-      "polymarket_pct": 59.5,
+      "kalshi_pct": 59,
+      "polymarket_pct": 65,
       "mktcap_16b_pct": 48.5,
       "largest_excl_spacex_pct": 2.4
     },
@@ -36,7 +36,7 @@
       {
         "bank": "Morgan Stanley",
         "ticker": "MS",
-        "pct": 60
+        "pct": 59.5
       },
       {
         "bank": "JPMorgan Chase",
@@ -55,12 +55,12 @@
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 64.5,
-      "crypto_structure_aug_pct": 67
+      "clarity_act_pct": 66,
+      "crypto_structure_aug_pct": 69.5
     },
     "ink_fdv": {
       "above_250m_pct": 83,
-      "above_500m_pct": 67,
+      "above_500m_pct": 66.5,
       "above_1b_pct": 37.5,
       "above_2b_pct": 17
     }
