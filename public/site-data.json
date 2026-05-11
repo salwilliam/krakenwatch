@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-05-10T20:41:12.922Z",
-  "updated_display": "May 10, 2026",
+  "updated_at": "2026-05-11T02:35:23.185Z",
+  "updated_display": "May 11, 2026",
   "ink": {
-    "tvl_millions": 295.5,
+    "tvl_millions": 294.1,
     "protocol_count": 28
   },
   "ipo": {
@@ -18,7 +18,7 @@
     "avg_pps": 34.72,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
-    "updated": "May 10, 2026"
+    "updated": "May 11, 2026"
   },
   "prediction_markets": {
     "ipo": {
@@ -55,8 +55,8 @@
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 72.5,
-      "crypto_structure_aug_pct": 64
+      "clarity_act_pct": 73,
+      "crypto_structure_aug_pct": 65.5
     },
     "ink_fdv": {
       "above_250m_pct": 83,
