@@ -11,6 +11,10 @@ import roadmap from './kraken-watch-roadmap-beyond-dashboard.js';
 import xstocksBnb from './ink-alpha-xstocks-bnb-chain.js';
 import sentry from './ink-alpha-sentry-token-markets.js';
 import otomate from './otomate-ink-launch.js';
+import reap from './payward-acquires-reap.js';
+import moneygram from './kraken-moneygram-cash-pickup.js';
+import cfBenchmarks from './cf-benchmarks-xstocks-indices.js';
+import franklinTempleton from './payward-franklin-templeton-tokenized-assets.js';
 
 const briefs = [
   artemis,
@@ -26,6 +30,10 @@ const briefs = [
   xstocksBnb,
   sentry,
   otomate,
+  reap,
+  moneygram,
+  cfBenchmarks,
+  franklinTempleton,
 ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
 export default briefs;
