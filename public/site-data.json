@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-12T17:55:09.814Z",
+  "updated_at": "2026-05-12T17:58:44.025Z",
   "updated_display": "May 12, 2026",
   "ink": {
     "tvl_millions": 277,
@@ -64,5 +64,82 @@
       "above_1b_pct": 38.5,
       "above_2b_pct": 17
     }
+  },
+  "xstocks": {
+    "ink_tvl_millions": 277,
+    "ink_protocol_count": 28,
+    "ink_dex_24h_millions": 4.13,
+    "ink_dex_7d_millions": 20.16,
+    "ink_dex_30d_millions": 107.2,
+    "ink_dex_change_1d_pct": 28.4,
+    "ink_dex_change_7d_pct": -17.2,
+    "total_market_cap_millions": 318.8,
+    "total_vol_24h_millions": 114.4,
+    "asset_count": 40,
+    "asset_leaders": [
+      {
+        "symbol": "CRCLX",
+        "mcap_m": 61,
+        "vol_24h_m": 44.5,
+        "change_24h_pct": -6.4,
+        "share_pct": 19.1
+      },
+      {
+        "symbol": "TSLAX",
+        "mcap_m": 60.3,
+        "vol_24h_m": 13.2,
+        "change_24h_pct": -3.4,
+        "share_pct": 18.9
+      },
+      {
+        "symbol": "MSTRX",
+        "mcap_m": 32.8,
+        "vol_24h_m": 2.4,
+        "change_24h_pct": -5.9,
+        "share_pct": 10.3
+      },
+      {
+        "symbol": "SPYX",
+        "mcap_m": 32.5,
+        "vol_24h_m": 1.4,
+        "change_24h_pct": -0.7,
+        "share_pct": 10.2
+      },
+      {
+        "symbol": "NVDAX",
+        "mcap_m": 29.4,
+        "vol_24h_m": 7.3,
+        "change_24h_pct": -1,
+        "share_pct": 9.2
+      }
+    ],
+    "top_volume": [
+      {
+        "symbol": "CRCLX",
+        "vol_24h_m": 44.5,
+        "change_24h_pct": -6.4
+      },
+      {
+        "symbol": "TSLAX",
+        "vol_24h_m": 13.2,
+        "change_24h_pct": -3.4
+      },
+      {
+        "symbol": "GOOGLX",
+        "vol_24h_m": 11.9,
+        "change_24h_pct": -2.2
+      },
+      {
+        "symbol": "COINX",
+        "vol_24h_m": 11.2,
+        "change_24h_pct": -4.4
+      },
+      {
+        "symbol": "AMZNX",
+        "vol_24h_m": 10.7,
+        "change_24h_pct": -2.6
+      }
+    ],
+    "last_refreshed": "2026-05-12T17:58:44.025Z"
   }
 }

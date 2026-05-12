@@ -168,6 +168,75 @@ async function getDefiLlamaData() {
   };
 }
 
+const COINGECKO_XSTOCKS_IDS = [
+  'circle-xstock', 'tesla-xstock', 'microstrategy-xstock', 'sp500-xstock',
+  'nasdaq-xstock', 'alphabet-xstock', 'intel-xstock', 'gold-xstock',
+  'marvell-xstock', 'coinbase-xstock', 'amazon-xstock', 'robinhood-xstock',
+  'meta-xstock', 'microsoft-xstock', 'broadcom-xstock', 'vanguard-xstock',
+  'chevron-xstock', 'eli-lilly-xstock', 'berkshire-hathaway-xstock',
+  'gamestop-xstock', 'linde-xstock', 'walmart-xstock', 'tqqq-xstock',
+  'pepsico-xstock', 'abbvie-xstock', 'merck-xstock', 'abbott-xstock',
+  'thermo-fisher-xstock', 'honeywell-xstock', 'unitedhealth-xstock',
+  'johnson-johnson-xstock', 'home-depot-xstock', 'comcast-xstock',
+  'apple-xstock', 'nvidia-xstock', 'mastercard-xstock', 'visa-xstock',
+  'palantir-xstock', 'crowdstrike-xstock', 'netflix-xstock',
+].join(',');
+
+async function getXStocksMarketData() {
+  const data = await withRetries('CoinGecko xStocks', () =>
+    fetchJson(
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${COINGECKO_XSTOCKS_IDS}&order=market_cap_desc&sparkline=false&per_page=250`,
+    ),
+  );
+  if (!Array.isArray(data) || !data.length) throw new Error('CoinGecko returned empty');
+
+  const totalMcap = data.reduce((s, t) => s + (t.market_cap || 0), 0);
+  const totalVol  = data.reduce((s, t) => s + (t.total_volume || 0), 0);
+
+  const byMcap = [...data]
+    .sort((a, b) => (b.market_cap || 0) - (a.market_cap || 0))
+    .slice(0, 5)
+    .map((t) => ({
+      symbol:          (t.symbol || '').toUpperCase(),
+      mcap_m:          round(t.market_cap / 1_000_000, 1),
+      vol_24h_m:       round(t.total_volume / 1_000_000, 1),
+      change_24h_pct:  round(t.price_change_percentage_24h, 1),
+      share_pct:       round((t.market_cap / totalMcap) * 100, 1),
+    }));
+
+  const byVol = [...data]
+    .sort((a, b) => (b.total_volume || 0) - (a.total_volume || 0))
+    .slice(0, 5)
+    .map((t) => ({
+      symbol:         (t.symbol || '').toUpperCase(),
+      vol_24h_m:      round(t.total_volume / 1_000_000, 1),
+      change_24h_pct: round(t.price_change_percentage_24h, 1),
+    }));
+
+  return {
+    total_market_cap_millions: round(totalMcap / 1_000_000, 1),
+    total_vol_24h_millions:    round(totalVol / 1_000_000, 1),
+    asset_count:               data.length,
+    asset_leaders:             byMcap,
+    top_volume:                byVol,
+  };
+}
+
+async function getInkDexData() {
+  const data = await withRetries('DeFiLlama Ink DEX', () =>
+    fetchJson(
+      'https://api.llama.fi/overview/dexs/Ink?excludeTotalDataChart=true&excludeTotalDataChartBreakdown=true&dataType=dailyVolume',
+    ),
+  );
+  return {
+    volume_24h_millions:  data.total24h  != null ? round(data.total24h  / 1_000_000, 2) : null,
+    volume_7d_millions:   data.total7d   != null ? round(data.total7d   / 1_000_000, 2) : null,
+    volume_30d_millions:  data.total30d  != null ? round(data.total30d  / 1_000_000, 1) : null,
+    change_1d_pct:        data.change_1d != null ? round(data.change_1d, 1)              : null,
+    change_7d_pct:        data.change_7d != null ? round(data.change_7d, 1)              : null,
+  };
+}
+
 function extractPolymarketMarket(eventPayload) {
   if (!Array.isArray(eventPayload) || !eventPayload.length) {
     return null;
@@ -584,8 +653,10 @@ async function main() {
   const existingRaw = await readFile(SITE_DATA_PATH, 'utf8');
   const existing = safeJsonParse(existingRaw, {});
 
-  const [ink, poly, kalshi, hiive, npm, forge, notice] = await Promise.all([
+  const [ink, inkDex, xstocksMkt, poly, kalshi, hiive, npm, forge, notice] = await Promise.all([
     getDefiLlamaData(),
+    runOptional('Ink DEX', getInkDexData),
+    runOptional('CoinGecko xStocks', getXStocksMarketData),
     getPolymarketData(),
     getKalshiData(),
     runOptional('Hiive', getHiivePrice),
@@ -645,6 +716,21 @@ async function main() {
     },
     secondary_market: secondaryMarket,
     ...(finalPredMarkets != null ? { prediction_markets: finalPredMarkets } : {}),
+    xstocks: {
+      ink_tvl_millions:      ink.tvl_millions,
+      ink_protocol_count:    ink.protocol_count,
+      ink_dex_24h_millions:  inkDex?.volume_24h_millions  ?? existing.xstocks?.ink_dex_24h_millions  ?? null,
+      ink_dex_7d_millions:   inkDex?.volume_7d_millions   ?? existing.xstocks?.ink_dex_7d_millions   ?? null,
+      ink_dex_30d_millions:  inkDex?.volume_30d_millions  ?? existing.xstocks?.ink_dex_30d_millions  ?? null,
+      ink_dex_change_1d_pct: inkDex?.change_1d_pct        ?? existing.xstocks?.ink_dex_change_1d_pct ?? null,
+      ink_dex_change_7d_pct: inkDex?.change_7d_pct        ?? existing.xstocks?.ink_dex_change_7d_pct ?? null,
+      total_market_cap_millions: xstocksMkt?.total_market_cap_millions ?? existing.xstocks?.total_market_cap_millions ?? null,
+      total_vol_24h_millions:    xstocksMkt?.total_vol_24h_millions    ?? existing.xstocks?.total_vol_24h_millions    ?? null,
+      asset_count:               xstocksMkt?.asset_count               ?? existing.xstocks?.asset_count               ?? null,
+      asset_leaders:             xstocksMkt?.asset_leaders             ?? existing.xstocks?.asset_leaders             ?? null,
+      top_volume:                xstocksMkt?.top_volume                ?? existing.xstocks?.top_volume                ?? null,
+      last_refreshed: now.toISOString(),
+    },
   };
 
   await writeFile(SITE_DATA_PATH, `${JSON.stringify(updated, null, 2)}\n`);
