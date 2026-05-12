@@ -199,15 +199,15 @@ export default function XStocks() {
     <>
       <Helmet>
         <title>xStocks Helm — Kraken Watch</title>
-        <meta name="description" content="Track tokenized equity signals across Kraken and partner venues. Volume, momentum, venue distribution, and narrative signals for xStocks." />
+        <meta name="description" content="Track signals across Kraken, Ink, and the broader tokenized equity ecosystem. Volume, momentum, and narrative signals for xStocks." />
         <link rel="canonical" href="https://krakenwatch.com/xstocks" />
         <meta property="og:title" content="xStocks Helm — Kraken Watch" />
-        <meta property="og:description" content="Track tokenized equity signals across Kraken and partner venues." />
+        <meta property="og:description" content="Track signals across Kraken, Ink, and the broader tokenized equity ecosystem." />
         <meta property="og:url" content="https://krakenwatch.com/xstocks" />
         <meta property="og:image" content="https://krakenwatch.com/xstocks-hero.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="xStocks Helm — Kraken Watch" />
-        <meta name="twitter:description" content="Track tokenized equity signals across Kraken and partner venues." />
+        <meta name="twitter:description" content="Track signals across Kraken, Ink, and the broader tokenized equity ecosystem." />
         <meta name="twitter:image" content="https://krakenwatch.com/xstocks-hero.png" />
       </Helmet>
 
@@ -222,7 +222,7 @@ export default function XStocks() {
             xStocks Helm
           </h1>
           <p className="text-sm max-w-md" style={{ fontFamily: 'var(--font-sans)', color: muted }}>
-            Track tokenized equity signals across Kraken and partner venues.
+            Track signals across Kraken, Ink, and the broader tokenized equity ecosystem.
           </p>
           {updatedDisplay && (
             <span
