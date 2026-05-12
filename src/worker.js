@@ -1,6 +1,6 @@
 // EMBEDDED_SITE_DATA is updated automatically by scripts/refresh-site-data.mjs
 // and serves as a fallback when KV is unavailable.
-const EMBEDDED_SITE_DATA = {"updated_at":"2026-05-12T17:58:44.025Z","updated_display":"May 12, 2026","ink":{"tvl_millions":277,"protocol_count":28},"ipo":{"polymarket_pct":68.5,"kalshi_pct":56.5,"avg_pct":57.3},"secondary_market":{"hiive_pps":32.52,"forge_pps":32.52,"npm_pps":37.69,"notice_pps":48.2,"avg_pps":34.63,"volume_30d_est_m":13.5,"volume_note":"Est. 30D vol. across all venues · based on Hiive H50 activity","updated":"May 12, 2026"},"prediction_markets":{"ipo":{"kalshi_pct":56.5,"polymarket_pct":68.5,"mktcap_16b_pct":50.5,"largest_excl_spacex_pct":2.2},"underwriters":[{"bank":"Bank of America","ticker":"BOA","pct":68},{"bank":"Morgan Stanley","ticker":"MS","pct":60.5},{"bank":"JPMorgan Chase","ticker":"JPM","pct":57},{"bank":"Goldman Sachs","ticker":"GS","pct":53},{"bank":"Citigroup","ticker":"CITI","pct":53}],"regulatory":{"clarity_act_pct":59.5,"crypto_structure_aug_pct":55},"ink_fdv":{"above_250m_pct":83.5,"above_500m_pct":67,"above_1b_pct":38.5,"above_2b_pct":17}},"xstocks":{"ink_tvl_millions":277,"ink_protocol_count":28,"ink_dex_24h_millions":4.13,"ink_dex_7d_millions":20.16,"ink_dex_30d_millions":107.2,"ink_dex_change_1d_pct":28.4,"ink_dex_change_7d_pct":-17.2,"total_market_cap_millions":318.8,"total_vol_24h_millions":114.4,"asset_count":40,"asset_leaders":[{"symbol":"CRCLX","mcap_m":61,"vol_24h_m":44.5,"change_24h_pct":-6.4,"share_pct":19.1},{"symbol":"TSLAX","mcap_m":60.3,"vol_24h_m":13.2,"change_24h_pct":-3.4,"share_pct":18.9},{"symbol":"MSTRX","mcap_m":32.8,"vol_24h_m":2.4,"change_24h_pct":-5.9,"share_pct":10.3},{"symbol":"SPYX","mcap_m":32.5,"vol_24h_m":1.4,"change_24h_pct":-0.7,"share_pct":10.2},{"symbol":"NVDAX","mcap_m":29.4,"vol_24h_m":7.3,"change_24h_pct":-1,"share_pct":9.2}],"top_volume":[{"symbol":"CRCLX","vol_24h_m":44.5,"change_24h_pct":-6.4},{"symbol":"TSLAX","vol_24h_m":13.2,"change_24h_pct":-3.4},{"symbol":"GOOGLX","vol_24h_m":11.9,"change_24h_pct":-2.2},{"symbol":"COINX","vol_24h_m":11.2,"change_24h_pct":-4.4},{"symbol":"AMZNX","vol_24h_m":10.7,"change_24h_pct":-2.6}],"last_refreshed":"2026-05-12T17:58:44.025Z"}};
+const EMBEDDED_SITE_DATA = {"updated_at":"2026-05-12T18:50:28.043Z","updated_display":"May 12, 2026","ink":{"tvl_millions":277,"protocol_count":28},"ipo":{"polymarket_pct":68.5,"kalshi_pct":56.5,"avg_pct":57.5},"secondary_market":{"hiive_pps":32.52,"forge_pps":32.52,"npm_pps":37.69,"notice_pps":48.2,"avg_pps":34.63,"volume_30d_est_m":13.5,"volume_note":"Est. 30D vol. across all venues · based on Hiive H50 activity","updated":"May 12, 2026"},"prediction_markets":{"ipo":{"kalshi_pct":56.5,"polymarket_pct":68.5,"mktcap_16b_pct":50,"largest_excl_spacex_pct":2.2},"underwriters":[{"bank":"Bank of America","ticker":"BOA","pct":68},{"bank":"Morgan Stanley","ticker":"MS","pct":60.5},{"bank":"JPMorgan Chase","ticker":"JPM","pct":57},{"bank":"Citigroup","ticker":"CITI","pct":53.5},{"bank":"Goldman Sachs","ticker":"GS","pct":53}],"regulatory":{"clarity_act_pct":59.5,"crypto_structure_aug_pct":55.5},"ink_fdv":{"above_250m_pct":83.5,"above_500m_pct":67,"above_1b_pct":38.5,"above_2b_pct":17}},"xstocks":{"ink_tvl_millions":277,"ink_protocol_count":28,"ink_dex_24h_millions":4.13,"ink_dex_7d_millions":20.16,"ink_dex_30d_millions":107.2,"ink_dex_change_1d_pct":28.4,"ink_dex_change_7d_pct":-17.2,"total_market_cap_millions":319.5,"total_vol_24h_millions":113.7,"asset_count":40,"asset_leaders":[{"symbol":"CRCLX","mcap_m":60.9,"vol_24h_m":44.6,"change_24h_pct":-7.5,"share_pct":19},{"symbol":"TSLAX","mcap_m":60.6,"vol_24h_m":13,"change_24h_pct":-3.5,"share_pct":19},{"symbol":"MSTRX","mcap_m":33,"vol_24h_m":2.3,"change_24h_pct":-5.7,"share_pct":10.3},{"symbol":"SPYX","mcap_m":32.6,"vol_24h_m":1.1,"change_24h_pct":-0.5,"share_pct":10.2},{"symbol":"NVDAX","mcap_m":29.5,"vol_24h_m":7.3,"change_24h_pct":-0.8,"share_pct":9.2}],"top_volume":[{"symbol":"CRCLX","vol_24h_m":44.6,"change_24h_pct":-7.5},{"symbol":"TSLAX","vol_24h_m":13,"change_24h_pct":-3.5},{"symbol":"GOOGLX","vol_24h_m":12.4,"change_24h_pct":-1.8},{"symbol":"AMZNX","vol_24h_m":11,"change_24h_pct":-2.2},{"symbol":"COINX","vol_24h_m":10.1,"change_24h_pct":-5}],"last_refreshed":"2026-05-12T18:50:28.043Z"}};
 
 // ── Worker helpers (Worker-runtime compatible) ───────────────────────────────
 
@@ -143,13 +143,35 @@ export default {
       });
     }
 
-    // For non-file paths: try prerendered static HTML first, then SPA fallback
+    // For non-file paths: serve SPA HTML with injected site data to eliminate flash
     const isFile = /\.[a-zA-Z0-9]+$/.test(url.pathname);
     if (!isFile) {
+      // Resolve site data (KV → embedded fallback)
+      let siteData = EMBEDDED_SITE_DATA;
+      try {
+        const kv = await env.SITE_DATA.get('site-data', { type: 'json' });
+        if (kv) siteData = kv;
+      } catch (_) {}
+
+      // Fetch the HTML asset
       const assetResponse = await env.ASSETS.fetch(request);
-      if (assetResponse.status !== 404) return assetResponse;
-      const indexUrl = new URL('/', url);
-      return env.ASSETS.fetch(new Request(indexUrl, request));
+      const htmlResponse = assetResponse.status !== 404
+        ? assetResponse
+        : await env.ASSETS.fetch(new Request(new URL('/', url), request));
+
+      const html = await htmlResponse.text();
+      const injected = html.replace(
+        '</head>',
+        `<script>window.__SITE_DATA__=${JSON.stringify(siteData)};</script></head>`,
+      );
+
+      return new Response(injected, {
+        status: htmlResponse.status,
+        headers: {
+          ...Object.fromEntries(htmlResponse.headers),
+          'content-type': 'text/html; charset=utf-8',
+        },
+      });
     }
 
     return env.ASSETS.fetch(request);
