@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-05-13T02:35:20.321Z",
+  "updated_at": "2026-05-13T06:44:04.201Z",
   "updated_display": "May 13, 2026",
   "ink": {
-    "tvl_millions": 279.1,
+    "tvl_millions": 282.2,
     "protocol_count": 28
   },
   "ipo": {
     "polymarket_pct": 69,
-    "kalshi_pct": 58,
-    "avg_pct": 58.9
+    "kalshi_pct": 59,
+    "avg_pct": 60.1
   },
   "secondary_market": {
     "hiive_pps": 32.37,
-    "forge_pps": 32.52,
+    "forge_pps": 32.84,
     "npm_pps": 37.69,
     "notice_pps": 47.03,
-    "avg_pps": 34.42,
+    "avg_pps": 34.54,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
     "updated": "May 13, 2026"
   },
   "prediction_markets": {
     "ipo": {
-      "kalshi_pct": 58,
+      "kalshi_pct": 59,
       "polymarket_pct": 69,
       "mktcap_16b_pct": 51.5,
       "largest_excl_spacex_pct": 2.2
@@ -41,7 +41,7 @@
       {
         "bank": "JPMorgan Chase",
         "ticker": "JPM",
-        "pct": 57
+        "pct": 57.5
       },
       {
         "bank": "Goldman Sachs",
@@ -51,12 +51,12 @@
       {
         "bank": "Citigroup",
         "ticker": "CITI",
-        "pct": 53
+        "pct": 52.5
       }
     ],
     "regulatory": {
       "clarity_act_pct": 59.5,
-      "crypto_structure_aug_pct": 57.5
+      "crypto_structure_aug_pct": 59
     },
     "ink_fdv": {
       "above_250m_pct": 83.5,
@@ -66,80 +66,80 @@
     }
   },
   "xstocks": {
-    "ink_tvl_millions": 279.1,
+    "ink_tvl_millions": 282.2,
     "ink_protocol_count": 28,
     "ink_dex_24h_millions": 3.71,
     "ink_dex_7d_millions": 20.97,
     "ink_dex_30d_millions": 108.4,
     "ink_dex_change_1d_pct": -10.1,
     "ink_dex_change_7d_pct": 27.9,
-    "total_market_cap_millions": 323.1,
-    "total_vol_24h_millions": 106.8,
+    "total_market_cap_millions": 323.9,
+    "total_vol_24h_millions": 104.8,
     "asset_count": 40,
     "asset_leaders": [
       {
         "symbol": "CRCLX",
-        "mcap_m": 61.9,
-        "vol_24h_m": 39.6,
-        "change_24h_pct": -1.2,
+        "mcap_m": 62,
+        "vol_24h_m": 38.8,
+        "change_24h_pct": -2.7,
         "share_pct": 19.2
       },
       {
         "symbol": "TSLAX",
-        "mcap_m": 61.2,
-        "vol_24h_m": 11.9,
-        "change_24h_pct": -1.1,
-        "share_pct": 18.9
+        "mcap_m": 61.5,
+        "vol_24h_m": 12.4,
+        "change_24h_pct": -0.5,
+        "share_pct": 19
       },
       {
         "symbol": "MSTRX",
-        "mcap_m": 33.3,
-        "vol_24h_m": 2.1,
-        "change_24h_pct": -2.9,
+        "mcap_m": 33.4,
+        "vol_24h_m": 2.4,
+        "change_24h_pct": -3,
         "share_pct": 10.3
       },
       {
         "symbol": "SPYX",
         "mcap_m": 32.8,
-        "vol_24h_m": 1.3,
-        "change_24h_pct": 0.1,
+        "vol_24h_m": 1.7,
+        "change_24h_pct": 0.2,
         "share_pct": 10.1
       },
       {
         "symbol": "NVDAX",
-        "mcap_m": 30.2,
-        "vol_24h_m": 7.5,
-        "change_24h_pct": 2.6,
-        "share_pct": 9.3
+        "mcap_m": 30.3,
+        "vol_24h_m": 7.6,
+        "change_24h_pct": 3.1,
+        "share_pct": 9.4
       }
     ],
     "top_volume": [
       {
         "symbol": "CRCLX",
-        "vol_24h_m": 39.6,
-        "change_24h_pct": -1.2
+        "vol_24h_m": 38.8,
+        "change_24h_pct": -2.7
       },
       {
         "symbol": "GOOGLX",
-        "vol_24h_m": 12.5,
-        "change_24h_pct": 0.2
+        "vol_24h_m": 12.6,
+        "change_24h_pct": 0.5
       },
       {
         "symbol": "TSLAX",
-        "vol_24h_m": 11.9,
-        "change_24h_pct": -1.1
-      },
-      {
-        "symbol": "AMZNX",
-        "vol_24h_m": 10.5,
+        "vol_24h_m": 12.4,
         "change_24h_pct": -0.5
       },
       {
         "symbol": "COINX",
-        "vol_24h_m": 9.2,
-        "change_24h_pct": -1.1
+        "vol_24h_m": 9.3,
+        "change_24h_pct": -1.5
+      },
+      {
+        "symbol": "AMZNX",
+        "vol_24h_m": 8,
+        "change_24h_pct": -0.3
       }
     ],
-    "last_refreshed": "2026-05-13T02:35:20.321Z"
+    "last_refreshed": "2026-05-13T06:44:04.201Z"
   }
 }
