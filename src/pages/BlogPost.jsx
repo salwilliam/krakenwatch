@@ -63,7 +63,7 @@ export default function BlogPost() {
                 style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.1em', background: 'hsl(36 28% 80%)', color: 'hsl(28 40% 22%)', border: '1px solid hsl(33 25% 65%)' }}>
                 {brief.tag}
               </span>
-              <div className="flex items-center gap-1 text-xs" style={{ color: 'hsl(30 20% 48%)' }}>
+              <div className="flex items-center gap-1 text-xs" style={{ color: 'hsl(30 20% 48%)', fontFamily: 'var(--font-mono)' }}>
                 <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 {brief.dateDisplay}
               </div>
@@ -74,17 +74,23 @@ export default function BlogPost() {
               {brief.title}
             </h1>
 
-            <div className="space-y-3 text-sm leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: 'hsl(28 30% 28%)' }}>
+            <div className="leading-relaxed" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', lineHeight: '1.8', color: 'hsl(28 25% 14%)' }}>
               <ReactMarkdown
                 components={{
                   h1: ({ children }) => (
-                    <h1 className="text-xl font-bold mt-2 mb-1" style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 16%)' }}>{children}</h1>
+                    <h1 className="text-xl font-bold mt-10 mb-4" style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 16%)' }}>{children}</h1>
                   ),
                   h2: ({ children }) => (
-                    <h2 className="text-base font-bold mt-4 mb-1" style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 20%)' }}>{children}</h2>
+                    <h2 className="text-base font-bold mt-10 mb-4" style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 20%)' }}>{children}</h2>
                   ),
                   p: ({ children }) => (
-                    <p className="leading-relaxed">{children}</p>
+                    <p className="mb-5 leading-relaxed">{children}</p>
+                  ),
+                  ul: ({ children }) => (
+                    <ul className="mb-5 space-y-3 pl-4" style={{ listStyleType: 'disc' }}>{children}</ul>
+                  ),
+                  li: ({ children }) => (
+                    <li className="leading-relaxed pl-1">{children}</li>
                   ),
                   strong: ({ children }) => (
                     <strong style={{ color: 'hsl(28 40% 18%)', fontWeight: 700 }}>{children}</strong>

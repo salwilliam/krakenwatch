@@ -15,6 +15,7 @@ import reap from './payward-acquires-reap.js';
 import moneygram from './kraken-moneygram-cash-pickup.js';
 import cfBenchmarks from './cf-benchmarks-xstocks-indices.js';
 import franklinTempleton from './payward-franklin-templeton-tokenized-assets.js';
+import q1Results from './payward-q1-2026-results.js';
 
 const briefs = [
   artemis,
@@ -34,6 +35,7 @@ const briefs = [
   moneygram,
   cfBenchmarks,
   franklinTempleton,
+  q1Results,
 ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
 export default briefs;
