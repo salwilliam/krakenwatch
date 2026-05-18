@@ -79,6 +79,20 @@ bash scripts/deploy-krakenwatch.sh
 #    https://github.com/salwilliam/krakenwatch/actions
 ```
 
+## GitHub Actions secrets
+
+The following repository secrets must be set in **Settings → Secrets and variables → Actions** for CI workflows to function correctly.
+
+### Deploy key rotation (`rotate-deploy-key.yml`)
+
+| Secret | How to obtain |
+|--------|---------------|
+| `GITHUB_PERSONAL_ACCESS_TOKEN` | A GitHub personal access token with `repo` scope. Generate one at **GitHub → Settings → Developer settings → Personal access tokens**. |
+| `REPLIT_API_KEY` | A Replit personal token with read/write repl scope. Generate one at **Replit → Account settings → API tokens**. |
+| `REPL_ID` | The UUID that identifies your Replit workspace. Run `echo $REPL_ID` in the Replit shell and copy the output. |
+
+All three secrets are required for the `Rotate Deploy Key` workflow to run successfully, whether triggered manually or on its quarterly schedule.
+
 ## Source of truth
 
 - Production traffic is served through the Worker proxy in `src/worker.js`.
