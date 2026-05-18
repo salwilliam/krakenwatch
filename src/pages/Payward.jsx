@@ -31,6 +31,7 @@ const regulatoryEntities = [
       { name: 'Kraken Adviser LLC', license: 'SEC RIA', detail: 'Registered investment adviser' },
       { name: 'NinjaTrader Clearing LLC', license: 'CFTC FCM', detail: 'Kraken Derivatives US — $1.5B acquisition' },
       { name: 'Small Exchange Inc.', license: 'CFTC DCM', detail: '$100M acquisition' },
+      { name: 'Bitnomial Exchange', license: 'CFTC DCM + DCO + FCM', detail: 'Full-stack US crypto derivatives — $550M acquisition (May 2026)' },
     ],
   },
   {
@@ -79,13 +80,16 @@ const acquisitions = [
   { year: '2021', name: 'Staked', detail: 'Staking infrastructure', value: '', major: false },
   { year: '2022', name: 'Blockchain.com Custody', detail: 'Institutional custody', value: '', major: false },
   { year: '2022', name: 'Intellect EU', detail: 'MiFID license', value: '', major: false },
-  { year: '2023', name: 'Backed Finance', detail: 'Tokenized securities', value: '', major: false },
+  { year: '2023', name: 'Backed Finance', detail: 'Tokenized securities, closed Jan 2026', value: '', major: false },
   { year: '2024', name: 'TradeStation Crypto', detail: 'Retail crypto accounts', value: '', major: false },
   { year: '2024', name: 'Coin Meester', detail: 'Dutch exchange', value: '', major: false },
   { year: '2025', name: 'NinjaTrader', detail: 'Futures brokerage', value: '$1.5B', major: true },
   { year: '2025', name: 'Small Exchange', detail: 'Derivatives market', value: '$100M', major: true },
   { year: '2025', name: 'Capitalise.ai', detail: 'No-code automation (minor)', value: '', major: false },
   { year: '2026', name: 'Breakout', detail: 'Prop trading platform', value: '', major: false },
+  { year: '2026', name: 'Magna', detail: 'Token management platform', value: '', major: true },
+  { year: '2026', name: 'Bitnomial', detail: 'US derivatives — CFTC DCM+DCO+FCM', value: '$550M', major: true },
+  { year: '2026', name: 'Reap', detail: 'Stablecoin payments infra (pending H2)', value: '$600M', major: true },
 ];
 
 const TAGS = ['All', 'Product', 'Acquired', 'Partner', 'Infrastructure', 'Ecosystem', 'Social', 'Sponsorship'];
@@ -126,11 +130,11 @@ const ecosystemSections = [
     icon: '🏛️',
     entities: [
       { name: 'Kraken Prime', desc: 'Prime brokerage offering deep liquidity, credit, and custody for institutions.', tag: 'Product' },
-      { name: 'Payward Services', desc: 'Managed services and operational support entity across the Payward group.', tag: 'Product' },
+      { name: 'Payward Services', desc: 'B2B infrastructure platform for the new economy — regulated financial services for partners, including derivatives via a single API.', tag: 'Product' },
       { name: 'Kraken Custody', desc: 'Institutional-grade digital asset custody with full regulatory compliance.', tag: 'Product' },
       { name: 'Kraken Financial', desc: 'Wyoming SPDI bank offering crypto-native banking services with a Fed master account.', tag: 'Product' },
-      { name: 'Kraken 360', desc: 'End-to-end institutional onboarding and account management service.', tag: 'Product' },
-      { name: 'Magna', desc: 'Internal operations and back-office management platform.', tag: 'Product' },
+      { name: 'Kraken 360', desc: 'End-to-end stack for protocol token launches — infrastructure, operations, and global distribution. Includes pre-TGE playbooks.', tag: 'Product' },
+      { name: 'Magna', desc: 'Token management platform acquired Feb 2026; used by 160+ crypto-native teams for vesting, claims, distributions, and token lifecycle workflows.', tag: 'Acquired' },
       { name: 'Kraken CLI', desc: "Command-line interface for programmatic access to Kraken's trading APIs.", tag: 'Product' },
       { name: 'Payward Ramp', desc: 'Fiat on/off-ramp infrastructure for converting between crypto and traditional currencies.', tag: 'Product' },
       { name: 'Kraken OTC', desc: 'Over-the-counter desk providing bespoke block trade liquidity.', tag: 'Product' },
@@ -138,6 +142,7 @@ const ecosystemSections = [
       { name: 'Kraken Flexline', desc: 'Credit facility allowing institutions to borrow against crypto holdings.', tag: 'Product' },
       { name: 'Kraken Perps', desc: 'Perpetual futures trading product for leveraged crypto positions.', tag: 'Product' },
       { name: 'NinjaTrader', desc: 'Futures brokerage platform with 2M active traders, acquired for $1.5B in 2025.', tag: 'Acquired', url: 'https://ninjatrader.com' },
+      { name: 'Bitnomial', desc: 'US crypto derivatives exchange acquired May 2026 for up to $550M; first company to hold all three CFTC licenses (DCM, DCO, FCM). Enables regulated US derivatives via Payward Services API.', tag: 'Acquired' },
     ],
   },
   {
@@ -166,7 +171,8 @@ const ecosystemSections = [
     entities: [
       { name: 'DeFi Earn', desc: "Kraken's interface for accessing decentralised lending and yield protocols.", tag: 'Product' },
       { name: 'Tydro', desc: 'Aave v3 white-label lending protocol deployed natively on Ink with ~$380M TVL.', tag: 'Ecosystem', url: 'https://tydro.com' },
-      { name: 'xStocks', desc: 'Tokenized equity platform offering 100+ stocks and ETFs on-chain.', tag: 'Acquired', url: 'https://xstocks.fi/' },
+      { name: 'xStocks', desc: 'Tokenized equity platform with 100 stocks and ETFs on-chain; targeting 500+ by end of 2026.', tag: 'Acquired', url: 'https://xstocks.fi/' },
+      { name: 'xChange', desc: 'Bridges traditional market depth with onchain flexibility through atomic settlement across Ethereum and Solana.', tag: 'Product' },
       { name: 'Spreads', desc: 'Decentralised derivatives and structured product protocol on Ink.', tag: 'Ecosystem', url: 'https://invite.kraken.com/JDNW/qu2e5diu' },
       { name: 'USDG', desc: 'Global Dollar Network stablecoin used as a key asset across the Ink ecosystem.', tag: 'Partner' },
       { name: 'Beholder', desc: 'Onchain analytics and risk monitoring tool for DeFi positions on Ink.', tag: 'Ecosystem' },
@@ -177,7 +183,9 @@ const ecosystemSections = [
     title: 'Market Infrastructure Partners',
     icon: '🏗️',
     entities: [
-      { name: 'Nasdaq', desc: 'Exchange technology and data partner; Nasdaq Private Market provides Tape D™ pricing.', tag: 'Partner' },
+      { name: 'Nasdaq', desc: "Exchange technology and data partner; Nasdaq Private Market provides Tape D™ pricing. xStocks powers Nasdaq's permissionless infrastructure for issuer-sponsored equity tokens.", tag: 'Partner' },
+      { name: 'ICE (Intercontinental Exchange)', desc: 'Kraken OTC desk embedded directly into ICE Chat workflows, providing institutional traders worldwide with seamless block trade execution.', tag: 'Partner' },
+      { name: 'Liquidity Connect', desc: 'Colocation access provider; deterministic, ultra-low latency connectivity to Kraken exchange via direct fiber cross-connects for institutional API traders.', tag: 'Infrastructure' },
       { name: 'Circle', desc: 'Issuer of USDC; key stablecoin infrastructure partner across Kraken and Ink.', tag: 'Partner' },
       { name: 'Optimism Superchain', desc: 'Layer 2 network stack that Ink is built on; provides shared security and interoperability.', tag: 'Infrastructure' },
       { name: 'Talos', desc: "Institutional trading infrastructure provider powering Kraken's backend liquidity routing.", tag: 'Partner' },
@@ -194,6 +202,7 @@ const ecosystemSections = [
       { name: 'Tribe Capital', desc: 'Venture capital firm and early institutional investor in Payward.', tag: 'Partner' },
       { name: 'Jane Street', desc: 'Quantitative trading firm with market-making and investment ties to Kraken.', tag: 'Partner' },
       { name: 'DRW', desc: 'Proprietary trading and investment firm with strategic ties via Cumberland division.', tag: 'Partner' },
+      { name: 'Bitwise Asset Management', desc: "Asset manager and institutional partner; debut of Kraken Institutional's first bespoke managed crypto investment solution.", tag: 'Partner' },
     ],
   },
   {
@@ -323,7 +332,7 @@ function EntityCard({ entity }) {
   const parsed = isSocial ? parseHandleFromDesc(entity.desc) : null;
 
   const descContent = isSocial && parsed && parsed.handle ? (
-    <p className="text-[10px] leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>
+    <p className="text-sm leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-sans)' }}>
       {parsed.prefix}{' '}{parsed.platformLabel}
       <a
         href={entity.url}
@@ -336,7 +345,7 @@ function EntityCard({ entity }) {
       </a>
     </p>
   ) : (
-    <p className="text-[10px] leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{entity.desc}</p>
+    <p className="text-sm leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-sans)' }}>{entity.desc}</p>
   );
 
   const innerCard = (
@@ -384,7 +393,7 @@ function EntityCard({ entity }) {
               </div>
               <TagPill tag={entity.tag} />
             </div>
-            <p className="text-[10px] leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-serif)', pointerEvents: 'none' }}>
+            <p className="text-sm leading-relaxed flex-1" style={{ color: ut, fontFamily: 'var(--font-sans)', pointerEvents: 'none' }}>
               {parsed && parsed.handle ? (
                 <>
                   {parsed.prefix}{' '}{parsed.platformLabel}
@@ -476,7 +485,7 @@ function RegionBlock({ region }) {
               style={{ borderBottom: i < region.entities.length - 1 ? `1px solid ${cardBorder}` : 'none' }}>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-semibold" style={{ fontFamily: 'var(--font-display)', color: qp }}>{entity.name}</p>
-                <p className="text-[10px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{entity.detail}</p>
+                <p className="text-[10px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-sans)' }}>{entity.detail}</p>
                 {entity.children && (
                   <div className="mt-1.5 pl-3 border-l-2 space-y-1" style={{ borderColor: cardBorder }}>
                     {entity.children.map((child, j) => (
@@ -537,7 +546,7 @@ function AcquisitionTimeline() {
         <div className="flex justify-between px-4 mt-1">
           {acquisitions.map((acq, i) => (
             <div key={i} className="text-center" style={{ minWidth: acq.major ? 72 : 52 }}>
-              <p className="text-[9px]" style={{ color: mutedColor, fontFamily: 'var(--font-display)' }}>{acq.year}</p>
+              <p className="text-[9px]" style={{ color: mutedColor, fontFamily: 'var(--font-mono)' }}>{acq.year}</p>
             </div>
           ))}
         </div>
@@ -574,7 +583,7 @@ function PctBar({ pct }) {
             : `linear-gradient(to right, ${on}, hsl(25 55% 38%))`,
         }} />
       </div>
-      <span className="text-sm font-bold tabular-nums shrink-0" style={{ color: on, fontFamily: 'var(--font-display)' }}>
+      <span className="text-sm font-bold tabular-nums shrink-0" style={{ color: on, fontFamily: 'var(--font-mono)' }}>
         {isNaN(n) ? '—' : `${n}%`}
       </span>
     </div>
@@ -636,79 +645,67 @@ export default function Payward() {
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
             Payward Map
           </h1>
-          <p className="text-sm max-w-lg" style={{ fontFamily: 'var(--font-serif)', color: ut }}>
+          <p className="text-sm max-w-lg" style={{ fontFamily: 'var(--font-sans)', color: ut }}>
             Chart the full Payward corporate armada.
           </p>
-          <p className="text-[10px] max-w-md" style={{ fontFamily: 'var(--font-serif)', color: ut, fontStyle: 'italic' }}>
+          <p className="text-[10px] max-w-md" style={{ fontFamily: 'var(--font-sans)', color: ut, fontStyle: 'italic' }}>
             Includes Payward-owned entities, products, partners, sponsorships, and ecosystem projects. Not every entry is owned by Payward.
           </p>
         </div>
 
-        {/* ── 3-column data strip ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
+        {/* ── 4-column data strip ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-start">
 
           {/* Secondary Market Pricing */}
-          <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
-            <div className="px-4 pt-3.5 pb-2 flex items-start justify-between gap-3 flex-1">
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-display)', color: ut }}>Secondary Market</p>
-                <p className="text-sm font-semibold leading-tight mb-2" style={{ fontFamily: 'var(--font-display)', color: qp }}>Payward share price across private venues</p>
-                <div className="flex flex-col gap-1 mt-1">
-                  {[
-                    { label: 'Hiive',     raw: sm?.hiive_pps },
-                    { label: 'Forge',     raw: sm?.forge_pps },
-                    { label: 'NASDAQ PM', raw: sm?.npm_pps },
-                    { label: 'Notice',    raw: sm?.notice_pps },
-                  ].map(({ label, raw }) => (
-                    <div key={label} className="flex items-center justify-between">
-                      <span className="text-[10px]" style={{ color: ut, fontFamily: 'var(--font-display)' }}>{label}</span>
-                      <span className="text-[10px] font-bold tabular-nums" style={{ color: on, fontFamily: 'var(--font-display)' }}>{raw ? `$${raw}` : '—'}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="shrink-0 text-right">
-                <p className="text-3xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
-                  {sm?.avg_pps ? `$${sm.avg_pps}` : '—'}
-                </p>
-                <p className="text-[10px] mt-0.5" style={{ color: ut }}>wtd avg</p>
-              </div>
+          <div className="rounded-xl overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+            <div className="px-3 pt-2 pb-1 flex items-center justify-between gap-2">
+              <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-display)', color: ut }}>Secondary Market</p>
+              <p className="text-xl font-bold tabular-nums leading-none shrink-0" style={{ fontFamily: 'var(--font-mono)', color: on }}>
+                {sm?.avg_pps ? `$${sm.avg_pps}` : '—'}
+              </p>
             </div>
-            <div className="px-4 pb-3">
-              <p className="text-[9px]" style={{ color: ut }}>
-                {sm?.volume_30d_est_m ? `Est. 30D vol ~$${sm.volume_30d_est_m}M · ` : ''}updated every 4 hours
+            <div className="px-3 pb-1.5">
+              <div className="flex flex-col gap-0.5">
+                {[
+                  { label: 'Hiive',     raw: sm?.hiive_pps },
+                  { label: 'Forge',     raw: sm?.forge_pps },
+                  { label: 'NASDAQ PM', raw: sm?.npm_pps },
+                  { label: 'Notice',    raw: sm?.notice_pps },
+                ].map(({ label, raw }) => (
+                  <div key={label} className="flex items-center justify-between">
+                    <span className="text-[10px]" style={{ color: ut, fontFamily: 'var(--font-display)' }}>{label}</span>
+                    <span className="text-[10px] font-bold tabular-nums" style={{ color: on, fontFamily: 'var(--font-mono)' }}>{raw ? `$${raw}` : '—'}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[9px] mt-1" style={{ color: ut }}>
+                {sm?.volume_30d_est_m ? `Est. 30D vol ~$${sm.volume_30d_est_m}M · ` : ''}wtd avg · updated 4h
               </p>
             </div>
           </div>
 
           {/* IPO Odds */}
-          <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
-            <div className="px-4 pt-3.5 pb-2 flex items-start justify-between gap-3 flex-1">
+          <div className="rounded-xl overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+            <div className="px-3 pt-2 pb-1 flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+                <div className="flex items-center gap-1 mb-0.5 flex-wrap">
                   <SourceBadge src="Kalshi" />
                   <SourceBadge src="Polymarket" />
                 </div>
-                <p className="text-sm font-semibold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>Kraken IPO by Dec 31, 2026</p>
+                <p className="text-xs font-semibold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>Kraken IPO by Dec 31, 2026</p>
                 {(ipoKalshi != null || ipoPoly != null) && (
-                  <div className="mt-2 flex flex-col gap-0.5">
-                    {ipoKalshi != null && (
-                      <p className="text-[10px] tabular-nums" style={{ color: ut }}>Kalshi {ipoKalshi}%</p>
-                    )}
-                    {ipoPoly != null && (
-                      <p className="text-[10px] tabular-nums" style={{ color: ut }}>Polymarket {ipoPoly}%</p>
-                    )}
+                  <div className="mt-0.5 flex gap-2">
+                    {ipoKalshi != null && <p className="text-[10px] tabular-nums" style={{ color: ut, fontFamily: 'var(--font-mono)' }}>K {ipoKalshi}%</p>}
+                    {ipoPoly != null && <p className="text-[10px] tabular-nums" style={{ color: ut, fontFamily: 'var(--font-mono)' }}>P {ipoPoly}%</p>}
                   </div>
                 )}
               </div>
-              <div className="shrink-0 text-right">
-                <p className="text-3xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
-                  {ipoAvg != null ? `${ipoAvg}%` : '—'}
-                </p>
-              </div>
+              <p className="text-xl font-bold tabular-nums leading-none shrink-0" style={{ fontFamily: 'var(--font-mono)', color: on }}>
+                {ipoAvg != null ? `${ipoAvg}%` : '—'}
+              </p>
             </div>
-            <div className="px-4 pb-3">
-              <div className="h-1.5 rounded-full overflow-hidden mb-1" style={{ background: 'hsl(33 25% 76%)' }}>
+            <div className="px-3 pb-1.5">
+              <div className="h-1 rounded-full overflow-hidden mb-1" style={{ background: 'hsl(33 25% 76%)' }}>
                 <div className="h-full rounded-full" style={{
                   width: `${Math.min(100, Math.max(0, ipoAvg ?? 0))}%`,
                   background: (ipoAvg ?? 0) >= 50
@@ -716,34 +713,54 @@ export default function Payward() {
                     : `linear-gradient(to right, ${on}, hsl(25 55% 38%))`,
                 }} />
               </div>
-              <p className="text-[9px]" style={{ color: ut }}>updated every 4 hours</p>
-            </div>
-            <div className="px-4 pb-3.5 pt-1" style={{ borderTop: `1px solid ${cardBorder}` }}>
               <a href="https://polymarket.com/event/kraken-ipo-in-2025" target="_blank" rel="noopener noreferrer"
-                className="block w-full text-center text-xs font-bold px-3 py-2 rounded-lg transition-opacity hover:opacity-85"
-                style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textDecoration: 'none' }}>
+                className="block w-full text-center text-[10px] font-bold px-2 py-1 rounded transition-opacity hover:opacity-85 mt-1"
+                style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-display)', textDecoration: 'none' }}>
                 Trade ↗
               </a>
             </div>
           </div>
 
-          {/* IPO Market Cap >$16B */}
-          <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
-            <div className="px-4 pt-3.5 pb-2 flex items-start justify-between gap-3 flex-1">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5 mb-1.5">
-                  <SourceBadge src="Polymarket" />
+          {/* Platform Scale */}
+          <div className="rounded-xl overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+            <div className="px-3 pt-2 pb-1">
+              <p className="text-[10px] font-semibold uppercase tracking-widest mb-0.5" style={{ fontFamily: 'var(--font-display)', color: ut }}>Platform Scale · Q1 2026</p>
+              <div className="grid grid-cols-3 gap-1 mt-1">
+                <div>
+                  <p className="text-[9px] uppercase tracking-wider" style={{ color: ut, fontFamily: 'var(--font-display)' }}>Assets</p>
+                  <p className="text-base font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-mono)', color: on }}>$40B</p>
                 </div>
-                <p className="text-sm font-semibold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>IPO market cap above $16B at listing</p>
-              </div>
-              <div className="shrink-0 text-right">
-                <p className="text-3xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
-                  {mktcap16b != null ? `${mktcap16b}%` : '—'}
-                </p>
+                <div style={{ borderLeft: `1px solid ${cardBorder}`, paddingLeft: '0.375rem' }}>
+                  <p className="text-[9px] uppercase tracking-wider" style={{ color: ut, fontFamily: 'var(--font-display)' }}>Accounts</p>
+                  <p className="text-base font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-mono)', color: on }}>6.1M</p>
+                  <p className="text-[9px]" style={{ color: ut }}>+47% YoY</p>
+                </div>
+                <div style={{ borderLeft: `1px solid ${cardBorder}`, paddingLeft: '0.375rem' }}>
+                  <p className="text-[9px] uppercase tracking-wider" style={{ color: ut, fontFamily: 'var(--font-display)' }}>Rev.</p>
+                  <p className="text-base font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-mono)', color: on }}>$507M</p>
+                </div>
               </div>
             </div>
-            <div className="px-4 pb-3">
-              <div className="h-1.5 rounded-full overflow-hidden mb-1" style={{ background: 'hsl(33 25% 76%)' }}>
+            <div className="px-3 pb-1.5">
+              <p className="text-[9px]" style={{ color: ut }}>Q1 2026 highlights · payward.com</p>
+            </div>
+          </div>
+
+          {/* IPO Market Cap >$16B */}
+          <div className="rounded-xl overflow-hidden" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
+            <div className="px-3 pt-2 pb-1 flex items-start justify-between gap-2">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1 mb-0.5">
+                  <SourceBadge src="Polymarket" />
+                </div>
+                <p className="text-xs font-semibold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>IPO market cap above $16B at listing</p>
+              </div>
+              <p className="text-xl font-bold tabular-nums leading-none shrink-0" style={{ fontFamily: 'var(--font-mono)', color: on }}>
+                {mktcap16b != null ? `${mktcap16b}%` : '—'}
+              </p>
+            </div>
+            <div className="px-3 pb-1.5">
+              <div className="h-1 rounded-full overflow-hidden mb-1" style={{ background: 'hsl(33 25% 76%)' }}>
                 <div className="h-full rounded-full" style={{
                   width: `${Math.min(100, Math.max(0, mktcap16b ?? 0))}%`,
                   background: (mktcap16b ?? 0) >= 50
@@ -751,12 +768,9 @@ export default function Payward() {
                     : `linear-gradient(to right, ${on}, hsl(25 55% 38%))`,
                 }} />
               </div>
-              <p className="text-[9px]" style={{ color: ut }}>updated every 4 hours</p>
-            </div>
-            <div className="px-4 pb-3.5 pt-1" style={{ borderTop: `1px solid ${cardBorder}` }}>
               <a href="https://polymarket.com/event/kraken-ipo-closing-market-cap-above" target="_blank" rel="noopener noreferrer"
-                className="block w-full text-center text-xs font-bold px-3 py-2 rounded-lg transition-opacity hover:opacity-85"
-                style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textDecoration: 'none' }}>
+                className="block w-full text-center text-[10px] font-bold px-2 py-1 rounded transition-opacity hover:opacity-85 mt-1"
+                style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-display)', textDecoration: 'none' }}>
                 Trade ↗
               </a>
             </div>
@@ -804,7 +818,7 @@ export default function Payward() {
                         </a>
                       )}
                     </div>
-                    <p className="text-[10px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{m.role}</p>
+                    <p className="text-[10px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-sans)' }}>{m.role}</p>
                   </div>
                 ))}
               </div>
@@ -825,7 +839,7 @@ export default function Payward() {
         )}
 
         <div className="text-center py-4">
-          <p className="text-[11px]" style={{ color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+          <p className="text-[11px]" style={{ color: ut, fontFamily: 'var(--font-sans)', fontStyle: 'italic' }}>
             More entities, data modules, and ecosystem profiles will be added as the map expands.
           </p>
         </div>

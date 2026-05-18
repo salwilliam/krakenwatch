@@ -65,7 +65,7 @@ function buildModules(xs) {
         `24h Volume: ${xs?.total_vol_24h_millions != null ? '$' + xs.total_vol_24h_millions + 'M' : '—'}`,
         `Tokens tracked: ${xs?.asset_count ?? '—'}`,
       ],
-      insight: 'Aggregate market cap and 24h trading volume across tracked xStocks tokens. CoinGecko.',
+      insight: 'Aggregate market cap and 24h volume across 100 tokenized equities. Targeting 500+ tokens by end of 2026. CoinGecko.',
     },
     {
       id: 'asset-leaders',
@@ -105,11 +105,13 @@ function buildModules(xs) {
       source: 'estimated',
       action: 'Trade',
       data: [
-        'Kraken — ~68%',
-        'Ink L2 — ~19%',
-        'Other venues — ~13%',
+        'Kraken — ~62%',
+        'Ink L2 — ~18%',
+        'Kraken OTC — institutional block trades',
+        'xChange — Ethereum + Solana (new)',
+        'Other venues — ~20%',
       ],
-      insight: 'Based on Kraken as the original xStocks launch venue and Ink L2 as a newer integration.',
+      insight: 'Estimated distribution across venues. xChange adds atomic settlement on Ethereum and Solana alongside Ink L2.',
     },
     {
       id: 'narrative',
@@ -117,11 +119,12 @@ function buildModules(xs) {
       source: 'curated',
       action: 'Explore',
       data: [
-        'CF Benchmarks launched xStocks reference indices',
-        'xStocks live on BNB Chain via PancakeSwap',
-        'Otomate integrated xStocks on Ink L2',
+        'Nasdaq partnership: xStocks powers issuer-sponsored equity token infrastructure',
+        'xChange launched: atomic settlement on Ethereum and Solana',
+        'xStocks live on Deutsche Börse 360X — TradFi bridge expanding',
+        'xStocks on Kraken OTC: institutional block trades outside market hours',
       ],
-      insight: 'Manually curated signals on xStocks ecosystem developments and adoption milestones.',
+      insight: 'Manually curated signals on xStocks ecosystem developments, partnerships, and adoption milestones.',
     },
   ];
 }
@@ -143,7 +146,7 @@ function SignalModule({ mod }) {
   return (
     <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
       <div
-        className="flex items-center justify-between gap-2 px-4 pt-3 pb-2.5"
+        className="flex items-center justify-between gap-2 px-4 pt-2 pb-2"
         style={{ background: h.bg, borderBottom: `1px solid ${h.border}` }}
       >
         <p className="text-sm font-bold leading-tight" style={{ fontFamily: 'var(--font-display)', color: h.text }}>
@@ -152,10 +155,10 @@ function SignalModule({ mod }) {
         <ActionBadge action={mod.action} />
       </div>
 
-      <div className="px-4 pt-3 pb-2 flex-1">
-        <ul className="space-y-1.5">
+      <div className="px-4 pt-2 pb-1 flex-1">
+        <ul className="space-y-1">
           {mod.data.map((item, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>
+            <li key={i} className="flex items-start gap-2 text-xs" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>
               <span className="shrink-0 mt-px" style={{ color: accent }}>›</span>
               <span>{item}</span>
             </li>
@@ -163,8 +166,8 @@ function SignalModule({ mod }) {
         </ul>
       </div>
 
-      <div className="px-4 pb-4 pt-2" style={{ borderTop: `1px solid hsl(33 28% 78%)` }}>
-        <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-sans)', color: muted, fontStyle: 'italic' }}>
+      <div className="px-4 pb-2.5 pt-1.5" style={{ borderTop: `1px solid hsl(33 28% 78%)` }}>
+        <p className="text-xs leading-snug" style={{ fontFamily: 'var(--font-sans)', color: muted, fontStyle: 'italic' }}>
           {mod.insight}
         </p>
       </div>

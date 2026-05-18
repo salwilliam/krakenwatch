@@ -40,7 +40,7 @@ function PctBar({ pct }) {
             : `linear-gradient(to right, ${accent}, hsl(25 55% 38%))`,
         }} />
       </div>
-      <span className="text-sm font-bold tabular-nums shrink-0" style={{ color: on, fontFamily: 'var(--font-display)' }}>
+      <span className="text-sm font-bold tabular-nums shrink-0" style={{ color: on, fontFamily: 'var(--font-mono)' }}>
         {isNaN(n) ? '—' : `${n}%`}
       </span>
     </div>
@@ -58,7 +58,7 @@ function GroupModule({ title, subtitle, ctaUrl, ctaLabel, children }) {
     <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
       <div className="px-4 pt-3.5 pb-2">
         <p className="text-sm font-bold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>{title}</p>
-        {subtitle && <p className="text-[10px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>{subtitle}</p>}
+        {subtitle && <p className="text-[10px] mt-0.5" style={{ color: ut, fontFamily: 'var(--font-sans)' }}>{subtitle}</p>}
       </div>
       <div className="px-4 pb-4 flex-1">
         {children}
@@ -95,13 +95,13 @@ function MarketCard({ name, pct, sources, href, note, subRows }) {
           {note && <p className="text-[10px] mt-1 leading-snug" style={{ color: ut, fontStyle: 'italic' }}>{note}</p>}
         </div>
         <div className="shrink-0 text-right">
-          <p className="text-3xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-display)', color: on }}>
+          <p className="text-xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-mono)', color: on }}>
             {displayPct == null ? '—' : `${displayPct}%`}
           </p>
           {subRows && subRows.map(r => {
             const sub = normalizePct(r.pct);
             return (
-              <p key={r.src} className="text-[10px] mt-0.5 tabular-nums" style={{ color: ut }}>
+              <p key={r.src} className="text-[10px] mt-0.5 tabular-nums" style={{ color: ut, fontFamily: 'var(--font-mono)' }}>
                 {r.src} {sub != null ? `${sub}%` : '—'}
               </p>
             );
@@ -169,11 +169,11 @@ export default function Prediction() {
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
             Prediction Watch
           </h1>
-          <p className="text-sm max-w-md" style={{ fontFamily: 'var(--font-serif)', color: ut }}>
+          <p className="text-sm max-w-md" style={{ fontFamily: 'var(--font-sans)', color: ut }}>
             Track forecast signals tied to Kraken and Ink.
           </p>
           <span className="inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full mt-1"
-            style={{ background: sectionBg, border: `1px solid ${cardBorder}`, color: ut, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+            style={{ background: sectionBg, border: `1px solid ${cardBorder}`, color: ut, fontFamily: 'var(--font-sans)', fontStyle: 'italic' }}>
             ↻ Updates every 4h
           </span>
         </div>
@@ -244,7 +244,7 @@ export default function Prediction() {
                 })}
               </div>
             ) : (
-              <p className="text-xs" style={{ color: ut, fontFamily: 'var(--font-serif)' }}>No underwriter data available.</p>
+              <p className="text-xs" style={{ color: ut, fontFamily: 'var(--font-sans)' }}>No underwriter data available.</p>
             )}
           </GroupModule>
 
@@ -272,7 +272,7 @@ export default function Prediction() {
                     className="flex items-center gap-2 py-2 border-b last:border-b-0 transition-opacity hover:opacity-75"
                     style={{ borderColor: 'hsl(33 25% 78%)', textDecoration: 'none' }}
                   >
-                    <span className="text-xs font-semibold shrink-0 w-16" style={{ color: qp, fontFamily: 'var(--font-display)' }}>{label}</span>
+                    <span className="text-xs font-semibold shrink-0 w-16" style={{ color: qp, fontFamily: 'var(--font-mono)' }}>{label}</span>
                     <div className="flex-1 min-w-0"><PctBar pct={pctVal} /></div>
                     <SourceBadge src="Polymarket" />
                   </a>
