@@ -24,10 +24,34 @@
     <meta name="twitter:description" content="Independent analytics dashboard for the Kraken/Payward ecosystem. Ink L2 data, Payward corporate map, ecosystem intel — updated daily." />
     <meta name="twitter:image" content="https://krakenwatch.com/og-image.jpg" />
 
+    <!-- Canonical -->
+    <link rel="canonical" href="https://krakenwatch.com/" />
+
     <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Kraken Watch",
+          "url": "https://krakenwatch.com",
+          "logo": "https://krakenwatch.com/logo-lighthouse.png",
+          "sameAs": ["https://x.com/KrakWatch"]
+        },
+        {
+          "@type": "WebSite",
+          "name": "Kraken Watch",
+          "url": "https://krakenwatch.com",
+          "description": "Independent analytics dashboard for the Kraken/Payward ecosystem. Ink L2 data, Payward corporate map, ecosystem intel — updated daily."
+        }
+      ]
+    }
+    </script>
 
     <!-- Cloudflare Web Analytics -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "eabb175ab0a9460a85169d4bea3f7a52"}'></script>
