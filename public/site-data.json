@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-06T17:04:13.886Z",
+  "updated_at": "2026-06-06T20:57:38.830Z",
   "updated_display": "June 6, 2026",
   "ink": {
-    "tvl_millions": 198.2,
+    "tvl_millions": 197.7,
     "protocol_count": 30
   },
   "ipo": {
@@ -24,7 +24,7 @@
     "ipo": {
       "kalshi_pct": 43.5,
       "polymarket_pct": 28,
-      "mktcap_16b_pct": 25.5,
+      "mktcap_16b_pct": 26.5,
       "largest_excl_spacex_pct": 0.6
     },
     "underwriters": [
@@ -34,14 +34,14 @@
         "pct": 47.5
       },
       {
-        "bank": "Morgan Stanley",
-        "ticker": "MS",
+        "bank": "Citigroup",
+        "ticker": "CITI",
         "pct": 43
       },
       {
-        "bank": "Citigroup",
-        "ticker": "CITI",
-        "pct": 42.5
+        "bank": "Morgan Stanley",
+        "ticker": "MS",
+        "pct": 40.5
       },
       {
         "bank": "JPMorgan Chase",
@@ -66,80 +66,80 @@
     }
   },
   "xstocks": {
-    "ink_tvl_millions": 198.2,
+    "ink_tvl_millions": 197.7,
     "ink_protocol_count": 30,
     "ink_dex_24h_millions": 18.58,
     "ink_dex_7d_millions": 73.17,
     "ink_dex_30d_millions": 149.5,
     "ink_dex_change_1d_pct": -29.9,
     "ink_dex_change_7d_pct": 382.7,
-    "total_market_cap_millions": 299.3,
-    "total_vol_24h_millions": 74.1,
+    "total_market_cap_millions": 299.2,
+    "total_vol_24h_millions": 38.4,
     "asset_count": 40,
     "asset_leaders": [
       {
         "symbol": "TSLAX",
         "mcap_m": 55.3,
-        "vol_24h_m": 6,
-        "change_24h_pct": -1.1,
+        "vol_24h_m": 4,
+        "change_24h_pct": 0.4,
         "share_pct": 18.5
       },
       {
         "symbol": "CRCLX",
-        "mcap_m": 40.8,
-        "vol_24h_m": 9,
-        "change_24h_pct": -4.7,
+        "mcap_m": 40.7,
+        "vol_24h_m": 5.5,
+        "change_24h_pct": -4.1,
         "share_pct": 13.6
       },
       {
         "symbol": "SPYX",
         "mcap_m": 35.9,
-        "vol_24h_m": 3.3,
-        "change_24h_pct": -0.5,
+        "vol_24h_m": 3.4,
+        "change_24h_pct": 0.3,
         "share_pct": 12
       },
       {
         "symbol": "NVDAX",
         "mcap_m": 34,
-        "vol_24h_m": 8.2,
-        "change_24h_pct": -1.4,
+        "vol_24h_m": 6,
+        "change_24h_pct": 0.2,
         "share_pct": 11.4
       },
       {
         "symbol": "QQQX",
-        "mcap_m": 26.6,
-        "vol_24h_m": 3.2,
-        "change_24h_pct": -1.5,
+        "mcap_m": 26.5,
+        "vol_24h_m": 2.8,
+        "change_24h_pct": 0.3,
         "share_pct": 8.9
       }
     ],
     "top_volume": [
       {
-        "symbol": "GOOGLX",
-        "vol_24h_m": 18.5,
-        "change_24h_pct": -1.1
+        "symbol": "NVDAX",
+        "vol_24h_m": 6,
+        "change_24h_pct": 0.2
       },
       {
         "symbol": "CRCLX",
-        "vol_24h_m": 9,
-        "change_24h_pct": -4.7
+        "vol_24h_m": 5.5,
+        "change_24h_pct": -4.1
       },
       {
-        "symbol": "NVDAX",
-        "vol_24h_m": 8.2,
-        "change_24h_pct": -1.4
+        "symbol": "GOOGLX",
+        "vol_24h_m": 5.1,
+        "change_24h_pct": -0.2
       },
       {
-        "symbol": "AMZNX",
-        "vol_24h_m": 7.8,
-        "change_24h_pct": -3.3
+        "symbol": "TSLAX",
+        "vol_24h_m": 4,
+        "change_24h_pct": 0.4
       },
       {
-        "symbol": "AAPLX",
-        "vol_24h_m": 6.5,
-        "change_24h_pct": -1.2
+        "symbol": "SPYX",
+        "vol_24h_m": 3.4,
+        "change_24h_pct": 0.3
       }
     ],
-    "last_refreshed": "2026-06-06T17:04:13.886Z"
+    "last_refreshed": "2026-06-06T20:57:38.830Z"
   }
 }
