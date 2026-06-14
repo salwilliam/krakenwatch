@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-06-14T02:58:29.029Z",
+  "updated_at": "2026-06-14T08:10:55.013Z",
   "updated_display": "June 14, 2026",
   "ink": {
-    "tvl_millions": 124.8,
+    "tvl_millions": 124.6,
     "protocol_count": 30
   },
   "ipo": {
     "polymarket_pct": 30,
-    "kalshi_pct": 44.5,
-    "avg_pct": 42.6
+    "kalshi_pct": 42.5,
+    "avg_pct": 40.3
   },
   "secondary_market": {
     "hiive_pps": 34.52,
@@ -22,10 +22,10 @@
   },
   "prediction_markets": {
     "ipo": {
-      "kalshi_pct": 44.5,
+      "kalshi_pct": 42.5,
       "polymarket_pct": 30,
-      "mktcap_16b_pct": 25.5,
-      "largest_excl_spacex_pct": 0.7
+      "mktcap_16b_pct": 26,
+      "largest_excl_spacex_pct": 0.8
     },
     "underwriters": [
       {
@@ -34,19 +34,19 @@
         "pct": 45.5
       },
       {
-        "bank": "Morgan Stanley",
-        "ticker": "MS",
-        "pct": 42.5
-      },
-      {
         "bank": "Citigroup",
         "ticker": "CITI",
         "pct": 42.5
       },
       {
+        "bank": "Morgan Stanley",
+        "ticker": "MS",
+        "pct": 42
+      },
+      {
         "bank": "JPMorgan Chase",
         "ticker": "JPM",
-        "pct": 37.5
+        "pct": 36.5
       },
       {
         "bank": "Goldman Sachs",
@@ -55,8 +55,8 @@
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 49.5,
-      "crypto_structure_aug_pct": 21.5
+      "clarity_act_pct": 50.5,
+      "crypto_structure_aug_pct": 25
     },
     "ink_fdv": {
       "above_250m_pct": 64.5,
@@ -66,80 +66,80 @@
     }
   },
   "xstocks": {
-    "ink_tvl_millions": 124.8,
+    "ink_tvl_millions": 124.6,
     "ink_protocol_count": 30,
     "ink_dex_24h_millions": 1.43,
     "ink_dex_7d_millions": 25.13,
     "ink_dex_30d_millions": 152.2,
     "ink_dex_change_1d_pct": -67.2,
     "ink_dex_change_7d_pct": -61.4,
-    "total_market_cap_millions": 314.3,
-    "total_vol_24h_millions": 42.2,
+    "total_market_cap_millions": 314.1,
+    "total_vol_24h_millions": 50.5,
     "asset_count": 40,
     "asset_leaders": [
       {
         "symbol": "TSLAX",
-        "mcap_m": 57.8,
+        "mcap_m": 58,
         "vol_24h_m": 3,
-        "change_24h_pct": 0.3,
-        "share_pct": 18.4
+        "change_24h_pct": 0.8,
+        "share_pct": 18.5
       },
       {
         "symbol": "CRCLX",
-        "mcap_m": 43.2,
-        "vol_24h_m": 2.2,
-        "change_24h_pct": 1.4,
+        "mcap_m": 42.9,
+        "vol_24h_m": 2.1,
+        "change_24h_pct": -0.2,
         "share_pct": 13.7
       },
       {
         "symbol": "SPYX",
-        "mcap_m": 36.3,
-        "vol_24h_m": 23.2,
-        "change_24h_pct": -0.1,
+        "mcap_m": 36.4,
+        "vol_24h_m": 31.6,
+        "change_24h_pct": 0,
         "share_pct": 11.6
       },
       {
         "symbol": "NVDAX",
-        "mcap_m": 35,
-        "vol_24h_m": 3,
-        "change_24h_pct": -0.1,
-        "share_pct": 11.1
+        "mcap_m": 35.1,
+        "vol_24h_m": 2.9,
+        "change_24h_pct": 0.4,
+        "share_pct": 11.2
       },
       {
         "symbol": "QQQX",
         "mcap_m": 28.7,
-        "vol_24h_m": 1.1,
-        "change_24h_pct": 0,
+        "vol_24h_m": 1,
+        "change_24h_pct": 0.3,
         "share_pct": 9.1
       }
     ],
     "top_volume": [
       {
         "symbol": "SPYX",
-        "vol_24h_m": 23.2,
-        "change_24h_pct": -0.1
+        "vol_24h_m": 31.6,
+        "change_24h_pct": 0
       },
       {
         "symbol": "TSLAX",
         "vol_24h_m": 3,
-        "change_24h_pct": 0.3
+        "change_24h_pct": 0.8
       },
       {
         "symbol": "NVDAX",
-        "vol_24h_m": 3,
-        "change_24h_pct": -0.1
+        "vol_24h_m": 2.9,
+        "change_24h_pct": 0.4
       },
       {
         "symbol": "CRCLX",
-        "vol_24h_m": 2.2,
-        "change_24h_pct": 1.4
+        "vol_24h_m": 2.1,
+        "change_24h_pct": -0.2
       },
       {
         "symbol": "GOOGLX",
-        "vol_24h_m": 1.8,
-        "change_24h_pct": 0.3
+        "vol_24h_m": 2,
+        "change_24h_pct": 0.7
       }
     ],
-    "last_refreshed": "2026-06-14T02:58:29.029Z"
+    "last_refreshed": "2026-06-14T08:10:55.013Z"
   }
 }
