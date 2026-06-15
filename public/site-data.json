@@ -1,30 +1,30 @@
 {
-  "updated_at": "2026-06-15T17:05:44.840Z",
+  "updated_at": "2026-06-15T22:12:53.018Z",
   "updated_display": "June 15, 2026",
   "ink": {
-    "tvl_millions": 126.9,
+    "tvl_millions": 126.6,
     "protocol_count": 30
   },
   "ipo": {
-    "polymarket_pct": 37,
-    "kalshi_pct": 36.5,
-    "avg_pct": 36.6
+    "polymarket_pct": 31,
+    "kalshi_pct": 37,
+    "avg_pct": 33.2
   },
   "secondary_market": {
-    "hiive_pps": 34.51,
+    "hiive_pps": 34.29,
     "forge_pps": 37.46,
     "npm_pps": 9,
     "notice_pps": 33.65,
-    "avg_pps": 35.51,
+    "avg_pps": 35.4,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
     "updated": "June 15, 2026"
   },
   "prediction_markets": {
     "ipo": {
-      "kalshi_pct": 36.5,
-      "polymarket_pct": 37,
-      "mktcap_16b_pct": 24,
+      "kalshi_pct": 37,
+      "polymarket_pct": 31,
+      "mktcap_16b_pct": 24.5,
       "largest_excl_spacex_pct": 0.7
     },
     "underwriters": [
@@ -55,91 +55,91 @@
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 52.5,
-      "crypto_structure_aug_pct": 18.5
+      "clarity_act_pct": 50.5,
+      "crypto_structure_aug_pct": 19
     },
     "ink_fdv": {
-      "above_250m_pct": 64,
-      "above_500m_pct": 51.5,
-      "above_1b_pct": 24.5,
-      "above_2b_pct": 17.5
+      "above_250m_pct": 59.5,
+      "above_500m_pct": 58,
+      "above_1b_pct": 32.5,
+      "above_2b_pct": 26
     }
   },
   "xstocks": {
-    "ink_tvl_millions": 126.9,
+    "ink_tvl_millions": 126.6,
     "ink_protocol_count": 30,
     "ink_dex_24h_millions": 1.26,
     "ink_dex_7d_millions": 24.05,
     "ink_dex_30d_millions": 146.6,
     "ink_dex_change_1d_pct": -11.4,
     "ink_dex_change_7d_pct": -46.1,
-    "total_market_cap_millions": 326.8,
-    "total_vol_24h_millions": 106.2,
+    "total_market_cap_millions": 325.3,
+    "total_vol_24h_millions": 124.8,
     "asset_count": 40,
     "asset_leaders": [
       {
         "symbol": "TSLAX",
-        "mcap_m": 57.7,
-        "vol_24h_m": 7.7,
-        "change_24h_pct": 0.7,
-        "share_pct": 17.7
+        "mcap_m": 57.8,
+        "vol_24h_m": 8.5,
+        "change_24h_pct": 0.2,
+        "share_pct": 17.8
       },
       {
         "symbol": "CRCLX",
-        "mcap_m": 46.2,
-        "vol_24h_m": 11.8,
-        "change_24h_pct": 8.2,
+        "mcap_m": 45.8,
+        "vol_24h_m": 13.1,
+        "change_24h_pct": 4.9,
         "share_pct": 14.1
       },
       {
         "symbol": "SPYX",
-        "mcap_m": 36.7,
-        "vol_24h_m": 31.2,
-        "change_24h_pct": 1.4,
-        "share_pct": 11.2
+        "mcap_m": 36.6,
+        "vol_24h_m": 30.2,
+        "change_24h_pct": 0.9,
+        "share_pct": 11.3
       },
       {
         "symbol": "NVDAX",
-        "mcap_m": 35.8,
-        "vol_24h_m": 6.9,
-        "change_24h_pct": 2.7,
+        "mcap_m": 35.7,
+        "vol_24h_m": 7.1,
+        "change_24h_pct": 1.5,
         "share_pct": 11
       },
       {
         "symbol": "QQQX",
         "mcap_m": 29.8,
-        "vol_24h_m": 1.7,
-        "change_24h_pct": 2.6,
+        "vol_24h_m": 1.5,
+        "change_24h_pct": 1.6,
         "share_pct": 9.1
       }
     ],
     "top_volume": [
       {
         "symbol": "SPYX",
-        "vol_24h_m": 31.2,
-        "change_24h_pct": 1.4
+        "vol_24h_m": 30.2,
+        "change_24h_pct": 0.9
       },
       {
         "symbol": "GOOGLX",
-        "vol_24h_m": 14.1,
-        "change_24h_pct": 1.9
+        "vol_24h_m": 22.9,
+        "change_24h_pct": 1.1
       },
       {
         "symbol": "CRCLX",
-        "vol_24h_m": 11.8,
-        "change_24h_pct": 8.2
+        "vol_24h_m": 13.1,
+        "change_24h_pct": 4.9
       },
       {
         "symbol": "COINX",
-        "vol_24h_m": 9.9,
-        "change_24h_pct": 6.5
+        "vol_24h_m": 11.9,
+        "change_24h_pct": 2.8
       },
       {
-        "symbol": "TSLAX",
-        "vol_24h_m": 7.7,
-        "change_24h_pct": 0.7
+        "symbol": "AMZNX",
+        "vol_24h_m": 11.8,
+        "change_24h_pct": 3.3
       }
     ],
-    "last_refreshed": "2026-06-15T17:05:44.840Z"
+    "last_refreshed": "2026-06-15T22:12:53.018Z"
   }
 }
