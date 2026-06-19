@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-06-19T03:41:56.638Z",
+  "updated_at": "2026-06-19T09:02:14.501Z",
   "updated_display": "June 19, 2026",
   "ink": {
-    "tvl_millions": 127.1,
+    "tvl_millions": 126.2,
     "protocol_count": 30
   },
   "ipo": {
-    "polymarket_pct": 33,
+    "polymarket_pct": 35.5,
     "kalshi_pct": 37.5,
-    "avg_pct": 37.4
+    "avg_pct": 37.5
   },
   "secondary_market": {
-    "hiive_pps": 31.9,
+    "hiive_pps": 31.89,
     "forge_pps": 39.27,
     "npm_pps": 9,
-    "notice_pps": 32.16,
-    "avg_pps": 34.7,
+    "notice_pps": 31.83,
+    "avg_pps": 34.65,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
     "updated": "June 19, 2026"
@@ -23,15 +23,15 @@
   "prediction_markets": {
     "ipo": {
       "kalshi_pct": 37.5,
-      "polymarket_pct": 33,
-      "mktcap_16b_pct": 24,
-      "largest_excl_spacex_pct": 0.7
+      "polymarket_pct": 35.5,
+      "mktcap_16b_pct": 21.5,
+      "largest_excl_spacex_pct": 0.6
     },
     "underwriters": [
       {
         "bank": "Morgan Stanley",
         "ticker": "MS",
-        "pct": 43.5
+        "pct": 43
       },
       {
         "bank": "Citigroup",
@@ -56,17 +56,17 @@
     ],
     "regulatory": {
       "clarity_act_pct": 44.5,
-      "crypto_structure_aug_pct": 20
+      "crypto_structure_aug_pct": 19.5
     },
     "ink_fdv": {
       "above_250m_pct": 62,
-      "above_500m_pct": 49,
-      "above_1b_pct": 20.5,
-      "above_2b_pct": 17
+      "above_500m_pct": 48,
+      "above_1b_pct": 21,
+      "above_2b_pct": 16.5
     }
   },
   "xstocks": {
-    "ink_tvl_millions": 127.1,
+    "ink_tvl_millions": 126.2,
     "ink_protocol_count": 30,
     "ink_dex_24h_millions": 3.88,
     "ink_dex_7d_millions": 21.59,
@@ -74,72 +74,72 @@
     "ink_dex_change_1d_pct": -20.2,
     "ink_dex_change_7d_pct": -35.4,
     "total_market_cap_millions": 318.4,
-    "total_vol_24h_millions": 176.6,
+    "total_vol_24h_millions": 197.6,
     "asset_count": 40,
     "asset_leaders": [
       {
         "symbol": "TSLAX",
-        "mcap_m": 56.1,
-        "vol_24h_m": 10.5,
-        "change_24h_pct": -0.4,
-        "share_pct": 17.6
+        "mcap_m": 56.3,
+        "vol_24h_m": 10.8,
+        "change_24h_pct": 0.1,
+        "share_pct": 17.7
       },
       {
         "symbol": "CRCLX",
-        "mcap_m": 44.3,
-        "vol_24h_m": 12.1,
-        "change_24h_pct": -2.9,
-        "share_pct": 13.9
+        "mcap_m": 43.9,
+        "vol_24h_m": 12.4,
+        "change_24h_pct": -3.5,
+        "share_pct": 13.8
       },
       {
         "symbol": "SPYX",
         "mcap_m": 36.7,
-        "vol_24h_m": 88.8,
-        "change_24h_pct": 0.1,
+        "vol_24h_m": 110.9,
+        "change_24h_pct": 0,
         "share_pct": 11.5
       },
       {
         "symbol": "NVDAX",
         "mcap_m": 35.2,
         "vol_24h_m": 5.9,
-        "change_24h_pct": 1.5,
-        "share_pct": 11.1
+        "change_24h_pct": 1.3,
+        "share_pct": 11
       },
       {
         "symbol": "QQQX",
-        "mcap_m": 30.1,
-        "vol_24h_m": 2.7,
-        "change_24h_pct": 0.7,
-        "share_pct": 9.4
+        "mcap_m": 30.2,
+        "vol_24h_m": 2.3,
+        "change_24h_pct": 0.9,
+        "share_pct": 9.5
       }
     ],
     "top_volume": [
       {
         "symbol": "SPYX",
-        "vol_24h_m": 88.8,
-        "change_24h_pct": 0.1
+        "vol_24h_m": 110.9,
+        "change_24h_pct": 0
       },
       {
         "symbol": "HOODX",
-        "vol_24h_m": 23.4,
-        "change_24h_pct": -0.9
+        "vol_24h_m": 23.6,
+        "change_24h_pct": 0.2
       },
       {
         "symbol": "CRCLX",
-        "vol_24h_m": 12.1,
-        "change_24h_pct": -2.9
+        "vol_24h_m": 12.4,
+        "change_24h_pct": -3.5
       },
       {
         "symbol": "TSLAX",
-        "vol_24h_m": 10.5,
-        "change_24h_pct": -0.4
+        "vol_24h_m": 10.8,
+        "change_24h_pct": 0.1
       },
       {
         "symbol": "GOOGLX",
-        "vol_24h_m": 9.1,
-        "change_24h_pct": 0.1
+        "vol_24h_m": 8.7,
+        "change_24h_pct": 0.8
       }
     ],
-    "last_refreshed": "2026-06-19T03:41:56.638Z"
+    "last_refreshed": "2026-06-19T09:02:14.501Z"
   }
 }
