@@ -742,7 +742,7 @@ function buildSecondaryMarket(existing, live, now) {
   const merged = {
     hiive_pps:  (isPlausiblePps(live.hiive_pps)  ? live.hiive_pps  : null) ?? existing.hiive_pps  ?? null,
     forge_pps:  (isPlausiblePps(live.forge_pps)  ? live.forge_pps  : null) ?? existing.forge_pps  ?? null,
-    npm_pps:    (isPlausiblePps(live.npm_pps)    ? live.npm_pps    : null) ?? existing.npm_pps    ?? null,
+    npm_pps:    isPlausiblePps(live.npm_pps)    ? live.npm_pps    : null,
     notice_pps: (isPlausiblePps(live.notice_pps) ? live.notice_pps : null) ?? existing.notice_pps ?? null,
     avg_pps: existing.avg_pps ?? null,
     volume_30d_est_m: existing.volume_30d_est_m ?? null,
@@ -799,7 +799,7 @@ function buildSecondaryMarket(existing, live, now) {
   // Fall back to existing (last known good) — never to the outlier live value.
   merged.hiive_pps  = byKey.hiive_pps  ?? existing.hiive_pps  ?? null;
   merged.forge_pps  = byKey.forge_pps  ?? existing.forge_pps  ?? null;
-  merged.npm_pps    = byKey.npm_pps    ?? existing.npm_pps    ?? null;
+  merged.npm_pps    = byKey.npm_pps    ?? null;
   merged.notice_pps = byKey.notice_pps ?? existing.notice_pps ?? null;
 
   return merged;
