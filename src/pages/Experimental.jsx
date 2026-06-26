@@ -1,10 +1,13 @@
 import { Helmet } from 'react-helmet-async';
+import PageHeroImage from '../components/PageHeroImage';
 import { useSiteData } from '../hooks/useSiteData';
 import EcosystemMap from '../components/EcosystemMap';
 import {
   ResponsiveContainer, AreaChart, Area, BarChart, Bar,
   XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, Label, Cell,
 } from 'recharts';
+
+const HERO_IMAGE = '/experimental-hero.png';
 
 const qp = 'hsl(28 40% 14%)';
 const ut = 'hsl(30 20% 38%)';
@@ -214,16 +217,16 @@ export default function Experimental() {
         <meta property="og:title" content="Experimental — Kraken Watch" />
         <meta property="og:description" content="Staging area for all proposed Kraken Map and Ink Markets modules under development." />
         <meta property="og:url" content="https://krakenwatch.com/experimental" />
+        <meta property="og:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:title" content="Experimental — Kraken Watch" />
         <meta name="twitter:description" content="Staging area for all proposed Kraken Map and Ink Markets modules under development." />
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 max-w-[900px] mx-auto">
 
-        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-          <img src="/experimental-hero.png" alt="Experimental staging area" className="w-full object-cover" />
-        </div>
+        <PageHeroImage src={HERO_IMAGE} alt="Experimental staging area" priority />
 
         <div className="text-center flex flex-col items-center gap-2 pt-2">
           <span className="text-[10px] font-semibold uppercase tracking-widest px-3 py-1 rounded-full"
