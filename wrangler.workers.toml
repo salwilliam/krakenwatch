@@ -7,8 +7,18 @@ compatibility_date = "2026-04-17"
 binding = "SITE_DATA"
 id = "4515258da6c246048f75ce19493764e2"
 
+[[kv_namespaces]]
+binding = "SUBSCRIBERS"
+id = "df69e18851c141e18f8f66e893ce6bd4"
+
+[vars]
+SITE_ID = "krakenwatch"
+
 [assets]
 directory = "./dist"
 binding = "ASSETS"
 not_found_handling = "single-page-application"
 run_worker_first = true
+
+[triggers]
+crons = ["0 8 * * *"]
