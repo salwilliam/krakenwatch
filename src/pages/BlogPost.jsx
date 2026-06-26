@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { getBriefBySlug } from '../content/briefs/index.js';
-import { SubscribeInline } from '@workspace/subscribe';
+import SubscribeInline from '../components/SubscribeInline';
 
 export default function BlogPost() {
   const { slug } = useParams();
