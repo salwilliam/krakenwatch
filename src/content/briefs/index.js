@@ -16,6 +16,10 @@ import moneygram from './kraken-moneygram-cash-pickup.js';
 import cfBenchmarks from './cf-benchmarks-xstocks-indices.js';
 import franklinTempleton from './payward-franklin-templeton-tokenized-assets.js';
 import q1Results from './payward-q1-2026-results.js';
+import krakBtcVaults from './krak-btc-vaults.js';
+import krakenTempo from './kraken-tempo-exchange-partner.js';
+import krakenWorldCup from './kraken-world-cup-2026.js';
+import paywardOnyx from './payward-onyx-prediction-markets.js';
 
 const briefs = [
   artemis,
@@ -36,6 +40,10 @@ const briefs = [
   cfBenchmarks,
   franklinTempleton,
   q1Results,
+  krakBtcVaults,
+  krakenTempo,
+  krakenWorldCup,
+  paywardOnyx,
 ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
 export default briefs;
