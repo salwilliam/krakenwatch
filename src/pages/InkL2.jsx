@@ -1,5 +1,8 @@
 import { Helmet } from 'react-helmet-async';
+import PageHeroImage from '../components/PageHeroImage';
 import { useState, useEffect, useRef } from 'react';
+
+const HERO_IMAGE = '/ink-hero.png';
 
 const primary = 'hsl(28 40% 14%)';
 const muted = 'hsl(30 20% 40%)';
@@ -110,7 +113,7 @@ function SlideOutPanel({ app, onClose }) {
               </div>
               <div>
                 <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-display)', color: primary }}>{s.step}</p>
-                <p className="text-xs mt-0.5 leading-relaxed" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>{s.detail}</p>
+                <p className="text-sm mt-0.5 leading-relaxed" style={{ color: muted, fontFamily: 'var(--font-sans)' }}>{s.detail}</p>
               </div>
             </div>
           ))}
@@ -138,7 +141,26 @@ function SlideOutPanel({ app, onClose }) {
   );
 }
 
+function fmtM(v) {
+  if (v == null || !Number.isFinite(v) || v <= 0) return null;
+  if (v >= 1000) return `$${(v / 1000).toFixed(1)}B`;
+  if (v >= 1)    return `$${v.toFixed(1)}M`;
+  return `$${(v * 1000).toFixed(0)}K`;
+}
+
+function fmtCount(v) {
+  if (v == null || !Number.isFinite(v) || v <= 0) return null;
+  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(1)}M`;
+  if (v >= 1_000)     return `${(v / 1_000).toFixed(1)}K`;
+  return String(Math.round(v));
+}
+
 function AppCard({ app, onAction }) {
+  const tvlLabel    = fmtM(app.tvl_millions);
+  const volLabel    = fmtM(app.volume_24h_millions);
+  const usersLabel  = fmtCount(app.unique_users_24h);
+  const hasMetrics  = tvlLabel != null || volLabel != null || usersLabel != null;
+
   return (
     <div className="rounded-xl overflow-hidden flex flex-col" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
       <div className="px-4 pt-3.5 pb-3 flex-1">
@@ -146,13 +168,35 @@ function AppCard({ app, onAction }) {
           <CategoryBadge category={app.category} />
           <span className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)', color: primary }}>{app.name}</span>
         </div>
-        <p className="text-xs leading-relaxed mb-2" style={{ fontFamily: 'var(--font-serif)', color: primary, opacity: 0.85 }}>
+        <p className="text-sm leading-relaxed mb-2" style={{ fontFamily: 'var(--font-sans)', color: primary, opacity: 0.85 }}>
           {app.description}
         </p>
         {app.context_note && (
-          <p className="text-[10px] leading-snug" style={{ color: muted, fontStyle: 'italic', fontFamily: 'var(--font-serif)' }}>
+          <p className="text-sm leading-snug" style={{ color: muted, fontStyle: 'italic', fontFamily: 'var(--font-sans)' }}>
             {app.context_note}
           </p>
+        )}
+        {hasMetrics && (
+          <div className="flex gap-1.5 flex-wrap mt-2">
+            {tvlLabel && (
+              <span className="inline-flex items-center gap-1 text-[9px] font-semibold tabular-nums px-1.5 py-0.5 rounded"
+                style={{ background: 'hsl(220 45% 88%)', color: 'hsl(220 50% 32%)', fontFamily: 'var(--font-mono)' }}>
+                TVL {tvlLabel}
+              </span>
+            )}
+            {volLabel && (
+              <span className="inline-flex items-center gap-1 text-[9px] font-semibold tabular-nums px-1.5 py-0.5 rounded"
+                style={{ background: 'hsl(150 38% 84%)', color: 'hsl(150 50% 24%)', fontFamily: 'var(--font-mono)' }}>
+                Vol {volLabel}/24h
+              </span>
+            )}
+            {usersLabel && (
+              <span className="inline-flex items-center gap-1 text-[9px] font-semibold tabular-nums px-1.5 py-0.5 rounded"
+                style={{ background: 'hsl(35 55% 86%)', color: 'hsl(35 50% 26%)', fontFamily: 'var(--font-mono)' }}>
+                {usersLabel} users/24h
+              </span>
+            )}
+          </div>
         )}
       </div>
       <div className="px-4 pb-3.5 pt-1" style={{ borderTop: `1px solid hsl(33 28% 78%)` }}>
@@ -199,7 +243,7 @@ export default function InkL2() {
   useEffect(() => {
     fetch('/ink-apps.json')
       .then(r => r.json())
-      .then(setApps)
+      .then(data => setApps(Array.isArray(data) ? data : (data.apps ?? [])))
       .catch(() => {});
   }, []);
 
@@ -223,7 +267,9 @@ export default function InkL2() {
         <meta property="og:title" content="Ink Ecosystem — Kraken Watch" />
         <meta property="og:description" content="Explore apps, assets, and activity across the Ink onchain ecosystem." />
         <meta property="og:url" content="https://krakenwatch.com/ink" />
+        <meta property="og:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:title" content="Ink Ecosystem — Kraken Watch" />
         <meta name="twitter:description" content="Explore apps, assets, and activity across the Ink onchain ecosystem. Live TVL, protocol data, and ecosystem growth metrics." />
       </Helmet>
@@ -231,20 +277,18 @@ export default function InkL2() {
       <div className="p-4 sm:p-6 space-y-5 max-w-[1100px] mx-auto">
 
         {/* ── Hero Image ── */}
-        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-          <img src="/ink-hero.png" alt="Ink Ecosystem" className="w-full object-cover" />
-        </div>
+        <PageHeroImage src={HERO_IMAGE} alt="Ink Ecosystem" priority />
 
         {/* ── Header ── */}
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: primary }}>
             Ink Ecosystem
           </h1>
-          <p className="text-sm max-w-md" style={{ fontFamily: 'var(--font-serif)', color: muted }}>
+          <p className="text-sm max-w-md" style={{ fontFamily: 'var(--font-sans)', color: muted }}>
             Track Ink dapps, data, and ecosystem activity.
           </p>
           <span className="inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full mt-1"
-            style={{ background: sectionBg, border: `1px solid ${cardBorder}`, color: muted, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
+            style={{ background: sectionBg, border: `1px solid ${cardBorder}`, color: muted, fontFamily: 'var(--font-sans)', fontStyle: 'italic' }}>
             ↻ Updates every 4h
           </span>
         </div>
@@ -257,13 +301,13 @@ export default function InkL2() {
               <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ fontFamily: 'var(--font-display)', color: muted }}>
                 {kpi.label}
               </p>
-              <p className="text-xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-display)', color: primary }}>
+              <p className="text-xl font-bold tabular-nums" style={{ fontFamily: 'var(--font-mono)', color: primary }}>
                 {kpi.value}
               </p>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[11px]" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>{kpi.sublabel}</span>
+                <span className="text-sm" style={{ color: muted, fontFamily: 'var(--font-sans)' }}>{kpi.sublabel}</span>
                 {kpi.delta && (
-                  <span className="text-[11px] font-semibold tabular-nums" style={{ color: kpi.positive ? 'hsl(150 40% 30%)' : 'hsl(0 50% 40%)', fontFamily: 'var(--font-display)' }}>
+                  <span className="text-sm font-semibold tabular-nums" style={{ color: kpi.positive ? 'hsl(150 40% 30%)' : 'hsl(0 50% 40%)', fontFamily: 'var(--font-mono)' }}>
                     {kpi.delta}
                   </span>
                 )}
@@ -285,7 +329,7 @@ export default function InkL2() {
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
             <div>
               <h2 className="text-base font-bold" style={{ fontFamily: 'var(--font-display)', color: primary }}>App Directory</h2>
-              <p className="text-[11px]" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>
+              <p className="text-sm" style={{ color: muted, fontFamily: 'var(--font-sans)' }}>
                 {apps.length} vetted apps · click an action to get started
               </p>
             </div>
@@ -307,7 +351,7 @@ export default function InkL2() {
 
           {apps.length === 0 && (
             <div className="py-12 text-center">
-              <p className="text-sm" style={{ color: muted, fontFamily: 'var(--font-serif)' }}>Loading app directory…</p>
+              <p className="text-sm" style={{ color: muted, fontFamily: 'var(--font-sans)' }}>Loading app directory…</p>
             </div>
           )}
         </div>
@@ -327,7 +371,7 @@ export default function InkL2() {
                   </span>
                   <span className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)', color: primary }}>{name}</span>
                 </div>
-                <p className="text-xs leading-relaxed" style={{ fontFamily: 'var(--font-serif)', color: primary, opacity: 0.85 }}>{desc}</p>
+                <p className="text-xs leading-relaxed" style={{ fontFamily: 'var(--font-sans)', color: primary, opacity: 0.85 }}>{desc}</p>
               </div>
               <div className="px-4 pb-3.5 pt-1" style={{ borderTop: `1px solid hsl(33 28% 78%)` }}>
                 <div className="w-full text-xs font-bold px-3 py-2 rounded-lg text-center"
@@ -345,7 +389,7 @@ export default function InkL2() {
             <p className="text-sm font-bold leading-tight" style={{ fontFamily: 'var(--font-display)', color: primary }}>About Ink</p>
           </div>
           <div className="px-4 pb-4">
-            <p className="text-sm leading-relaxed mb-3" style={{ fontFamily: 'var(--font-serif)', color: primary, opacity: 0.85 }}>
+            <p className="text-sm leading-relaxed mb-3" style={{ fontFamily: 'var(--font-sans)', color: primary, opacity: 0.85 }}>
               Ink is Kraken's Ethereum L2 chain, built on the OP Stack. It launched in November 2024 and is designed to bring Kraken's crypto exchange users on-chain, enabling DeFi, NFTs, and native crypto applications.
             </p>
             <div className="flex gap-3 flex-wrap">
