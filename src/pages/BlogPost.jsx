@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { getBriefBySlug } from '../content/briefs/index.js';
+import { SubscribeInline } from '@workspace/subscribe';
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -74,14 +75,14 @@ export default function BlogPost() {
               {brief.title}
             </h1>
 
-            <div className="leading-relaxed" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', lineHeight: '1.8', color: 'hsl(28 25% 14%)' }}>
+            <div className="leading-relaxed" style={{ fontFamily: 'var(--font-serif)', fontSize: 'calc(1.2rem - 1px)', lineHeight: '1.8', color: 'hsl(28 25% 14%)' }}>
               <ReactMarkdown
                 components={{
                   h1: ({ children }) => (
                     <h1 className="text-xl font-bold mt-10 mb-4" style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 16%)' }}>{children}</h1>
                   ),
                   h2: ({ children }) => (
-                    <h2 className="text-base font-bold mt-10 mb-4" style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 20%)' }}>{children}</h2>
+                    <h2 className="text-lg font-bold mt-10 mb-4" style={{ fontFamily: 'var(--font-display)', color: 'hsl(28 40% 20%)' }}>{children}</h2>
                   ),
                   p: ({ children }) => (
                     <p className="mb-5 leading-relaxed">{children}</p>
@@ -124,6 +125,8 @@ export default function BlogPost() {
                 </span>
               ))}
             </div>
+
+            <SubscribeInline />
           </div>
         </article>
       </div>
