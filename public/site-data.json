@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-06-25T21:26:14.382Z",
-  "updated_display": "June 25, 2026",
+  "updated_at": "2026-06-26T02:44:45.673Z",
+  "updated_display": "June 26, 2026",
   "ink": {
     "tvl_millions": 124.9,
     "protocol_count": 30
   },
   "ipo": {
     "polymarket_pct": 30.5,
-    "kalshi_pct": 26,
-    "avg_pct": 26.6
+    "kalshi_pct": 27,
+    "avg_pct": 27.7
   },
   "secondary_market": {
     "hiive_pps": 31.11,
-    "forge_pps": 37.64,
+    "forge_pps": 37.46,
     "npm_pps": 9,
     "notice_pps": 29.81,
-    "avg_pps": 33.4,
+    "avg_pps": 33.33,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
-    "updated": "June 25, 2026"
+    "updated": "June 26, 2026"
   },
   "prediction_markets": {
     "ipo": {
-      "kalshi_pct": 26,
+      "kalshi_pct": 27,
       "polymarket_pct": 30.5,
       "mktcap_16b_pct": 19,
       "largest_excl_spacex_pct": 0.7
@@ -56,10 +56,10 @@
     ],
     "regulatory": {
       "clarity_act_pct": 44,
-      "crypto_structure_aug_pct": 13
+      "crypto_structure_aug_pct": 13.5
     },
     "ink_fdv": {
-      "above_250m_pct": 62.5,
+      "above_250m_pct": 65,
       "above_500m_pct": 50,
       "above_1b_pct": 20.5,
       "above_2b_pct": 11.5
@@ -68,78 +68,78 @@
   "xstocks": {
     "ink_tvl_millions": 124.9,
     "ink_protocol_count": 30,
-    "ink_dex_24h_millions": 3.98,
-    "ink_dex_7d_millions": 17.36,
-    "ink_dex_30d_millions": 147.6,
-    "ink_dex_change_1d_pct": 67.7,
+    "ink_dex_24h_millions": 3.17,
+    "ink_dex_7d_millions": 16.65,
+    "ink_dex_30d_millions": 146.6,
+    "ink_dex_change_1d_pct": -20.3,
     "ink_dex_change_7d_pct": -18.3,
-    "total_market_cap_millions": 304.9,
-    "total_vol_24h_millions": 111.6,
+    "total_market_cap_millions": 301.1,
+    "total_vol_24h_millions": 118.5,
     "asset_count": 40,
     "asset_leaders": [
       {
         "symbol": "TSLAX",
-        "mcap_m": 52.9,
-        "vol_24h_m": 7.7,
-        "change_24h_pct": -0.8,
-        "share_pct": 17.4
+        "mcap_m": 52.2,
+        "vol_24h_m": 8.2,
+        "change_24h_pct": -1.3,
+        "share_pct": 17.3
       },
       {
         "symbol": "CRCLX",
-        "mcap_m": 40.3,
-        "vol_24h_m": 10.2,
-        "change_24h_pct": -4.2,
-        "share_pct": 13.2
+        "mcap_m": 39.5,
+        "vol_24h_m": 10.8,
+        "change_24h_pct": -5.7,
+        "share_pct": 13.1
       },
       {
         "symbol": "SPYX",
-        "mcap_m": 39,
-        "vol_24h_m": 5.6,
-        "change_24h_pct": -0.5,
-        "share_pct": 12.8
+        "mcap_m": 38.8,
+        "vol_24h_m": 7.2,
+        "change_24h_pct": -1,
+        "share_pct": 12.9
       },
       {
         "symbol": "NVDAX",
-        "mcap_m": 32.8,
-        "vol_24h_m": 7.3,
-        "change_24h_pct": -2.4,
-        "share_pct": 10.8
+        "mcap_m": 32.3,
+        "vol_24h_m": 7.6,
+        "change_24h_pct": -3.8,
+        "share_pct": 10.7
       },
       {
         "symbol": "QQQX",
-        "mcap_m": 31.2,
+        "mcap_m": 30.9,
         "vol_24h_m": 3.2,
-        "change_24h_pct": -0.9,
-        "share_pct": 10.2
+        "change_24h_pct": -1.8,
+        "share_pct": 10.3
       }
     ],
     "top_volume": [
       {
         "symbol": "GOOGLX",
-        "vol_24h_m": 23.4,
-        "change_24h_pct": -0.4
+        "vol_24h_m": 24.3,
+        "change_24h_pct": -0.8
       },
       {
         "symbol": "AMZNX",
-        "vol_24h_m": 15.1,
-        "change_24h_pct": -3.3
+        "vol_24h_m": 15.6,
+        "change_24h_pct": -3.1
       },
       {
         "symbol": "HOODX",
-        "vol_24h_m": 14.7,
-        "change_24h_pct": -4.8
+        "vol_24h_m": 15.4,
+        "change_24h_pct": -6.9
       },
       {
         "symbol": "COINX",
-        "vol_24h_m": 10.7,
-        "change_24h_pct": -6.7
+        "vol_24h_m": 11.2,
+        "change_24h_pct": -7.8
       },
       {
         "symbol": "CRCLX",
-        "vol_24h_m": 10.2,
-        "change_24h_pct": -4.2
+        "vol_24h_m": 10.8,
+        "change_24h_pct": -5.7
       }
     ],
-    "last_refreshed": "2026-06-25T21:26:14.382Z"
+    "last_refreshed": "2026-06-26T02:44:45.673Z"
   }
 }
