@@ -12,7 +12,7 @@ import { HelmetProvider } from 'react-helmet-async';
   import Experimental from './pages/Experimental';
   import XStocks from './pages/XStocks';
   import KrakenVsCoinbase from './pages/KrakenVsCoinbase';
-  import { SubscribePill } from '@workspace/subscribe';
+  import SubscribePill from './components/SubscribePill';
 
   function AppShell() {
     return (
