@@ -8,7 +8,7 @@ export default {
   description: "Payward's Q1 2026 results show revenue up 3% YoY to $507M despite a 23% drop in crypto market cap and a 38% decline in spot volumes — a sign the company is becoming less cyclical and more durable.",
   image: "/brief-payward-q1-2026.png",
   status: "published",
-  xUrl: "",
+  xUrl: "https://x.com/KrakWatch/status/2056422491686363186",
   tag: "Earnings",
   body: `Payward's Q1 2026 results show Kraken becoming less dependent on crypto cycles.
 
