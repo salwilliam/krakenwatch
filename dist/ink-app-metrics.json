@@ -1,0 +1,24 @@
+{
+  "tydro": {
+    "tvl_millions": 60.38
+  },
+  "velodrome": {
+    "tvl_millions": 0.06,
+    "volume_24h_millions": 0
+  },
+  "curve": {
+    "tvl_millions": 0,
+    "volume_24h_millions": 0
+  },
+  "inkyswap": {
+    "tvl_millions": 0.42
+  },
+  "sentry": {
+    "tvl_millions": 0.02,
+    "volume_24h_millions": 0
+  },
+  "nado": {
+    "volume_24h_millions": 2.1
+  },
+  "last_refreshed": "2026-06-18T14:30:46.841Z"
+}
