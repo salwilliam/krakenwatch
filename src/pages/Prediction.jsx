@@ -1,5 +1,8 @@
 import { Helmet } from 'react-helmet-async';
+import PageHeroImage from '../components/PageHeroImage';
 import { useSiteData } from '../hooks/useSiteData';
+
+const HERO_IMAGE = '/prediction-hero.png';
 
 const qp = 'hsl(28 40% 14%)';
 const ut = 'hsl(30 20% 38%)';
@@ -84,32 +87,32 @@ function MarketCard({ name, pct, sources, href, note, subRows }) {
 
   return (
     <div className="rounded-xl overflow-hidden flex flex-col h-full" style={{ border: `2px solid ${cardBorder}`, background: cardBg }}>
-      <div className="px-4 pt-3.5 pb-2 flex items-start justify-between gap-3 flex-1">
+      <div className="px-4 pt-2.5 pb-1.5 flex items-start justify-between gap-3 flex-1">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+          <div className="flex items-center gap-1.5 mb-1 flex-wrap">
             {srcs.map(s => <SourceBadge key={s} src={s} />)}
           </div>
           <p className="text-sm font-semibold leading-tight" style={{ fontFamily: 'var(--font-display)', color: qp }}>
             {name}
           </p>
-          {note && <p className="text-[10px] mt-1 leading-snug" style={{ color: ut, fontStyle: 'italic' }}>{note}</p>}
+          {note && <p className="text-[10px] mt-0.5 leading-snug" style={{ color: ut, fontStyle: 'italic', fontFamily: 'var(--font-sans)' }}>{note}</p>}
         </div>
         <div className="shrink-0 text-right">
-          <p className="text-xl font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-mono)', color: on }}>
+          <p className="text-lg font-bold tabular-nums leading-none" style={{ fontFamily: 'var(--font-sans)', color: on }}>
             {displayPct == null ? '—' : `${displayPct}%`}
           </p>
           {subRows && subRows.map(r => {
             const sub = normalizePct(r.pct);
             return (
-              <p key={r.src} className="text-[10px] mt-0.5 tabular-nums" style={{ color: ut, fontFamily: 'var(--font-mono)' }}>
+              <p key={r.src} className="text-[10px] mt-0.5 tabular-nums" style={{ color: ut, fontFamily: 'var(--font-sans)' }}>
                 {r.src} {sub != null ? `${sub}%` : '—'}
               </p>
             );
           })}
         </div>
       </div>
-      <div className="px-4 pb-3">
-        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'hsl(33 25% 76%)' }}>
+      <div className="px-4 pb-2">
+        <div className="h-1 rounded-full overflow-hidden" style={{ background: 'hsl(33 25% 76%)' }}>
           <div className="h-full rounded-full" style={{
             width: `${barWidth}%`,
             background: barWidth >= 50
@@ -117,13 +120,13 @@ function MarketCard({ name, pct, sources, href, note, subRows }) {
               : `linear-gradient(to right, ${accent}, hsl(25 55% 38%))`,
           }} />
         </div>
-        <p className="text-[9px] mt-1.5" style={{ color: ut }}>updated every 4 hours</p>
+        <p className="text-[9px] mt-1" style={{ color: ut, fontFamily: 'var(--font-sans)' }}>updated every 4 hours</p>
       </div>
       {href && (
-        <div className="px-4 pb-3.5 pt-2" style={{ borderTop: `1px solid ${cardBorder}` }}>
+        <div className="px-4 pb-3 pt-1.5" style={{ borderTop: `1px solid ${cardBorder}` }}>
           <a href={href} target="_blank" rel="noopener noreferrer"
-            className="block w-full text-center text-xs font-bold px-3 py-2 rounded-lg transition-opacity hover:opacity-85"
-            style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textDecoration: 'none' }}>
+            className="block w-full text-center text-xs font-bold px-3 py-1.5 rounded-lg transition-opacity hover:opacity-85"
+            style={{ background: darkHeaderBg, color: darkHeaderText, fontFamily: 'var(--font-sans)', letterSpacing: '0.03em', textDecoration: 'none' }}>
             Trade ↗
           </a>
         </div>
@@ -152,7 +155,9 @@ export default function Prediction() {
         <meta property="og:title" content="Prediction Watch — Kraken Watch" />
         <meta property="og:description" content="Track prediction market data and key signals across crypto, macro, and global events." />
         <meta property="og:url" content="https://krakenwatch.com/prediction" />
+        <meta property="og:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:title" content="Prediction Watch — Kraken Watch" />
         <meta name="twitter:description" content="Daily Kraken IPO odds, underwriter watch, and regulatory prediction markets." />
       </Helmet>
@@ -160,9 +165,7 @@ export default function Prediction() {
       <div className="p-4 sm:p-6 space-y-6 max-w-[1100px] mx-auto">
 
         {/* ── Hero Image ── */}
-        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-          <img src="/prediction-hero.png" alt="Prediction Watch" className="w-full object-cover" />
-        </div>
+        <PageHeroImage src={HERO_IMAGE} alt="Prediction Watch" priority />
 
         {/* ── Header ── */}
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
