@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import PageHeroImage from '../components/PageHeroImage';
 import { useSiteData } from '../hooks/useSiteData';
+
+const HERO_IMAGE = '/payward-hero.png';
 
 const qp = 'hsl(28 40% 14%)';
 const ut = 'hsl(30 20% 38%)';
@@ -121,7 +124,7 @@ const ecosystemSections = [
       { name: 'Kraken Support', desc: "Global customer support infrastructure for Kraken's user base.", tag: 'Product' },
       { name: 'Kraken+', desc: 'Subscription tier offering enhanced benefits and reduced fees for active users.', tag: 'Product' },
       { name: 'Breakout', desc: 'Proprietary trading platform providing funded accounts for skilled traders.', tag: 'Acquired', url: 'http://breakoutprop.com/' },
-      { name: 'Prediction Markets', desc: "Kraken's product for event-based and prediction market trading.", tag: 'Product' },
+      { name: 'Onyx Odds', desc: 'Payward-led $20M Series A investment in a sports prediction-market app integrating with Payward Services.', tag: 'Partner' },
     ],
   },
   {
@@ -137,6 +140,8 @@ const ecosystemSections = [
       { name: 'Magna', desc: 'Token management platform acquired Feb 2026; used by 160+ crypto-native teams for vesting, claims, distributions, and token lifecycle workflows.', tag: 'Acquired' },
       { name: 'Kraken CLI', desc: "Command-line interface for programmatic access to Kraken's trading APIs.", tag: 'Product' },
       { name: 'Payward Ramp', desc: 'Fiat on/off-ramp infrastructure for converting between crypto and traditional currencies.', tag: 'Product' },
+      { name: 'Maple Finance', desc: "Onchain warehouse credit partner funding Kraken's OTC digital-asset-backed lending facility, with Kraken retaining aligned risk exposure.", tag: 'Partner' },
+      { name: 'Centrifuge', desc: 'RWA partner bringing tokenized real-world assets into Kraken qualified custody, starting with Janus Henderson\'s JAAA.', tag: 'Partner' },
       { name: 'Kraken OTC', desc: 'Over-the-counter desk providing bespoke block trade liquidity.', tag: 'Product' },
       { name: 'Kraken Derivatives US', desc: 'US-regulated derivatives exchange built on the NinjaTrader futures infrastructure.', tag: 'Acquired' },
       { name: 'Kraken Flexline', desc: 'Credit facility allowing institutions to borrow against crypto holdings.', tag: 'Product' },
@@ -225,6 +230,7 @@ const ecosystemSections = [
       { name: 'Tottenham Hotspur', desc: 'Premier League football club; Kraken is official crypto exchange partner.', tag: 'Sponsorship' },
       { name: 'Atlético de Madrid', desc: 'Spanish La Liga club; Kraken is official crypto exchange partner.', tag: 'Sponsorship' },
       { name: 'RB Leipzig', desc: 'German Bundesliga club; Kraken is official crypto exchange partner.', tag: 'Sponsorship' },
+      { name: 'FIFA World Cup 2026', desc: 'Official Crypto Exchange Supporter of the FIFA World Cup 2026 in North America and Europe.', tag: 'Sponsorship' },
     ],
   },
   {
@@ -629,17 +635,15 @@ export default function Payward() {
         <meta property="og:title" content="Payward Map — Kraken Watch" />
         <meta property="og:description" content="Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity." />
         <meta property="og:url" content="https://krakenwatch.com/payward" />
-        <meta property="og:image" content="https://krakenwatch.com/payward-hero.png" />
+        <meta property="og:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://krakenwatch.com/payward-hero.png" />
+        <meta name="twitter:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:title" content="Payward Map — Kraken Watch" />
         <meta name="twitter:description" content="Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity. Entities, partners, sponsorships, and acquisitions." />
       </Helmet>
 
       <div className="p-4 sm:p-6 space-y-6 w-full max-w-[1100px] mx-auto">
-        <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-          <img src="/payward-hero.png" alt="Krakenland map of the Payward ecosystem" className="w-full object-cover" />
-        </div>
+        <PageHeroImage src={HERO_IMAGE} alt="Krakenland map of the Payward ecosystem" priority />
 
         <div className="flex flex-col items-center gap-2 pt-2 text-center">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
