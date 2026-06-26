@@ -1,160 +1,259 @@
-[
-  {
-    "id": "nado",
-    "name": "Nado",
-    "category": "DEX",
-    "tags": ["dex"],
-    "description": "All-in-one CLOB DEX for spot, perps & money markets on Ink.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Trade",
-      "type": "link",
-      "url": "https://nado.finance"
-    }
+{
+  "_readme": {
+    "about": "This file controls the app cards shown on the Ink ecosystem page. Edit it directly — no coding required.",
+    "schema": {
+      "id":                   "Unique identifier (lowercase, no spaces). Used internally — do not change once the app is live.",
+      "name":                 "Display name shown on the card.",
+      "category":             "Category label(s) used for the filter bar. Can be a string or an array of strings.",
+      "tags":                 "Internal tag array — used for filtering logic. Keep lowercase.",
+      "description":          "One- or two-sentence description shown on the card. Plain text only.",
+      "context_note":         "Optional short note shown below the description (plain text). Set to null to hide it. Use this for timely context such as 'Currently in beta — expect limited liquidity' or 'Audited by XYZ — mainnet launch Q3 2025'.",
+      "tvl_millions":         "Total Value Locked in millions of USD. Set to null if not applicable or unknown.",
+      "volume_24h_millions":  "24-hour trading/bridge volume in millions of USD. Set to null if not applicable or unknown.",
+      "unique_users_24h":     "Number of unique active addresses in the last 24 hours. Set to null if not applicable or unknown.",
+      "action": {
+        "label":  "Button label.",
+        "type":   "'link' opens a URL directly. 'panel' shows a step-by-step drawer.",
+        "url":    "Destination URL (for type: 'link' only).",
+        "steps":  "Array of steps (for type: 'panel' only). Each step has 'step' (heading), 'detail' (body text), and optionally 'url' (action link on the last step)."
+      }
+    },
+    "context_note_examples": [
+      "Currently in beta — expect higher slippage.",
+      "Audited by OpenZeppelin. Mainnet launch Q3 2025.",
+      "Highest TVL on Ink as of May 2025.",
+      "Bridge takes ~2 minutes. No withdrawal delay."
+    ],
+    "how_to_add_an_app": [
+      "1. Copy any existing app block below.",
+      "2. Change 'id' to a unique slug (e.g. 'myapp').",
+      "3. Fill in name, category, tags, description, and action.",
+      "4. Set context_note to a short string, or null to leave it blank.",
+      "5. Set tvl_millions, volume_24h_millions, unique_users_24h to numbers or null.",
+      "6. Add a trailing comma after the previous app block.",
+      "7. Save, rebuild, and deploy."
+    ]
   },
-  {
-    "id": "velodrome",
-    "name": "Velodrome",
-    "category": "DEX/Liquidity",
-    "tags": ["dex", "liquidity"],
-    "description": "Superchain-native AMM DEX for deep liquidity pools on Ink.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Add Liquidity",
-      "type": "link",
-      "url": "https://velodrome.finance"
+  "apps": [
+    {
+      "id": "nado",
+      "name": "Nado",
+      "category": "DEX",
+      "tags": ["dex"],
+      "description": "All-in-one CLOB DEX for spot, perps & money markets on Ink.",
+      "context_note": null,
+      "action": {
+        "label": "Trade",
+        "type": "link",
+        "url": "https://nado.finance"
+      },
+      "tvl_millions": null,
+      "volume_24h_millions": 2.1,
+      "unique_users_24h": null
+    },
+    {
+      "id": "velodrome",
+      "name": "Velodrome",
+      "category": "DEX/Liquidity",
+      "tags": ["dex", "liquidity"],
+      "description": "Superchain-native AMM DEX for deep liquidity pools on Ink.",
+      "context_note": null,
+      "action": {
+        "label": "Add Liquidity",
+        "type": "link",
+        "url": "https://velodrome.finance"
+      },
+      "tvl_millions": 0.06,
+      "volume_24h_millions": 0,
+      "unique_users_24h": null
+    },
+    {
+      "id": "tydro",
+      "name": "Tydro",
+      "category": "Lending",
+      "tags": ["lending"],
+      "description": "Aave v3 white-label lending and borrowing protocol — Ink's largest protocol by TVL.",
+      "context_note": null,
+      "action": {
+        "label": "Lend / Borrow",
+        "type": "panel",
+        "steps": [
+          {
+            "step": "Connect your wallet",
+            "detail": "Use any EVM-compatible wallet and switch to the Ink network."
+          },
+          {
+            "step": "Choose an asset",
+            "detail": "Select the token you want to lend or use as collateral to borrow against."
+          },
+          {
+            "step": "Deposit or borrow",
+            "detail": "Supply assets to earn yield, or borrow against your collateral.",
+            "url": "https://tydro.xyz"
+          }
+        ]
+      },
+      "tvl_millions": 60.38,
+      "volume_24h_millions": null,
+      "unique_users_24h": null
+    },
+    {
+      "id": "kraken",
+      "name": "Kraken",
+      "category": "Exchange",
+      "tags": ["exchange"],
+      "description": "Buy crypto on Kraken and move it to your Ink wallet to get started on-chain.",
+      "context_note": null,
+      "action": {
+        "label": "Buy on Kraken",
+        "type": "link",
+        "url": "https://kraken.com"
+      },
+      "tvl_millions": null,
+      "volume_24h_millions": null,
+      "unique_users_24h": null
+    },
+    {
+      "id": "kraken-wallet",
+      "name": "Kraken Wallet",
+      "category": "Wallet",
+      "tags": ["wallet"],
+      "description": "Official self-custody wallet from Kraken with native Ink network support.",
+      "context_note": null,
+      "action": {
+        "label": "Get the Wallet",
+        "type": "link",
+        "url": "https://www.kraken.com/wallet"
+      },
+      "tvl_millions": null,
+      "volume_24h_millions": null,
+      "unique_users_24h": null
+    },
+    {
+      "id": "across",
+      "name": "Across Protocol",
+      "category": "Bridge",
+      "tags": ["bridge"],
+      "description": "Fast, capital-efficient cross-chain bridge to move assets to Ink.",
+      "context_note": null,
+      "action": {
+        "label": "Bridge to Ink",
+        "type": "panel",
+        "steps": [
+          {
+            "step": "Choose your asset",
+            "detail": "Select the token you want to bridge — ETH, USDC, and more are supported."
+          },
+          {
+            "step": "Set your amount",
+            "detail": "Enter how much you want to move. Across shows the fee and estimated time upfront."
+          },
+          {
+            "step": "Bridge to Ink",
+            "detail": "Confirm the transaction and your assets arrive on Ink in seconds.",
+            "url": "https://app.across.to/?toChain=57073"
+          }
+        ]
+      },
+      "tvl_millions": null,
+      "volume_24h_millions": null,
+      "unique_users_24h": null
+    },
+    {
+      "id": "inkdca",
+      "name": "InkDCA",
+      "category": "DCA",
+      "tags": ["dca"],
+      "description": "Automate dollar-cost averaging into any asset on Ink.",
+      "context_note": null,
+      "action": {
+        "label": "Set Up DCA",
+        "type": "link",
+        "url": "https://inkdca.xyz"
+      },
+      "tvl_millions": null,
+      "volume_24h_millions": null,
+      "unique_users_24h": null
+    },
+    {
+      "id": "blockscout",
+      "name": "Blockscout",
+      "category": "Explorer",
+      "tags": ["explorer"],
+      "description": "Open-source block explorer for viewing transactions and contracts on Ink.",
+      "context_note": null,
+      "action": {
+        "label": "Explore Ink",
+        "type": "link",
+        "url": "https://explorer.inkonchain.com"
+      },
+      "tvl_millions": null,
+      "volume_24h_millions": null,
+      "unique_users_24h": null
+    },
+    {
+      "id": "inkyswap",
+      "name": "InkySwap",
+      "category": "DEX",
+      "tags": ["dex"],
+      "description": "Simple token swap interface built natively for the Ink chain.",
+      "context_note": null,
+      "action": {
+        "label": "Swap",
+        "type": "link",
+        "url": "https://www.inkyswap.com/"
+      },
+      "tvl_millions": 0.42,
+      "volume_24h_millions": null,
+      "unique_users_24h": null
+    },
+    {
+      "id": "curve",
+      "name": "Curve",
+      "category": "DEX",
+      "tags": ["dex"],
+      "description": "Leading stableswap AMM with deep, low-slippage pools deployed on Ink.",
+      "context_note": null,
+      "action": {
+        "label": "Swap on Curve",
+        "type": "link",
+        "url": "https://curve.fi"
+      },
+      "tvl_millions": 0,
+      "volume_24h_millions": 0,
+      "unique_users_24h": null
+    },
+    {
+      "id": "inkypump",
+      "name": "InkyPump",
+      "category": "Launcher",
+      "tags": ["launcher"],
+      "description": "Meme coin and token launcher native to Ink. Create and trade tokens in seconds with a built-in bonding curve.",
+      "context_note": null,
+      "action": {
+        "label": "Launch a Token",
+        "type": "link",
+        "url": "https://inkypump.com/"
+      },
+      "tvl_millions": null,
+      "volume_24h_millions": null,
+      "unique_users_24h": null
+    },
+    {
+      "id": "sentry",
+      "name": "Sentry",
+      "category": ["Launcher", "DEX"],
+      "tags": ["dex", "launcher"],
+      "description": "Token launch factory paired with Tsunami V3 — a concentrated-liquidity DEX with 8 fee tiers. Every token launches directly into a live pool. No bonding curve. No graduation. No delayed liquidity.",
+      "context_note": null,
+      "action": {
+        "label": "Launch or Trade",
+        "type": "link",
+        "url": "https://www.sentry.trading/"
+      },
+      "tvl_millions": 0.02,
+      "volume_24h_millions": 0,
+      "unique_users_24h": null
     }
-  },
-  {
-    "id": "tydro",
-    "name": "Tydro",
-    "category": "Lending",
-    "tags": ["lending"],
-    "description": "Aave v3 white-label lending and borrowing protocol — Ink's largest protocol by TVL.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Lend / Borrow",
-      "type": "panel",
-      "steps": [
-        {
-          "step": "Connect your wallet",
-          "detail": "Use any EVM-compatible wallet and switch to the Ink network."
-        },
-        {
-          "step": "Choose an asset",
-          "detail": "Select the token you want to lend or use as collateral to borrow against."
-        },
-        {
-          "step": "Deposit or borrow",
-          "detail": "Supply assets to earn yield, or borrow against your collateral.",
-          "url": "https://tydro.xyz"
-        }
-      ]
-    }
-  },
-  {
-    "id": "kraken",
-    "name": "Kraken",
-    "category": "Exchange",
-    "tags": ["exchange"],
-    "description": "Buy crypto on Kraken and move it to your Ink wallet to get started on-chain.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Buy on Kraken",
-      "type": "link",
-      "url": "https://kraken.com"
-    }
-  },
-  {
-    "id": "kraken-wallet",
-    "name": "Kraken Wallet",
-    "category": "Wallet",
-    "tags": ["wallet"],
-    "description": "Official self-custody wallet from Kraken with native Ink network support.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Get the Wallet",
-      "type": "link",
-      "url": "https://wallet.kraken.com"
-    }
-  },
-  {
-    "id": "across",
-    "name": "Across Protocol",
-    "category": "Bridge",
-    "tags": ["bridge"],
-    "description": "Fast, capital-efficient cross-chain bridge to move assets to Ink.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Bridge to Ink",
-      "type": "panel",
-      "steps": [
-        {
-          "step": "Choose your asset",
-          "detail": "Select the token you want to bridge — ETH, USDC, and more are supported."
-        },
-        {
-          "step": "Set your amount",
-          "detail": "Enter how much you want to move. Across shows the fee and estimated time upfront."
-        },
-        {
-          "step": "Bridge to Ink",
-          "detail": "Confirm the transaction and your assets arrive on Ink in seconds.",
-          "url": "https://app.across.to/?toChain=57073"
-        }
-      ]
-    }
-  },
-  {
-    "id": "inkdca",
-    "name": "InkDCA",
-    "category": "DCA",
-    "tags": ["dca"],
-    "description": "Automate dollar-cost averaging into any asset on Ink.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Set Up DCA",
-      "type": "link",
-      "url": "https://inkdca.xyz"
-    }
-  },
-  {
-    "id": "blockscout",
-    "name": "Blockscout",
-    "category": "Explorer",
-    "tags": ["explorer"],
-    "description": "Open-source block explorer for viewing transactions and contracts on Ink.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Explore Ink",
-      "type": "link",
-      "url": "https://explorer.inkonchain.com"
-    }
-  },
-  {
-    "id": "inkyswap",
-    "name": "InkySwap",
-    "category": "DEX",
-    "tags": ["dex"],
-    "description": "Simple token swap interface built natively for the Ink chain.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Swap",
-      "type": "link",
-      "url": "https://inkyswap.xyz"
-    }
-  },
-  {
-    "id": "curve",
-    "name": "Curve",
-    "category": "DEX",
-    "tags": ["dex"],
-    "description": "Leading stableswap AMM with deep, low-slippage pools deployed on Ink.",
-    "context_note": "placeholder — to be filled by site owner",
-    "action": {
-      "label": "Swap on Curve",
-      "type": "link",
-      "url": "https://curve.fi"
-    }
-  }
-]
+  ]
+}
