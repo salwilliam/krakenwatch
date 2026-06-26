@@ -23,7 +23,16 @@
 # The private key is NEVER printed to the terminal or to any log in either path.
 #
 # Usage:
-#   bash scripts/rotate-deploy-key.sh
+#   bash scripts/rotate-deploy-key.sh [--recover]
+#
+# Flags:
+#   (none)      Normal rotation: generate a new key, update Replit Secrets,
+#               update GitHub deploy keys, verify SSH auth, and log the result.
+#   --recover   Recovery mode: list all rotation-prefixed deploy keys on GitHub,
+#               keep the newest one (by created_at), delete all others, and
+#               report which key IDs were removed.  Exits non-zero if it cannot
+#               determine which key to keep (e.g. zero rotation keys found).
+#               Does not generate a new key or touch Replit Secrets.
 #
 # Required secrets:
 #   REPLIT_API_KEY — a Replit personal token with "read/write repl" scope.
@@ -45,10 +54,192 @@ TMP_KEY="$(mktemp /tmp/deploy_key_XXXXXX)"
 TMP_PUB="${TMP_KEY}.pub"
 STAGED_KEY="/tmp/new_deploy_key"
 
+# ── Parse arguments ───────────────────────────────────────────────────────────
+MODE="rotate"
+for _arg in "$@"; do
+  case "$_arg" in
+    --recover) MODE="recover" ;;
+    --help|-h)
+      sed -n '/^# Usage:/,/^# Required secrets:/{ /^# Required secrets:/d; s/^# \{0,1\}//; p }' "$0"
+      exit 0
+      ;;
+    *)
+      echo "ERROR: Unknown argument: $_arg" >&2
+      echo "       Run with --help for usage information." >&2
+      exit 1
+      ;;
+  esac
+done
+
 cleanup() {
   rm -f "$TMP_KEY" "$TMP_PUB" "$STAGED_KEY"
 }
 trap cleanup EXIT INT TERM
+
+# ── Recovery mode: clean up duplicate rotation-prefixed deploy keys ───────────
+# Invoked when the user passes --recover.  Keeps the newest key (by created_at)
+# and deletes all older rotation-prefixed duplicates.  Exits before any key
+# generation so the Replit secret is never touched.
+if [ "$MODE" = "recover" ]; then
+  echo ""
+  echo "==> Recovery mode: scanning GitHub for duplicate rotation-prefixed deploy keys …"
+  echo ""
+
+  _GITHUB_PERSONAL_ACCESS_TOKEN="${GITHUB_PERSONAL_ACCESS_TOKEN:-}"
+  if [ -z "$_GITHUB_PERSONAL_ACCESS_TOKEN" ]; then
+    echo "ERROR: GITHUB_PERSONAL_ACCESS_TOKEN is not set." >&2
+    echo "       Add a GitHub personal access token with repo scope as a Replit Secret" >&2
+    echo "       named GITHUB_PERSONAL_ACCESS_TOKEN, then re-run this script." >&2
+    exit 1
+  fi
+
+  _RECOVER_OK=0
+  GITHUB_PERSONAL_ACCESS_TOKEN="$_GITHUB_PERSONAL_ACCESS_TOKEN" REPO="$REPO" \
+    node - <<'JSEOF' || _RECOVER_OK=$?
+const https = require('https');
+
+const pat  = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
+const repo = process.env.REPO;
+
+const ROTATION_PREFIX = 'krakenwatch-deploy-';
+
+function ghRequest(method, path, body) {
+  return new Promise((resolve, reject) => {
+    const payload = body ? JSON.stringify(body) : '';
+    const options = {
+      hostname: 'api.github.com',
+      path,
+      method,
+      headers: {
+        'Authorization': `Bearer ${pat}`,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'krakenwatch-rotate-key-script',
+        ...(payload ? {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload),
+        } : {}),
+      },
+    };
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => resolve({ status: res.statusCode, body: data }));
+    });
+    req.on('error', reject);
+    if (payload) req.write(payload);
+    req.end();
+  });
+}
+
+(async () => {
+  // List all deploy keys.
+  const listRes = await ghRequest('GET', `/repos/${repo}/keys?per_page=100`);
+  if (listRes.status !== 200) {
+    console.error(`ERROR: Could not list GitHub deploy keys (HTTP ${listRes.status}).`);
+    console.error(`Response: ${listRes.body}`);
+    process.exit(1);
+  }
+  const allKeys = JSON.parse(listRes.body);
+
+  const rotationKeys = allKeys.filter(k => k.title.startsWith(ROTATION_PREFIX));
+  const skippedCount = allKeys.length - rotationKeys.length;
+
+  if (skippedCount > 0) {
+    console.log(`==> Skipping ${skippedCount} unrelated deploy key(s) (not created by this script).`);
+  }
+
+  console.log(`==> Found ${rotationKeys.length} rotation-prefixed deploy key(s) matching "${ROTATION_PREFIX}*":`);
+  for (const k of rotationKeys) {
+    console.log(`      [${k.id}] "${k.title}"  created_at: ${k.created_at}`);
+  }
+  console.log('');
+
+  if (rotationKeys.length === 0) {
+    console.error('ERROR: No rotation-prefixed deploy keys found — cannot determine which key to keep.');
+    console.error(`       Expected at least one key titled "${ROTATION_PREFIX}YYYYMMDD" on GitHub.`);
+    console.error(`       Check the repo manually: https://github.com/${repo}/settings/keys`);
+    process.exit(1);
+  }
+
+  if (rotationKeys.length === 1) {
+    console.log(`==> Only one rotation key found: [${rotationKeys[0].id}] "${rotationKeys[0].title}"`);
+    console.log('==> Nothing to clean up — the deploy key state is already clean.');
+    process.exit(0);
+  }
+
+  // Sort descending by created_at (ISO 8601 strings compare lexicographically).
+  const sorted = rotationKeys.slice().sort((a, b) => {
+    if (a.created_at > b.created_at) return -1;
+    if (a.created_at < b.created_at) return  1;
+    // Tie-break: prefer the higher numeric ID (created later within the same second).
+    return b.id - a.id;
+  });
+
+  const keep   = sorted[0];
+  const remove = sorted.slice(1);
+
+  console.log(`==> Keeping  newest key: [${keep.id}] "${keep.title}"  (created_at: ${keep.created_at})`);
+  console.log(`==> Deleting ${remove.length} older duplicate(s) …`);
+  console.log('');
+
+  const deleteFailures = [];
+
+  for (const key of remove) {
+    async function tryDelete() {
+      try {
+        return await ghRequest('DELETE', `/repos/${repo}/keys/${key.id}`);
+      } catch (err) {
+        console.error(`WARN: DELETE request for key ${key.id} threw a network error: ${err.message}`);
+        return null;
+      }
+    }
+
+    let delRes = await tryDelete();
+
+    if (!delRes || delRes.status !== 204) {
+      const reason = delRes ? `HTTP ${delRes.status}` : 'network error';
+      console.error(`WARN: First delete attempt for key ${key.id} failed (${reason}) — retrying …`);
+      delRes = await tryDelete();
+    }
+
+    if (delRes && delRes.status === 204) {
+      console.log(`==> Removed stale key: [${key.id}] "${key.title}"`);
+    } else {
+      const reason = delRes ? `HTTP ${delRes.status}` : 'network error';
+      console.error(`ERROR: Failed to delete key ${key.id} ("${key.title}") after retry (${reason}).`);
+      console.error(`       Remove it manually at: https://github.com/${repo}/settings/keys`);
+      deleteFailures.push(key);
+    }
+  }
+
+  console.log('');
+
+  if (deleteFailures.length > 0) {
+    console.error(`ERROR: ${deleteFailures.length} stale key(s) could not be deleted automatically.`);
+    console.error('       Remove each one manually:');
+    console.error(`         https://github.com/${repo}/settings/keys`);
+    console.error('       Keys to remove:');
+    for (const k of deleteFailures) {
+      console.error(`         • [${k.id}] "${k.title}"`);
+    }
+    process.exit(1);
+  }
+
+  console.log(`==> Recovery complete. Kept: [${keep.id}] "${keep.title}"`);
+  console.log(`    Removed ${remove.length} duplicate(s).`);
+  console.log(`    Verify at: https://github.com/${repo}/settings/keys`);
+})();
+JSEOF
+
+  if [ "$_RECOVER_OK" -ne 0 ]; then
+    echo "" >&2
+    echo "ERROR: Recovery failed — see errors above." >&2
+    exit 1
+  fi
+
+  exit 0
+fi
 
 # ── Ensure git identity is configured ────────────────────────────────────────
 # The rotation script may need to commit changes (e.g. updated key references
@@ -229,7 +420,7 @@ echo ""
 # Use Node.js for all GitHub API calls so that the PAT never appears in CLI args.
 _GH_OK=0
 GITHUB_PERSONAL_ACCESS_TOKEN="$_GITHUB_PERSONAL_ACCESS_TOKEN" PUB_KEY_VALUE="$PUB_KEY" KEY_TITLE="$COMMENT" REPO="$REPO" \
-  KEY_FINGERPRINT="$KEY_FINGERPRINT" \
+  KEY_FINGERPRINT="$KEY_FINGERPRINT" SCRIPT_DIR="$SCRIPT_DIR" \
   node - <<'JSEOF' || _GH_OK=$?
 const https = require('https');
 
@@ -311,67 +502,17 @@ function ghRequest(method, path, body) {
   }
 
   // 4c. New key is confirmed — now delete the old rotation-prefixed keys.
-  //     Each key gets one automatic retry on failure.  If the retry also fails,
-  //     a targeted error message is emitted with the exact GitHub URL and key
-  //     details so the operator can remove the stale key manually without
-  //     guessing which one it is.  Failures are collected so that all stale
-  //     keys are attempted before the script exits, leaving the operator with a
-  //     complete list of what still needs to be cleaned up.
+  //     The retry logic, per-key error messages, and cleanup guidance are
+  //     implemented in scripts/lib/delete-rotation-keys.mjs so the same code
+  //     path is exercised by the automated test suite without needing real
+  //     credentials.  The module returns the list of keys that could not be
+  //     deleted; the caller exits non-zero if the list is non-empty.
   if (rotationKeys.length === 0) {
     console.log('==> No previous rotation keys found — nothing to remove.');
   } else {
-    const deleteFailures = [];
-
-    for (const key of rotationKeys) {
-      // Helper: attempt a single DELETE and return the HTTP status, or null on
-      // a transport-level error (connection refused, timeout, DNS failure, etc.)
-      // so that network errors are handled the same way as bad HTTP responses.
-      async function tryDelete() {
-        try {
-          return await ghRequest('DELETE', `/repos/${repo}/keys/${key.id}`);
-        } catch (err) {
-          console.error(`WARN: DELETE request for key ${key.id} threw a network error: ${err.message}`);
-          return null;
-        }
-      }
-
-      // First attempt.
-      let delRes = await tryDelete();
-
-      if (!delRes || delRes.status !== 204) {
-        // One automatic retry before giving up.
-        const reason = delRes ? `HTTP ${delRes.status}` : 'network error';
-        console.error(`WARN: First delete attempt for key ${key.id} failed (${reason}) — retrying …`);
-        delRes = await tryDelete();
-      }
-
-      if (delRes && delRes.status === 204) {
-        console.log(`==> Removed old deploy key: [${key.id}] "${key.title}"`);
-      } else {
-        // Retry also failed — record this so we can report all failures together.
-        const reason = delRes ? `HTTP ${delRes.status}` : 'network error';
-        console.error(`ERROR: Failed to delete key ${key.id} ("${key.title}") after retry (${reason}).`);
-        console.error(`       This stale key is still registered and must be removed manually.`);
-        console.error(`       Remove it at: https://github.com/${repo}/settings/keys`);
-        console.error(`       Key details — ID: ${key.id}  title: "${key.title}"`);
-        deleteFailures.push(key);
-      }
-    }
-
-    if (deleteFailures.length > 0) {
-      console.error('');
-      console.error(`ERROR: ${deleteFailures.length} stale deploy key(s) could not be deleted automatically.`);
-      console.error('       Both the new key AND the stale key(s) are currently registered on GitHub.');
-      console.error('       Remove each stale key manually to restore a clean rotation state:');
-      console.error(`         https://github.com/${repo}/settings/keys`);
-      console.error('       Stale key IDs to remove:');
-      for (const k of deleteFailures) {
-        console.error(`         • [${k.id}] "${k.title}"`);
-      }
-      console.error('');
-      console.error('       After removing them, re-run this script to verify the state is correct.');
-      process.exit(1);
-    }
+    const { deleteRotationKeys } = await import(`file://${process.env.SCRIPT_DIR}/lib/delete-rotation-keys.mjs`);
+    const deleteFailures = await deleteRotationKeys({ ghRequest, repo, rotationKeys });
+    if (deleteFailures.length > 0) process.exit(1);
   }
 
   // 4d. Verify exactly one rotation-prefixed deploy key is registered after the cycle.
