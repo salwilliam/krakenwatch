@@ -1,6 +1,6 @@
 import { useLocation, Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import { SubscribeModal } from '@workspace/subscribe';
+import SubscribeModal from './SubscribeModal';
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
