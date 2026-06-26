@@ -68,11 +68,8 @@ const server = createServer((req, res) => {
   if (existsSync(filePath) && statSync(filePath).isFile()) {
     const ext = extname(filePath).toLowerCase();
     const ct = MIME[ext] || "application/octet-stream";
-    // Hashed assets (JS/CSS in /assets/) are immutable; HTML must never be cached
-    const isHashedAsset = pathname.startsWith("/assets/");
-    const cc = isHashedAsset
-      ? "public, max-age=31536000, immutable"
-      : "no-store, no-cache, must-revalidate, max-age=0";
+    // Never cache in the dev preview server — immutable headers cause stale content after rebuilds
+    const cc = "no-store, no-cache, must-revalidate, max-age=0";
     res.writeHead(200, { "Content-Type": ct, "Cache-Control": cc });
     createReadStream(filePath).pipe(res);
     return;
