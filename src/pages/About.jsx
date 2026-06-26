@@ -1,4 +1,7 @@
 import { Helmet } from 'react-helmet-async';
+import PageHeroImage from '../components/PageHeroImage';
+
+const HERO_IMAGE = '/about-hero.png';
 
 const qp = 'hsl(28 40% 14%)';
 const b5 = 'hsl(350 55% 32%)';
@@ -14,14 +17,14 @@ export default function About() {
         <meta property="og:title" content="About — Kraken Watch" />
         <meta property="og:description" content="Kraken Watch is independent research tracking Kraken, Payward, and Ink L2." />
         <meta property="og:url" content="https://krakenwatch.com/about" />
+        <meta property="og:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={`https://krakenwatch.com${HERO_IMAGE}`} />
         <meta name="twitter:title" content="About — Kraken Watch" />
         <meta name="twitter:description" content="Kraken Watch is independent research tracking Kraken, Payward, and Ink L2." />
       </Helmet>
     <div className="max-w-[900px] mx-auto p-4 sm:p-6 flex flex-col items-center gap-6">
-      <div className="w-full rounded-xl overflow-hidden shadow-lg border-2" style={{ borderColor: 'hsl(30 30% 60%)' }}>
-        <img src="/about-hero.png" alt="Kraken Watch crew at the docks" className="w-full object-cover" />
-      </div>
+      <PageHeroImage src={HERO_IMAGE} alt="Kraken Watch crew at the docks" priority />
       <div className="w-full flex flex-col gap-5 text-center">
         <h1 className="text-3xl sm:text-4xl font-bold tracking-wide" style={{ fontFamily: 'var(--font-display)', color: qp }}>
           Ahoy, matey! Welcome t' the Watch!
