@@ -234,20 +234,17 @@ async function getXStocksMarketData() {
 }
 
 async function getCoinbaseStockData() {
-  const data = await withRetries('Yahoo Finance COIN', () =>
-    fetchJson(
-      'https://query1.finance.yahoo.com/v8/finance/chart/COIN?interval=1d&range=2d',
-      { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; KrakenWatch/1.0)', Accept: 'application/json' } },
-    ),
+  // Use CoinGecko coinbase-xstock — tracks COIN 1:1, works from Cloudflare IPs.
+  // Yahoo Finance was replaced because it blocks cloud provider IPs.
+  const data = await withRetries('CoinGecko COIN (coinbase-xstock)', () =>
+    fetchJson('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=coinbase-xstock&sparkline=false'),
   );
-  const meta = data?.chart?.result?.[0]?.meta;
-  if (!meta?.regularMarketPrice) throw new Error('COIN price not found');
-  const price = meta.regularMarketPrice;
-  const prevClose = meta.previousClose ?? meta.chartPreviousClose;
+  const coin = Array.isArray(data) ? data[0] : null;
+  if (!coin?.current_price) throw new Error('coinbase-xstock not found');
   return {
-    price_usd: round(price, 2),
-    market_cap_millions: meta.marketCap ? round(meta.marketCap / 1_000_000, 0) : null,
-    change_pct: (prevClose && prevClose > 0) ? round((price - prevClose) / prevClose * 100, 2) : null,
+    price_usd:           round(coin.current_price, 2),
+    market_cap_millions: coin.market_cap ? round(coin.market_cap / 1_000_000, 0) : null,
+    change_pct:          round(coin.price_change_percentage_24h, 2),
   };
 }
 
