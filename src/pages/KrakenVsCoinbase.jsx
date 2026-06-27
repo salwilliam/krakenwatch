@@ -274,12 +274,12 @@ function FairValueBlock({ krakenPps, coinbasePrice }) {
     <div className="px-3 sm:px-4 pt-4 pb-4" style={{ borderBottom: `1px solid ${cardBorder}` }}>
       <div className="text-xs font-semibold mb-2 uppercase tracking-wide"
         style={{ color: muted, fontFamily: 'var(--font-display)' }}>Kraken Watch Fair Value</div>
-      <div className="rounded-lg overflow-hidden" style={{ border: `1px solid ${cardBorder}` }}>
-        <table className="w-full border-collapse">
+      <div className="overflow-x-auto rounded-lg" style={{ border: `1px solid ${cardBorder}` }}>
+        <table className="w-full border-collapse" style={{ minWidth: '360px' }}>
           <thead>
             <tr>
               {['Company', 'Current Price', 'KW Fair Value', 'Implied Upside'].map(h => (
-                <th key={h} className="px-3 py-2 text-left text-sm uppercase tracking-wide"
+                <th key={h} className="px-2 py-2 text-left text-xs uppercase tracking-wide whitespace-nowrap"
                   style={{ background: sectionBg, color: muted, fontFamily: 'var(--font-display)', borderBottom: `1px solid ${cardBorder}` }}>{h}</th>
               ))}
             </tr>
@@ -327,15 +327,15 @@ function ScenarioModel({ krakenPps, coinbasePrice }) {
   const coinbaseRows = computeScenario(SCENARIO_CONFIG.coinbase, coinbasePrice);
 
   function UpsideCell({ v }) {
-    if (v == null) return <td className="px-2 py-2 text-center text-sm" style={{ color: muted }}>—</td>;
-    return <td className="px-2 py-2 text-center text-sm font-semibold" style={{ color: v >= 0 ? WIN_FG : 'hsl(350 45% 35%)' }}>{fmtPct(v)}</td>;
+    if (v == null) return <td className="px-1.5 py-1.5 text-center text-xs" style={{ color: muted }}>—</td>;
+    return <td className="px-1.5 py-1.5 text-center text-xs font-semibold" style={{ color: v >= 0 ? WIN_FG : 'hsl(350 45% 35%)' }}>{fmtPct(v)}</td>;
   }
 
-  const theadContent = ['Scenario', 'Rev Δ', 'Multiple', 'Equity', 'Implied $', 'Upside'];
+  const theadContent = ['Scenario', 'Rev Δ', 'Mult', 'Equity', 'Price', 'Upside'];
   const thead = (
     <thead>
       <tr>{theadContent.map(h => (
-        <th key={h} className="px-2 py-2 text-center text-sm uppercase tracking-wide whitespace-nowrap"
+        <th key={h} className="px-1.5 py-1.5 text-center text-xs uppercase tracking-wide whitespace-nowrap"
           style={{ color: muted, fontFamily: 'var(--font-display)', background: sectionBg }}>{h}</th>
       ))}</tr>
     </thead>
@@ -344,11 +344,11 @@ function ScenarioModel({ krakenPps, coinbasePrice }) {
   function ScenRow({ row }) {
     return (
       <tr style={{ borderBottom: `1px solid ${cardBorder}` }}>
-        <td className="px-2 py-2 text-sm font-bold whitespace-nowrap" style={{ color: row.color, fontFamily: 'var(--font-display)' }}>{row.label}</td>
-        <td className="px-2 py-2 text-center text-sm whitespace-nowrap" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>{fmtPct(row.revenue_growth_pct)}</td>
-        <td className="px-2 py-2 text-center text-sm whitespace-nowrap" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>{fmtX(row.revenue_multiple)}</td>
-        <td className="px-2 py-2 text-center text-sm whitespace-nowrap" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>{fmtB(row.implied_equity_m)}</td>
-        <td className="px-2 py-2 text-center text-sm font-semibold whitespace-nowrap" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>{fmtPps(row.implied_price)}</td>
+        <td className="px-1.5 py-1.5 text-xs font-bold whitespace-nowrap" style={{ color: row.color, fontFamily: 'var(--font-display)' }}>{row.label}</td>
+        <td className="px-1.5 py-1.5 text-center text-xs whitespace-nowrap" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>{fmtPct(row.revenue_growth_pct)}</td>
+        <td className="px-1.5 py-1.5 text-center text-xs whitespace-nowrap" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>{fmtX(row.revenue_multiple)}</td>
+        <td className="px-1.5 py-1.5 text-center text-xs whitespace-nowrap" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>{fmtB(row.implied_equity_m)}</td>
+        <td className="px-1.5 py-1.5 text-center text-xs font-semibold whitespace-nowrap" style={{ color: primary, fontFamily: 'var(--font-sans)' }}>{fmtPps(row.implied_price)}</td>
         <UpsideCell v={row.upside_pct} />
       </tr>
     );
@@ -366,7 +366,7 @@ function ScenarioModel({ krakenPps, coinbasePrice }) {
           </span>
         </div>
         <div className="overflow-x-auto rounded-lg" style={{ border: `1px solid ${cardBorder}` }}>
-          <table className="w-full border-collapse" style={{ minWidth: '400px' }}>
+          <table className="w-full border-collapse" style={{ minWidth: '340px' }}>
             {thead}
             <tbody>{rows.map(r => <ScenRow key={r.key} row={r} />)}</tbody>
           </table>
@@ -488,7 +488,7 @@ export default function KrakenVsCoinbase() {
           <div className="text-sm font-semibold" style={{ color: primary, fontFamily: 'var(--font-display)' }}>Data Refresh Schedule</div>
           <div className="grid gap-1.5 text-sm" style={{ color: muted, fontFamily: 'var(--font-sans)' }}>
             {[
-              { tag: '● live', desc: 'COIN price (Yahoo Finance), xStocks market data (CoinGecko), Ink & Base L2 metrics (DeFiLlama)', freq: 'Daily · 8am UTC (Cloudflare cron)' },
+              { tag: '● live', desc: 'COIN price (CoinGecko), xStocks market data (CoinGecko), Ink & Base L2 metrics (DeFiLlama)', freq: 'Daily · 8am UTC (Cloudflare cron)' },
               { tag: 'manual', desc: 'Kraken secondary market prices (Hiive, Forge, NPM, Notice)', freq: 'Per session — updated when new quotes available' },
               { tag: 'manual', desc: 'Prediction market odds (Kalshi, Polymarket)', freq: 'Per session — updated when odds move materially' },
               { tag: 'periodic', desc: 'Financials, EBITDA estimates, strategic position', freq: 'When quarterly reports or material news is published' },
