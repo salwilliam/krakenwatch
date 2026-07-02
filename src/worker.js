@@ -1,9 +1,48 @@
 // EMBEDDED_SITE_DATA is updated automatically by scripts/refresh-site-data.mjs
 // and serves as a fallback when KV is unavailable.
-const EMBEDDED_SITE_DATA = {"updated_at":"2026-07-02T17:39:35.273Z","updated_display":"July 2, 2026","ink":{"tvl_millions":123.9,"protocol_count":30},"ipo":{"polymarket_pct":25.5,"kalshi_pct":13.5,"avg_pct":14.4},"secondary_market":{"hiive_pps":28.06,"forge_pps":36.68,"npm_pps":34.92,"notice_pps":32.04,"avg_pps":32.04,"volume_30d_est_m":13.5,"volume_note":"Est. 30D vol. across all venues · based on Hiive H50 activity","updated":"July 2, 2026"},"prediction_markets":{"ipo":{"kalshi_pct":13.5,"polymarket_pct":25.5,"mktcap_16b_pct":21.5,"largest_excl_spacex_pct":0.6},"underwriters":[{"bank":"Morgan Stanley","ticker":"MS","pct":26.5},{"bank":"JPMorgan Chase","ticker":"JPM","pct":23},{"bank":"Citigroup","ticker":"CITI","pct":23},{"bank":"Bank of America","ticker":"BOA","pct":21},{"bank":"Goldman Sachs","ticker":"GS","pct":20.5}],"regulatory":{"clarity_act_pct":39.5,"crypto_structure_aug_pct":6.7},"ink_fdv":{"above_250m_pct":58.5,"above_500m_pct":47,"above_1b_pct":22,"above_2b_pct":10}},"xstocks":{"ink_tvl_millions":123.9,"ink_protocol_count":30,"ink_dex_24h_millions":2.91,"ink_dex_7d_millions":18.43,"ink_dex_30d_millions":141.4,"ink_dex_change_1d_pct":3,"ink_dex_change_7d_pct":-26.8,"total_market_cap_millions":352.9,"total_vol_24h_millions":132.2,"asset_count":41,"asset_leaders":[{"symbol":"TSLAX","mcap_m":55.9,"vol_24h_m":16.3,"change_24h_pct":-8.2,"share_pct":15.8},{"symbol":"SPYX","mcap_m":41.2,"vol_24h_m":2.3,"change_24h_pct":-0.8,"share_pct":11.7},{"symbol":"CRCLX","mcap_m":39.9,"vol_24h_m":10.5,"change_24h_pct":0.6,"share_pct":11.3},{"symbol":"NVDAX","mcap_m":32.6,"vol_24h_m":6.4,"change_24h_pct":-2.7,"share_pct":9.2},{"symbol":"QQQX","mcap_m":32.1,"vol_24h_m":1.7,"change_24h_pct":-2.4,"share_pct":9.1}],"top_volume":[{"symbol":"HOODX","vol_24h_m":25,"change_24h_pct":2.9},{"symbol":"GOOGLX","vol_24h_m":21.9,"change_24h_pct":-1.1},{"symbol":"TSLAX","vol_24h_m":16.3,"change_24h_pct":-8.2},{"symbol":"COINX","vol_24h_m":13.7,"change_24h_pct":0.2},{"symbol":"CRCLX","vol_24h_m":10.5,"change_24h_pct":0.6}],"last_refreshed":"2026-07-02T17:39:35.273Z"},"coinbase_stock":{"price_usd":164.2,"market_cap_millions":6,"change_pct":0.21,"last_refreshed":"2026-07-02T17:39:35.273Z"},"base_l2":{"tvl_millions":4247,"dex_24h_millions":887.4,"dex_7d_millions":6242.4,"last_refreshed":"2026-07-02T17:39:35.273Z"},"ink_app_metrics":{"tydro":{"tvl_millions":62.21},"velodrome":{"tvl_millions":0.06},"curve":{"tvl_millions":0,"volume_24h_millions":0},"inkyswap":{"tvl_millions":0.4},"sentry":{"tvl_millions":0.02,"volume_24h_millions":0},"nado":{"volume_24h_millions":0.35},"last_refreshed":"2026-07-02T17:39:35.273Z"}};
+const EMBEDDED_SITE_DATA = {"updated_at":"2026-06-26T14:10:35.131Z","updated_display":"June 26, 2026","ink":{"tvl_millions":125.2,"protocol_count":30},"ipo":{"polymarket_pct":30.5,"kalshi_pct":28.5,"avg_pct":28.9},"secondary_market":{"hiive_pps":31.13,"forge_pps":37.46,"npm_pps":34.51,"notice_pps":29.84,"avg_pps":33.24,"volume_30d_est_m":13.5,"volume_note":"Est. 30D vol. across all venues · based on Hiive H50 activity","updated":"June 26, 2026"},"prediction_markets":{"ipo":{"kalshi_pct":28.5,"polymarket_pct":30.5,"mktcap_16b_pct":19,"largest_excl_spacex_pct":0.7},"underwriters":[{"bank":"Morgan Stanley","ticker":"MS","pct":42},{"bank":"Citigroup","ticker":"CITI","pct":39.5},{"bank":"Bank of America","ticker":"BOA","pct":39},{"bank":"JPMorgan Chase","ticker":"JPM","pct":35.5},{"bank":"Goldman Sachs","ticker":"GS","pct":33}],"regulatory":{"clarity_act_pct":43.5,"crypto_structure_aug_pct":13.5},"ink_fdv":{"above_250m_pct":61.5,"above_500m_pct":46.5,"above_1b_pct":22,"above_2b_pct":11.5}},"xstocks":{"ink_tvl_millions":125.2,"ink_protocol_count":30,"ink_dex_24h_millions":3.17,"ink_dex_7d_millions":16.65,"ink_dex_30d_millions":146.6,"ink_dex_change_1d_pct":-20.3,"ink_dex_change_7d_pct":-18.3,"total_market_cap_millions":307.4,"total_vol_24h_millions":121.6,"asset_count":40,"asset_leaders":[{"symbol":"TSLAX","mcap_m":53,"vol_24h_m":8.5,"change_24h_pct":-0.1,"share_pct":17.2},{"symbol":"CRCLX","mcap_m":42.5,"vol_24h_m":12.2,"change_24h_pct":4.5,"share_pct":13.8},{"symbol":"SPYX","mcap_m":38.9,"vol_24h_m":6.8,"change_24h_pct":0.1,"share_pct":12.7},{"symbol":"NVDAX","mcap_m":32.5,"vol_24h_m":7.8,"change_24h_pct":-0.4,"share_pct":10.6},{"symbol":"QQQX","mcap_m":31.2,"vol_24h_m":2.1,"change_24h_pct":0,"share_pct":10.2}],"top_volume":[{"symbol":"GOOGLX","vol_24h_m":26.1,"change_24h_pct":-0.7},{"symbol":"AMZNX","vol_24h_m":16.7,"change_24h_pct":-0.2},{"symbol":"HOODX","vol_24h_m":14.6,"change_24h_pct":2.1},{"symbol":"CRCLX","vol_24h_m":12.2,"change_24h_pct":4.5},{"symbol":"COINX","vol_24h_m":12.1,"change_24h_pct":-1.1}],"last_refreshed":"2026-06-26T14:10:35.131Z"},"coinbase_stock":{"price_usd":151.01,"market_cap_millions":38465,"change_pct":3.18}};
 
 // Per-post OG metadata for social crawlers (scrapers can't run JS)
 const BRIEFS_META = {"agentic-prime-brokerage-ink":{"title":"Alpha Brief: Agentic Prime Brokerage on Ink","description":"A live demonstration of an onchain agent treating Ink as a single execution grid — reading positions, shifting collateral, and routing trades through Tydro and Nado from a single prompt.","image":null},"artemis-kraken-ink-advantage":{"title":"Ink Alpha: Artemis report outlines the Kraken + Ink advantage","description":"Artemis frames Kraken as more than an exchange — with clearing, token issuance, tokenization rails, banking optionality, and Ink as the settlement layer. The real upside starts if those rails scale.","image":"/brief-artemis-header.png"},"cf-benchmarks-xstocks-indices":{"title":"CF Benchmarks Brings Index Infrastructure to xStocks","description":"CF Benchmarks launched a regulated index and corporate actions suite for xStocks, giving tokenized equities the institutional reference data infrastructure they need.","image":"/brief-cf-benchmarks-xstocks.png"},"deutsche-borse-200m-kraken-stake":{"title":"Alpha Brief: Deutsche Börse","description":"Deutsche Börse Group acquires a $200M stake in Payward at a $13.3B valuation, deepening a strategic partnership spanning trading, custody, settlement, and tokenized assets.","image":"/brief-db-header.jpg"},"ink-alpha-mantic-prediction-markets":{"title":"Ink Alpha: Mantic Is Bringing Prediction Markets Onchain","description":"Mantic is a beta-stage prediction market protocol built on Ink, with a roadmap moving from testnet simulation to token launch and mainnet market launch.","image":"/brief-mantic-header.png"},"ink-alpha-sentry-token-markets":{"title":"Ink Alpha: Sentry Unleashes Instant Token Markets","description":"Sentry is live on Ink, pairing a token launch factory with Tsunami V3 — a concentrated-liquidity DEX — so every new token opens a live pool the moment it launches.","image":"/brief-sentry-header.png"},"ink-alpha-xstocks-bnb-chain":{"title":"BNB Chain Opens the xStocks Floodgate","description":"xStocks are now live on BNB Chain, with 50+ tokenized U.S. stocks and ETFs available through PancakeSwap and CowSwap. The race shifts from listings to use cases.","image":"/xstocks-bnb-hero.png"},"ink-points-l2-growth-engine":{"title":"Alpha Brief: Ink Points Turns Kraken","description":"Kraken wires its 15M+ user exchange into the Ink ecosystem via Ink Points — a loyalty program rewarding trading, staking, and engagement on Kraken Pro.","image":"/brief-ink-points-header.jpg"},"krak-btc-vaults":{"title":"Krak Adds Bitcoin DeFi Yield","description":"Krak launched BTC Vaults, letting users earn up to 2.5% variable APY on their Bitcoin — a signal that Payward is turning Krak into a consumer DeFi gateway.","image":"/brief-krak-btc-vaults.png"},"kraken-bitnomial-cftc-stack":{"title":"Alpha Brief: Payward Acquires Bitnomial for $550M — Clearing the CFTC Trifecta","description":"Payward acquires Bitnomial for up to $550M, gaining the first crypto-native U.S. exchange to hold the full CFTC license trifecta: exchange, clearinghouse, and brokerage.","image":"/brief-bitnomial-header.png"},"kraken-ipo-odds-75-percent":{"title":"Alpha Brief: Kraken IPO Odds Hit 75% — Something Is Moving the Market","description":"Kraken's IPO prediction markets made a violent move. Polymarket at 77%, Kalshi at 73.5%, average 75.2% — up ~25 points from the morning open.","image":"/brief-ipo-header.jpg"},"kraken-moneygram-cash-pickup":{"title":"Kraken and MoneyGram Connect Crypto to Cash Worldwide","description":"Kraken partnered with MoneyGram to let customers cash out crypto at nearly 500k physical locations across 100+ countries — the first step in a broader payments partnership.","image":"/brief-kraken-moneygram.png"},"kraken-tempo-exchange-partner":{"title":"Kraken Becomes Tempo","description":"Kraken is becoming core infrastructure for Stripe and Paradigm's Tempo stablecoin payments chain — its first U.S. centralized exchange partner.","image":"/brief-kraken-tempo-exchange-partner.png"},"kraken-watch-roadmap-beyond-dashboard":{"title":"Kraken Watch: Navigating Beyond the Dashboard","description":"Where Kraken Watch is headed: a roadmap for Prediction Watch, Ink Ecosystem, Payward Map, and the action layer we're building next.","image":"/brief-roadmap-header.png"},"kraken-world-cup-2026":{"title":"Kraken Enters the World Cup Arena","description":"Kraken is now the Official Crypto Exchange Supporter of the FIFA World Cup 2026 — placing it beside Visa, Bank of America, and Coca-Cola on the world's biggest sporting stage.","image":"/brief-kraken-world-cup-2026.png"},"nadohq-docs-ai-agent-mcp":{"title":"Alpha Brief: NadoHQ Turns Their Docs Into an AI Agent (MCP Server)","description":"NadoHQ ships nado-dev-mcp, an MCP server that makes their entire developer knowledge base queryable by any AI tool — 24 doc resources, 13 tools, two personas.","image":"/alpha-briefs-hero.png"},"otomate-ink-launch":{"title":"Otomate Raises Its Flag on Ink","description":"Otomate is now live on Ink, combining crypto trading, tokenized xStocks, automation strategies, and AI into one onchain interface.","image":"/otomate-ink-launch.png"},"payward-acquires-reap":{"title":"Payward Recruits Reap Into Its Global Payments Armada","description":"Payward is acquiring Reap for up to $600M, adding stablecoin settlement, card issuing, and global treasury rails to its expanding financial stack.","image":"/brief-reap-acquisition.png"},"payward-appoints-robert-moore-cfo":{"title":"Alpha Brief: Payward Appoints Robert Moore as CFO","description":"Payward promotes Robert Moore to Chief Financial Officer. Moore joined four years ago, led the NinjaTrader acquisition, and built the company's financial architecture.","image":null},"payward-franklin-templeton-tokenized-assets":{"title":"Franklin Templeton Sails With Payward","description":"One of the world's largest asset managers is now building institutional tokenized finance infrastructure with Payward — covering BENJI integration, tokenized yield products, and xStocks expansion.","image":"/brief-franklin-templeton.png"},"payward-onyx-prediction-markets":{"title":"Payward Leads $20M Onyx Round to Power Prediction Markets","description":"Kraken parent Payward has led a $20 million Series A in sports prediction platform Onyx at a $220M post-money valuation — with a strategic infrastructure deal attached.","image":"/brief-payward-onyx-prediction-markets.png"},"payward-q1-2026-results":{"title":"Payward Drives Growth Despite Risk-Off Q1","description":"Payward's Q1 2026 results show revenue up 3% YoY to $507M despite a 23% drop in crypto market cap and a 38% decline in spot volumes — a sign the company is becoming less cyclical and more durable.","image":"/brief-payward-q1-2026.png"}};
+
+// Per-page OG metadata for non-blog routes (scrapers can't run react-helmet)
+const PAGE_META = {
+  '/kraken-vs-coinbase': {
+    title: 'Kraken vs Coinbase — Live Investor Dashboard — Kraken Watch',
+    description: 'Side-by-side investor comparison: revenue, valuation, tokenization, L2 ecosystems, and scenario analysis.',
+    image: '/brief-kraken-vs-coinbase-v2.png',
+  },
+  '/payward': {
+    title: 'Payward Map — Kraken Watch',
+    description: 'Mapping Payward, Kraken, and the broader ecosystem across products, infrastructure, and onchain activity.',
+    image: '/payward-hero.png',
+  },
+  '/ink': {
+    title: 'Ink Ecosystem — Kraken Watch',
+    description: 'Explore apps, assets, and activity across the Ink onchain ecosystem.',
+    image: '/ink-hero.png',
+  },
+  '/prediction': {
+    title: 'Prediction Watch — Kraken Watch',
+    description: 'Track prediction market data and key signals across crypto, macro, and global events.',
+    image: '/prediction-hero.png',
+  },
+  '/xstocks': {
+    title: 'xStocks Helm — Kraken Watch',
+    description: 'Track signals across the tokenized equity ecosystem.',
+    image: '/xstocks-hero.png',
+  },
+  '/blog': {
+    title: 'Blog — Kraken Watch',
+    description: 'Short-form intelligence on Kraken, Ink L2, and the Payward ecosystem. Updated as events develop.',
+    image: '/alpha-briefs-hero.png',
+  },
+  '/about': {
+    title: 'About — Kraken Watch',
+    description: 'Kraken Watch is independent research tracking Kraken, Payward, and Ink L2.',
+    image: '/about-hero.png',
+  },
+};
 
 // ── Worker helpers (Worker-runtime compatible) ───────────────────────────────
 
@@ -180,30 +219,32 @@ export default {
         `<script>window.__SITE_DATA__=${JSON.stringify(siteData)};</script></head>`,
       );
 
-      // Rewrite OG/Twitter meta tags for blog post routes so social scrapers get per-post previews
+      // Rewrite OG/Twitter meta tags so social scrapers get per-route previews
       const blogMatch = url.pathname.match(/^\/blog\/([^/]+)\/?$/);
-      if (blogMatch) {
-        const post = BRIEFS_META[blogMatch[1]];
-        if (post) {
-          const origin = 'https://krakenwatch.com';
-          const esc = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-          if (post.title) {
-            const t = esc(post.title) + ' — Kraken Watch';
-            injected = injected.replace(/(<meta property="og:title" content=")[^"]*(")/g, `$1${t}$2`);
-            injected = injected.replace(/(<meta name="twitter:title" content=")[^"]*(")/g, `$1${t}$2`);
-          }
-          if (post.description) {
-            const d = esc(post.description);
-            injected = injected.replace(/(<meta property="og:description" content=")[^"]*(")/g, `$1${d}$2`);
-            injected = injected.replace(/(<meta name="twitter:description" content=")[^"]*(")/g, `$1${d}$2`);
-          }
-          if (post.image) {
-            const img = `${origin}${post.image}`;
-            injected = injected.replace(/(<meta property="og:image" content=")[^"]*(")/g, `$1${img}$2`);
-            injected = injected.replace(/(<meta name="twitter:image" content=")[^"]*(")/g, `$1${img}$2`);
-          }
-          injected = injected.replace(/(<meta property="og:url" content=")[^"]*(")/g, `$1${origin}/blog/${blogMatch[1]}$2`);
+      const cleanPath = url.pathname.replace(/\/$/, '') || '/';
+      const meta = blogMatch
+        ? BRIEFS_META[blogMatch[1]] ?? null
+        : PAGE_META[cleanPath] ?? null;
+      if (meta) {
+        const origin = 'https://krakenwatch.com';
+        const esc = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+        if (meta.title) {
+          const t = blogMatch ? esc(meta.title) + ' — Kraken Watch' : esc(meta.title);
+          injected = injected.replace(/(<meta property="og:title" content=")[^"]*(")/g, `$1${t}$2`);
+          injected = injected.replace(/(<meta name="twitter:title" content=")[^"]*(")/g, `$1${t}$2`);
         }
+        if (meta.description) {
+          const d = esc(meta.description);
+          injected = injected.replace(/(<meta property="og:description" content=")[^"]*(")/g, `$1${d}$2`);
+          injected = injected.replace(/(<meta name="twitter:description" content=")[^"]*(")/g, `$1${d}$2`);
+        }
+        if (meta.image) {
+          const img = `${origin}${meta.image}`;
+          injected = injected.replace(/(<meta property="og:image" content=")[^"]*(")/g, `$1${img}$2`);
+          injected = injected.replace(/(<meta name="twitter:image" content=")[^"]*(")/g, `$1${img}$2`);
+        }
+        const canonicalPath = blogMatch ? `/blog/${blogMatch[1]}` : cleanPath;
+        injected = injected.replace(/(<meta property="og:url" content=")[^"]*(")/g, `$1${origin}${canonicalPath}$2`);
       }
 
       // Strip any headers that could signal a redirect to crawlers
