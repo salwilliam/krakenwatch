@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-04T06:21:53.134Z",
+  "updated_at": "2026-08-04T10:30:20.680Z",
   "updated_display": "August 4, 2026",
   "ink": {
     "tvl_millions": 117.3,
@@ -24,7 +24,7 @@
     "ipo": {
       "kalshi_pct": 17,
       "polymarket_pct": 11,
-      "mktcap_16b_pct": 15,
+      "mktcap_16b_pct": 16,
       "largest_excl_spacex_pct": 1.5
     },
     "underwriters": [
@@ -55,13 +55,13 @@
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 25.5,
+      "clarity_act_pct": 26.5,
       "crypto_structure_aug_pct": 50
     },
     "ink_fdv": {
-      "above_250m_pct": 23.5,
-      "above_500m_pct": 17,
-      "above_1b_pct": 11,
+      "above_250m_pct": 24,
+      "above_500m_pct": 16.5,
+      "above_1b_pct": 11.5,
       "above_2b_pct": 8.5
     }
   },
@@ -73,90 +73,90 @@
     "ink_dex_30d_millions": 66.4,
     "ink_dex_change_1d_pct": -9.1,
     "ink_dex_change_7d_pct": -29.5,
-    "total_market_cap_millions": 420.8,
-    "total_vol_24h_millions": 83.8,
+    "total_market_cap_millions": 418.9,
+    "total_vol_24h_millions": 84.7,
     "asset_count": 41,
     "asset_leaders": [
       {
         "symbol": "TSLAX",
-        "mcap_m": 63.5,
-        "vol_24h_m": 6.1,
-        "change_24h_pct": 3.5,
+        "mcap_m": 63.1,
+        "vol_24h_m": 7.8,
+        "change_24h_pct": 2.9,
         "share_pct": 15.1
       },
       {
         "symbol": "CRCLX",
-        "mcap_m": 48.2,
-        "vol_24h_m": 6.2,
-        "change_24h_pct": -2.1,
-        "share_pct": 11.5
+        "mcap_m": 47.7,
+        "vol_24h_m": 6.6,
+        "change_24h_pct": -2.3,
+        "share_pct": 11.4
       },
       {
         "symbol": "SPYX",
-        "mcap_m": 47.3,
-        "vol_24h_m": 4.7,
+        "mcap_m": 47.2,
+        "vol_24h_m": 5,
         "change_24h_pct": 1.1,
-        "share_pct": 11.2
+        "share_pct": 11.3
       },
       {
         "symbol": "MSTRX",
-        "mcap_m": 42.3,
-        "vol_24h_m": 1.3,
-        "change_24h_pct": 0.7,
-        "share_pct": 10.1
+        "mcap_m": 42,
+        "vol_24h_m": 1.2,
+        "change_24h_pct": 1.8,
+        "share_pct": 10
       },
       {
         "symbol": "NVDAX",
-        "mcap_m": 36.9,
-        "vol_24h_m": 7.7,
-        "change_24h_pct": 2.7,
+        "mcap_m": 37,
+        "vol_24h_m": 7.3,
+        "change_24h_pct": 3.9,
         "share_pct": 8.8
       }
     ],
     "top_volume": [
       {
         "symbol": "AMZNX",
-        "vol_24h_m": 13.6,
-        "change_24h_pct": 1.7
+        "vol_24h_m": 13.4,
+        "change_24h_pct": 1.5
       },
       {
         "symbol": "SPCXX",
-        "vol_24h_m": 9.6,
-        "change_24h_pct": 6.5
+        "vol_24h_m": 9.7,
+        "change_24h_pct": 6.8
       },
       {
         "symbol": "GOOGLX",
         "vol_24h_m": 9.5,
-        "change_24h_pct": 4
+        "change_24h_pct": 2.7
+      },
+      {
+        "symbol": "TSLAX",
+        "vol_24h_m": 7.8,
+        "change_24h_pct": 2.9
       },
       {
         "symbol": "AAPLX",
-        "vol_24h_m": 8.7,
-        "change_24h_pct": -1.4
-      },
-      {
-        "symbol": "NVDAX",
         "vol_24h_m": 7.7,
-        "change_24h_pct": 2.7
+        "change_24h_pct": -1.2
       }
     ],
-    "last_refreshed": "2026-08-04T06:21:53.134Z"
+    "last_refreshed": "2026-08-04T10:30:20.680Z"
   },
   "coinbase_stock": {
-    "price_usd": 148.67,
-    "market_cap_millions": 9,
-    "change_pct": 0.7,
-    "last_refreshed": "2026-08-04T06:21:53.134Z"
+    "price_usd": 146.84,
+    "market_cap_millions": 8,
+    "change_pct": 0.9,
+    "last_refreshed": "2026-08-04T10:30:20.680Z"
   },
   "base_l2": {
-    "tvl_millions": 4563,
+    "tvl_millions": 4546,
     "dex_24h_millions": 751.6,
     "dex_7d_millions": 5139.1,
-    "last_refreshed": "2026-08-04T06:21:53.134Z"
+    "last_refreshed": "2026-08-04T10:30:20.680Z"
   },
   "ink_app_metrics": {
     "tydro": {
-      "tvl_millions": 53.77
+      "tvl_millions": 53.55
     },
     "velodrome": {
       "tvl_millions": 0.06,
@@ -176,6 +176,6 @@
     "nado": {
       "volume_24h_millions": 0.32
     },
-    "last_refreshed": "2026-08-04T06:21:53.134Z"
+    "last_refreshed": "2026-08-04T10:30:20.680Z"
   }
 }
