@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-08-07T05:29:20.255Z",
+  "updated_at": "2026-08-07T08:50:15.531Z",
   "updated_display": "August 7, 2026",
   "ink": {
-    "tvl_millions": 115.8,
+    "tvl_millions": 117,
     "protocol_count": 30
   },
   "ipo": {
-    "polymarket_pct": 17.5,
+    "polymarket_pct": 18,
     "kalshi_pct": 13.5,
     "avg_pct": 13.6
   },
@@ -23,7 +23,7 @@
   "prediction_markets": {
     "ipo": {
       "kalshi_pct": 13.5,
-      "polymarket_pct": 17.5,
+      "polymarket_pct": 18,
       "mktcap_16b_pct": 14,
       "largest_excl_spacex_pct": 1.2
     },
@@ -66,97 +66,97 @@
     }
   },
   "xstocks": {
-    "ink_tvl_millions": 115.8,
+    "ink_tvl_millions": 117,
     "ink_protocol_count": 30,
     "ink_dex_24h_millions": 1.22,
     "ink_dex_7d_millions": 14.55,
     "ink_dex_30d_millions": 64.1,
     "ink_dex_change_1d_pct": -41.4,
     "ink_dex_change_7d_pct": -52.6,
-    "total_market_cap_millions": 425.7,
-    "total_vol_24h_millions": 63.2,
+    "total_market_cap_millions": 428.3,
+    "total_vol_24h_millions": 62.9,
     "asset_count": 41,
     "asset_leaders": [
       {
         "symbol": "TSLAX",
-        "mcap_m": 62.4,
+        "mcap_m": 62.7,
         "vol_24h_m": 3.8,
-        "change_24h_pct": -0.6,
+        "change_24h_pct": 0,
         "share_pct": 14.6
       },
       {
         "symbol": "CRCLX",
-        "mcap_m": 50.8,
-        "vol_24h_m": 8.2,
+        "mcap_m": 51.3,
+        "vol_24h_m": 8.1,
         "change_24h_pct": 2.1,
-        "share_pct": 11.9
+        "share_pct": 12
       },
       {
         "symbol": "SPYX",
-        "mcap_m": 47.3,
-        "vol_24h_m": 6,
-        "change_24h_pct": -0.4,
+        "mcap_m": 47.4,
+        "vol_24h_m": 6.1,
+        "change_24h_pct": -0.2,
         "share_pct": 11.1
       },
       {
         "symbol": "MSTRX",
-        "mcap_m": 43.4,
-        "vol_24h_m": 0.7,
-        "change_24h_pct": -1.3,
+        "mcap_m": 43.8,
+        "vol_24h_m": 0.8,
+        "change_24h_pct": -1.1,
         "share_pct": 10.2
       },
       {
         "symbol": "NVDAX",
-        "mcap_m": 37.9,
-        "vol_24h_m": 5.8,
-        "change_24h_pct": -0.4,
+        "mcap_m": 38.2,
+        "vol_24h_m": 5.9,
+        "change_24h_pct": 0.1,
         "share_pct": 8.9
       }
     ],
     "top_volume": [
       {
         "symbol": "SPCXX",
-        "vol_24h_m": 14.5,
-        "change_24h_pct": 4.2
+        "vol_24h_m": 13.9,
+        "change_24h_pct": 4.4
       },
       {
         "symbol": "CRCLX",
-        "vol_24h_m": 8.2,
+        "vol_24h_m": 8.1,
         "change_24h_pct": 2.1
       },
       {
-        "symbol": "GOOGLX",
-        "vol_24h_m": 6,
-        "change_24h_pct": -1.7
+        "symbol": "SPYX",
+        "vol_24h_m": 6.1,
+        "change_24h_pct": -0.2
       },
       {
-        "symbol": "SPYX",
-        "vol_24h_m": 6,
-        "change_24h_pct": -0.4
+        "symbol": "GOOGLX",
+        "vol_24h_m": 5.9,
+        "change_24h_pct": -1.4
       },
       {
         "symbol": "NVDAX",
-        "vol_24h_m": 5.8,
-        "change_24h_pct": -0.4
+        "vol_24h_m": 5.9,
+        "change_24h_pct": 0.1
       }
     ],
-    "last_refreshed": "2026-08-07T05:29:20.255Z"
+    "last_refreshed": "2026-08-07T08:50:15.531Z"
   },
   "coinbase_stock": {
-    "price_usd": 146.06,
+    "price_usd": 147.18,
     "market_cap_millions": 9,
-    "change_pct": -2.7,
-    "last_refreshed": "2026-08-07T05:29:20.255Z"
+    "change_pct": -2.8,
+    "last_refreshed": "2026-08-07T08:50:15.531Z"
   },
   "base_l2": {
-    "tvl_millions": 4629,
+    "tvl_millions": 4631,
     "dex_24h_millions": 694.5,
     "dex_7d_millions": 4611.1,
-    "last_refreshed": "2026-08-07T05:29:20.255Z"
+    "last_refreshed": "2026-08-07T08:50:15.531Z"
   },
   "ink_app_metrics": {
     "tydro": {
-      "tvl_millions": 53.64
+      "tvl_millions": 54.62
     },
     "velodrome": {
       "tvl_millions": 0.06,
@@ -175,6 +175,6 @@
     "nado": {
       "volume_24h_millions": 0.44
     },
-    "last_refreshed": "2026-08-07T05:29:20.255Z"
+    "last_refreshed": "2026-08-07T08:50:15.531Z"
   }
 }
