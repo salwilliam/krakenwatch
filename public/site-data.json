@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-10-04T10:20:37.897Z",
+  "updated_at": "2026-10-04T16:16:54.490Z",
   "updated_display": "October 4, 2026",
   "ink": {
-    "tvl_millions": 208.8,
+    "tvl_millions": 209.2,
     "protocol_count": 31
   },
   "ipo": {
-    "polymarket_pct": 4.8,
-    "kalshi_pct": 9.5,
-    "avg_pct": 4.8
+    "polymarket_pct": 4.7,
+    "kalshi_pct": 8.5,
+    "avg_pct": 4.7
   },
   "secondary_market": {
     "hiive_pps": 28.32,
@@ -22,8 +22,8 @@
   },
   "prediction_markets": {
     "ipo": {
-      "kalshi_pct": 9.5,
-      "polymarket_pct": 4.8,
+      "kalshi_pct": 8.5,
+      "polymarket_pct": 4.7,
       "mktcap_16b_pct": 3.8,
       "largest_excl_spacex_pct": 0.2
     },
@@ -66,7 +66,7 @@
     }
   },
   "xstocks": {
-    "ink_tvl_millions": 208.8,
+    "ink_tvl_millions": 209.2,
     "ink_protocol_count": 31,
     "ink_dex_24h_millions": 0.77,
     "ink_dex_7d_millions": 18.84,
@@ -140,23 +140,23 @@
         "change_24h_pct": -0.1
       }
     ],
-    "last_refreshed": "2026-10-04T10:20:37.897Z"
+    "last_refreshed": "2026-10-04T16:16:54.490Z"
   },
   "coinbase_stock": {
     "price_usd": 185.38,
     "market_cap_millions": 12,
     "change_pct": 0.69,
-    "last_refreshed": "2026-10-04T10:20:37.897Z"
+    "last_refreshed": "2026-10-04T16:16:54.490Z"
   },
   "base_l2": {
-    "tvl_millions": 6399,
-    "dex_24h_millions": 712.6,
-    "dex_7d_millions": 8035.9,
-    "last_refreshed": "2026-10-04T10:20:37.897Z"
+    "tvl_millions": 6401,
+    "dex_24h_millions": 670.8,
+    "dex_7d_millions": 8061.6,
+    "last_refreshed": "2026-10-04T16:16:54.490Z"
   },
   "ink_app_metrics": {
     "tydro": {
-      "tvl_millions": 137.93
+      "tvl_millions": 137.65
     },
     "velodrome": {
       "tvl_millions": 0.05,
@@ -175,6 +175,6 @@
     "nado": {
       "volume_24h_millions": 0.3
     },
-    "last_refreshed": "2026-10-04T10:20:37.897Z"
+    "last_refreshed": "2026-10-04T16:16:54.490Z"
   }
 }
