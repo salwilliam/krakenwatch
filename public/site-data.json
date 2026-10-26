@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-10-25T22:13:27.173Z",
-  "updated_display": "October 25, 2026",
+  "updated_at": "2026-10-26T02:40:41.703Z",
+  "updated_display": "October 26, 2026",
   "ink": {
-    "tvl_millions": 200.9,
+    "tvl_millions": 200.1,
     "protocol_count": 33
   },
   "ipo": {
@@ -18,7 +18,7 @@
     "avg_pps": 29.37,
     "volume_30d_est_m": 13.5,
     "volume_note": "Est. 30D vol. across all venues · based on Hiive H50 activity",
-    "updated": "October 25, 2026"
+    "updated": "October 26, 2026"
   },
   "prediction_markets": {
     "ipo": {
@@ -55,108 +55,108 @@
       }
     ],
     "regulatory": {
-      "clarity_act_pct": 2.6,
+      "clarity_act_pct": 3.2,
       "crypto_structure_aug_pct": 50
     },
     "ink_fdv": {
       "above_250m_pct": 17.5,
-      "above_500m_pct": 10.5,
+      "above_500m_pct": 11,
       "above_1b_pct": 6.5,
-      "above_2b_pct": 4.4
+      "above_2b_pct": 4.6
     }
   },
   "xstocks": {
-    "ink_tvl_millions": 200.9,
+    "ink_tvl_millions": 200.1,
     "ink_protocol_count": 33,
-    "ink_dex_24h_millions": 1.5,
-    "ink_dex_7d_millions": 22.92,
-    "ink_dex_30d_millions": 86.6,
-    "ink_dex_change_1d_pct": -0.3,
-    "ink_dex_change_7d_pct": 11.2,
-    "total_market_cap_millions": 693.7,
-    "total_vol_24h_millions": 42,
+    "ink_dex_24h_millions": 1.03,
+    "ink_dex_7d_millions": 21.96,
+    "ink_dex_30d_millions": 85.8,
+    "ink_dex_change_1d_pct": -31.3,
+    "ink_dex_change_7d_pct": -48.2,
+    "total_market_cap_millions": 685.1,
+    "total_vol_24h_millions": 49,
     "asset_count": 41,
     "asset_leaders": [
       {
         "symbol": "MSTRX",
-        "mcap_m": 124.3,
-        "vol_24h_m": 1.1,
-        "change_24h_pct": 0.5,
-        "share_pct": 17.9
+        "mcap_m": 120.9,
+        "vol_24h_m": 1.4,
+        "change_24h_pct": -3.2,
+        "share_pct": 17.7
       },
       {
         "symbol": "CRCLX",
-        "mcap_m": 109.4,
-        "vol_24h_m": 7.3,
-        "change_24h_pct": 0.6,
-        "share_pct": 15.8
+        "mcap_m": 106.5,
+        "vol_24h_m": 9.1,
+        "change_24h_pct": -2.9,
+        "share_pct": 15.5
       },
       {
         "symbol": "TSLAX",
-        "mcap_m": 70.8,
-        "vol_24h_m": 1.9,
-        "change_24h_pct": 0.7,
-        "share_pct": 10.2
+        "mcap_m": 70.3,
+        "vol_24h_m": 2.6,
+        "change_24h_pct": -0.2,
+        "share_pct": 10.3
       },
       {
         "symbol": "SPYX",
-        "mcap_m": 68.5,
-        "vol_24h_m": 6.4,
-        "change_24h_pct": 0.4,
-        "share_pct": 9.9
+        "mcap_m": 68.3,
+        "vol_24h_m": 6.8,
+        "change_24h_pct": -0.1,
+        "share_pct": 10
       },
       {
         "symbol": "SPCXX",
-        "mcap_m": 65.7,
-        "vol_24h_m": 2.6,
-        "change_24h_pct": 1.4,
-        "share_pct": 9.5
+        "mcap_m": 65.9,
+        "vol_24h_m": 3.1,
+        "change_24h_pct": 0.9,
+        "share_pct": 9.6
       }
     ],
     "top_volume": [
       {
         "symbol": "CRCLX",
-        "vol_24h_m": 7.3,
-        "change_24h_pct": 0.6
+        "vol_24h_m": 9.1,
+        "change_24h_pct": -2.9
       },
       {
         "symbol": "SPYX",
-        "vol_24h_m": 6.4,
-        "change_24h_pct": 0.4
+        "vol_24h_m": 6.8,
+        "change_24h_pct": -0.1
       },
       {
         "symbol": "QQQX",
-        "vol_24h_m": 5.1,
-        "change_24h_pct": 0.7
+        "vol_24h_m": 5.3,
+        "change_24h_pct": -0.1
       },
       {
         "symbol": "GLDX",
-        "vol_24h_m": 4.1,
-        "change_24h_pct": 0.2
+        "vol_24h_m": 4.2,
+        "change_24h_pct": 0
       },
       {
         "symbol": "NVDAX",
-        "vol_24h_m": 2.8,
-        "change_24h_pct": 0.6
+        "vol_24h_m": 3.2,
+        "change_24h_pct": -0.3
       }
     ],
-    "last_refreshed": "2026-10-25T22:13:27.173Z"
+    "last_refreshed": "2026-10-26T02:40:41.703Z"
   },
   "coinbase_stock": {
-    "price_usd": 164.39,
+    "price_usd": 161.22,
     "market_cap_millions": 13,
-    "change_pct": 0.6,
-    "last_refreshed": "2026-10-25T22:13:27.173Z"
+    "change_pct": -2.26,
+    "last_refreshed": "2026-10-26T02:40:41.703Z"
   },
   "base_l2": {
-    "tvl_millions": 6044,
-    "dex_24h_millions": 804.4,
-    "dex_7d_millions": 6071.2,
-    "last_refreshed": "2026-10-25T22:13:27.173Z"
+    "tvl_millions": 6002,
+    "dex_24h_millions": 702.4,
+    "dex_7d_millions": 6006.3,
+    "last_refreshed": "2026-10-26T02:40:41.703Z"
   },
   "ink_app_metrics": {
     "tydro": {
-      "tvl_millions": 131.86
+      "tvl_millions": 131.28
     },
     "velodrome": {
       "tvl_millions": 0.05,
@@ -167,14 +167,14 @@
       "volume_24h_millions": 0
     },
     "inkyswap": {
-      "tvl_millions": 0.78
+      "tvl_millions": 0.77
     },
     "sentry": {
       "tvl_millions": 0.08
     },
     "nado": {
-      "volume_24h_millions": 0.16
+      "volume_24h_millions": 0.12
     },
-    "last_refreshed": "2026-10-25T22:13:27.173Z"
+    "last_refreshed": "2026-10-26T02:40:41.703Z"
   }
 }
